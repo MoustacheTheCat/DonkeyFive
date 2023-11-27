@@ -150,7 +150,7 @@ class field
     ];
   }
 
-  public function setField(array $field): array
+  public function setField(array $field): void
   {
     $this->setFieldId($field['fieldId']);
     $this->setFieldName($field['fieldName']);
@@ -179,5 +179,16 @@ class field
     $stmt->execute();
     $this->field = $stmt->fetch();
     return $this->field;
+  }
+
+
+  public function getFieldByCenter($centerId): array
+  {
+    $pdo = \Application\lib\DatabaseConnection::getDataBase();
+    $sql = "SELECT * FROM `fields` WHERE `centerId` = $centerId";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $this->fields = $stmt->fetchAll();
+    return $this->fields;
   }
 }
