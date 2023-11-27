@@ -8,18 +8,16 @@ use Application\Model\Center\Center;
 
 class CenterController {
     
-        public function index()
+        public static function index()
         {
             $center = new Center();
-            $countries = $center->getSelectCentercountries();
             $citys = $center->getSelectCenterCitys();
-            require_once('src/template/Home.php');
         }
     
         public function show($centerId)
         {
             $center = new Center();
-            $center = $center->getcenter($centerId);
+            $center = $center->getCenter($centerId);
             $pageTitle = "center";
             require_once('src/template/center.php');
         }
@@ -27,7 +25,7 @@ class CenterController {
         public function create()
         {
             $pageTitle = "Create center";
-            require_once('src/template/Createcenter.php');
+            require_once('src/template/CreateCenter.php');
         }
     
         public function store()
@@ -41,14 +39,14 @@ class CenterController {
             $centerEmail = $_POST['centerEmail'];
     
             $center = new Center();
-            $center->createcenter($centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail);
+            $center->createCenter($centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail);
             header('Location: /centers');
         }
     
         public function edit($centerId)
         {
             $center = new Center();
-            $center = $center->getcenter($centerId);
+            $center = $center->getCenter($centerId);
             $pageTitle = "Edit center";
             require_once('src/template/Editcenter.php');
         }
@@ -64,14 +62,16 @@ class CenterController {
             $centerEmail = $_POST['centerEmail'];
     
             $center = new Center();
-            $center->updatecenter($centerId, $centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail);
+            $center->updateCenter($centerId, $centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail);
             header('Location: /centers');
         }
     
         public function delete($centerId)
         {
             $center = new Center();
-            $center->deletecenter($centerId);
+            $center->deleteCenter($centerId);
             header('Location: /centers');
         }
+
+        
 }

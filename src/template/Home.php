@@ -1,9 +1,6 @@
-<?php 
-
-
-?>
 
 <?php ob_start(); ?>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 mt-5">
