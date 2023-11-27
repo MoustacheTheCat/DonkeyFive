@@ -2,7 +2,7 @@
 
 namespace Application\Model\Field;
 
-class field
+class Field
 {
   private $fieldId = null;
   private $fieldName = null;
@@ -163,11 +163,10 @@ class field
   public function getAllFields()
   {
     $pdo = \Application\lib\DatabaseConnection::getDataBase();
-    $sql = "SELECT * FROM fields";
+    $sql = "SELECT * FROM fields JOIN centers ON fields.centerId = centers.centerId";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
-    $fields = $stmt->fetchAll();
-    $this->fields[] = $fields;
+    $this->fields = $stmt->fetchAll();
     return $this->fields;
   }
 
@@ -190,5 +189,41 @@ class field
     $stmt->execute();
     $this->fields = $stmt->fetchAll();
     return $this->fields;
+  }
+
+  public function createField($fieldName, $fieldTarifHourHT, $fieldTarifDayHT, $fieldPicture, $centerId)
+  {
+    $pdo = \Application\lib\DatabaseConnection::getDataBase();
+    $sql = "INSERT INTO `fields` (`fieldName`, `fieldTarifHourHT`, `fieldTarifDayHT`, `fieldPicture`, `centerId`) VALUES (:fieldName, :fieldTarifHourHT, :fieldTarifDayHT, :fieldPicture, :centerId)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':fieldName', $fieldName, \PDO::PARAM_STR);
+    $stmt->bindValue(':fieldTarifHourHT', $fieldTarifHourHT, \PDO::PARAM_STR);
+    $stmt->bindValue(':fieldTarifDayHT', $fieldTarifDayHT, \PDO::PARAM_STR);
+    $stmt->bindValue(':fieldPicture', $fieldPicture, \PDO::PARAM_STR);
+    $stmt->bindValue(':centerId', $centerId, \PDO::PARAM_INT);
+    $stmt->execute();
+  }
+
+  public function updateField($fieldId, $fieldName, $fieldTarifHourHT, $fieldTarifDayHT, $fieldPicture, $centerId)
+  {
+    $pdo = \Application\lib\DatabaseConnection::getDataBase();
+    $sql = "UPDATE `fields` SET `fieldName` = :fieldName, `fieldTarifHourHT` = :fieldTarifHourHT, `fieldTarifDayHT` = :fieldTarifDayHT, `fieldPicture` = :fieldPicture, `centerId` = :centerId WHERE `fieldId` = :fieldId";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':fieldId', $fieldId, \PDO::PARAM_INT);
+    $stmt->bindValue(':fieldName', $fieldName, \PDO::PARAM_STR);
+    $stmt->bindValue(':fieldTarifHourHT', $fieldTarifHourHT, \PDO::PARAM_STR);
+    $stmt->bindValue(':fieldTarifDayHT', $fieldTarifDayHT, \PDO::PARAM_STR);
+    $stmt->bindValue(':fieldPicture', $fieldPicture, \PDO::PARAM_STR);
+    $stmt->bindValue(':centerId', $centerId, \PDO::PARAM_INT);
+    $stmt->execute();
+  }
+
+  public function deleteField($fieldId)
+  {
+    $pdo = \Application\lib\DatabaseConnection::getDataBase();
+    $sql = "DELETE FROM `fields` WHERE `fieldId` = :fieldId";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':fieldId', $fieldId, \PDO::PARAM_INT);
+    $stmt->execute();
   }
 }

@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 
 
 <?php foreach ($fields as $field) : ?>
@@ -9,3 +10,8 @@
         <!-- ... other field information ... -->
     </div>
 <?php endforeach; ?>
+
+<?php
+$content = ob_get_clean();
+require('src/template/Layout.php');
+?>
