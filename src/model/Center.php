@@ -15,157 +15,140 @@ class Center {
         private $centerCountry = null,
         private $centerNumber = null,
         private $centerEmail = null,
-        private $center = [],
-        private $centers = [],
+        private $center = null,
+        private $centers = null,
+        private $pdo = null,
         )
     {
-        
+        $this->pdo = \Application\lib\DatabaseConnection::getDataBase();
     }
 
-    public function getcenterId(): int
+    public function getCenterId(): int
     {
         return $this->centerId;
     }
 
-    public function getcenterName(): string
+    public function getCenterName(): string
     {
         return $this->centerName;
     }
 
-    public function getcenterCity(): string
+    public function getCenterCity(): string
     {
         return $this->centerCity;
     }
 
-    public function getcenterAdress(): string
+    public function getCenterAdress(): string
     {
         return $this->centerAdress;
     }
 
-    public function getcenterZip(): string
+    public function getCenterZip(): string
     {
         return $this->centerZip;
     }
 
-    public function getcenterCountry(): string
+    public function getCenterCountry(): string
     {
         return $this->centerCountry;
     }
 
-    public function getcenterNumber(): string
+    public function getCenterNumber(): string
     {
         return $this->centerNumber;
     }
 
-    public function getcenterEmail(): string
+    public function getCenterEmail(): string
     {
         return $this->centerEmail;
     }
 
-    public function setcenterId(int $centerId): void
+    public function setCenterId(int $centerId): void
     {
         $this->centerId = $centerId;
     }
 
-    public function setcenterName(string $centerName): void
+    public function setCenterName(string $centerName): void
     {
         $this->centerName = $centerName;
     }
 
-    public function setcenterCity(string $centerCity): void
+    public function setCenterCity(string $centerCity): void
     {
         $this->centerCity = $centerCity;
     }
 
-    public function setcenterAdress(string $centerAdress): void
+    public function setCenterAdress(string $centerAdress): void
     {
         $this->centerAdress = $centerAdress;
     }
 
-    public function setcenterZip(string $centerZip): void
+    public function setCenterZip(string $centerZip): void
     {
         $this->centerZip = $centerZip;
     }
 
-    public function setcenterCountry(string $centerCountry): void
+    public function setCenterCountry(string $centerCountry): void
     {
         $this->centerCountry = $centerCountry;
     }
 
-    public function setcenterNumber(string $centerNumber): void
+    public function setCenterNumber(string $centerNumber): void
     {
         $this->centerNumber = $centerNumber;
     }
 
-    public function setcenterEmail(string $centerEmail): void
+    public function setCenterEmail(string $centerEmail): void
     {
         $this->centerEmail = $centerEmail;
     }
 
-    public function getcenter(): array
+    public function getCenter(): array
     {
         return [
-            'centerId' => $this->getcenterId(),
-            'centerName' => $this->getcenterName(),
-            'centerCity' => $this->getcenterCity(),
-            'centerAdress' => $this->getcenterAdress(),
-            'centerZip' => $this->getcenterZip(),
-            'centerCountry' => $this->getcenterCountry(),
-            'centerNumber' => $this->getcenterNumber(),
-            'centerEmail' => $this->getcenterEmail(),
+            'centerId' => $this->getCenterId(),
+            'centerName' => $this->getCenterName(),
+            'centerCity' => $this->getCenterCity(),
+            'centerAdress' => $this->getCenterAdress(),
+            'centerZip' => $this->getCenterZip(),
+            'centerCountry' => $this->getCenterCountry(),
+            'centerNumber' => $this->getCenterNumber(),
+            'centerEmail' => $this->getCenterEmail(),
         ];
     }
 
-    public function setcenter(array $center): void
+    public function setCenter(array $center): void
     {
-        $this->setcenterId($center['centerId']);
-        $this->setcenterName($center['centerName']);
-        $this->setcenterCity($center['centerCity']);
-        $this->setcenterAdress($center['centerAdress']);
-        $this->setcenterZip($center['centerZip']);
-        $this->setcenterCountry($center['centerCountry']);
-        $this->setcenterNumber($center['centerNumber']);
-        $this->setcenterEmail($center['centerEmail']);
+        $this->setCenterId($center['centerId']);
+        $this->setCenterName($center['centerName']);
+        $this->setCenterCity($center['centerCity']);
+        $this->setCenterAdress($center['centerAdress']);
+        $this->setCenterZip($center['centerZip']);
+        $this->setCenterCountry($center['centerCountry']);
+        $this->setCenterNumber($center['centerNumber']);
+        $this->setCenterEmail($center['centerEmail']);
     }
 
-    public function getAllcenters()
+    public function getAllCenters(): array
     {
-        $pdo = \Application\lib\DatabaseConnection::getDataBase();
-        $sql = "SELECT * FROM `centers`";
-        $stmt = $pdo->prepare($sql);
+        $stmt = $this->pdo->prepare("SELECT * FROM `centers`");
         $stmt->execute();
         $centers = $stmt->fetchAll();
-        $this->centers[] = $centers;
+        $this->centers = $centers;
         return $this->centers;
     }
 
-    public function getOnecenter($centerId): array
+    public function getOneCenter($centerId): array
     {
-        $pdo = \Application\lib\DatabaseConnection::getDataBase();
-        $sql = "SELECT * FROM `centers` WHERE `centerId` = $centerId";
-        $stmt = $pdo->prepare($sql);
+        $stmt = $this->pdo->prepare("SELECT * FROM `centers` WHERE `centerId` = $centerId");
         $stmt->execute();
         $this->center = $stmt->fetch();
         return $this->center;
     }
 
-    public function getSelectCentercountries()
+    public function getSelectCenterCitys(): array
     {
-        $centers = $this->getAllcenters();
-        $centers = $centers[0];
-        $arraycountries = [];
-        foreach ($centers as $center) {
-            if(!in_array($center['centerCountry'], $arraycountries)){
-                $arraycountries[$center['centerId']] = $center['centerCountry'];
-            }
-        }
-        return $arraycountries;
-    }
-
-    public function getSelectCenterCitys()
-    {
-        $centers = $this->getAllcenters();
-        $centers = $centers[0];
+        $centers = $this->getAllCenters();
         $arrayCitys = [];
         foreach ($centers as $center) {
             if(!in_array($center['centerCity'], $arrayCitys)){
@@ -174,5 +157,42 @@ class Center {
         }
         return $arrayCitys;
     }
+
+    public function createCenter($centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail): void
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO `centers` (`centerName`, `centerCity`, `centerAdress`, `centerZip`, `centerCountry`, `centerNumber`, `centerEmail`) VALUES (:centerName, :centerCity, :centerAdress, :centerZip, :centerCountry, :centerNumber, :centerEmail)");
+        $stmt->bindValue(':centerName', $centerName);
+        $stmt->bindValue(':centerCity', $centerCity);
+        $stmt->bindValue(':centerAdress', $centerAdress);
+        $stmt->bindValue(':centerZip', $centerZip);
+        $stmt->bindValue(':centerCountry', $centerCountry);
+        $stmt->bindValue(':centerNumber', $centerNumber);
+        $stmt->bindValue(':centerEmail', $centerEmail);
+        $stmt->execute();
+    }
+
+    public function updateCenter($centerId, $centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE `centers` SET `centerName` = :centerName, `centerCity` = :centerCity, `centerAdress` = :centerAdress, `centerZip` = :centerZip, `centerCountry` = :centerCountry, `centerNumber` = :centerNumber, `centerEmail` = :centerEmail WHERE `centerId` = :centerId");
+        $stmt->bindValue(':centerId', $centerId);
+        $stmt->bindValue(':centerName', $centerName);
+        $stmt->bindValue(':centerCity', $centerCity);
+        $stmt->bindValue(':centerAdress', $centerAdress);
+        $stmt->bindValue(':centerZip', $centerZip);
+        $stmt->bindValue(':centerCountry', $centerCountry);
+        $stmt->bindValue(':centerNumber', $centerNumber);
+        $stmt->bindValue(':centerEmail', $centerEmail);
+        $stmt->execute();
+    }
+
+    public function deleteCenter($centerId): void
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM `centers` WHERE `centerId` = :centerId");
+        $stmt->bindValue(':centerId', $centerId);
+        $stmt->execute();
+    }
+
+
+    
 
 }
