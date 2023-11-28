@@ -4,14 +4,17 @@ namespace Application\Model\Field;
 
 class Field
 {
-  private $fieldId = null;
-  private $fieldName = null;
-  private $fieldTarifHourHT = null;
-  private $fieldTarifDayHT = null;
-  private $fieldPicture  = null;
-  private $centerId = null;
-  private $field = [];
-  private $fields = [];
+  public function __construct(
+    private $fieldId = null,
+    private $fieldName = null,
+    private $fieldTarifHourHT = null,
+    private $fieldTarifDayHT = null,
+    private $fieldPicture  = null,
+    private $centerId = null,
+    private $field = [],
+    private $fields = [],
+  ) {
+  }
 
   /**
    * Get the value of fieldId
@@ -180,16 +183,6 @@ class Field
     return $this->field;
   }
 
-
-  public function getFieldByCenter($centerId): array
-  {
-    $pdo = \Application\lib\DatabaseConnection::getDataBase();
-    $sql = "SELECT * FROM `fields` WHERE `centerId` = $centerId";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $this->fields = $stmt->fetchAll();
-    return $this->fields;
-  }
 
   public function createField($fieldName, $fieldTarifHourHT, $fieldTarifDayHT, $fieldPicture, $centerId)
   {

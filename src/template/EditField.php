@@ -9,7 +9,7 @@
 </div>
 
 <div>
-  <form action="">
+  <form method="post" action="index.php?controller=field&action=update">
     <label for="fieldName">Nom du terrain</label>
     <input type="text" name="fieldName" id="fieldName" value="<?= ($fields['fieldName']) ?>">
     <label for="fieldTarifHourHT">Tarif par heure (HT)</label>
@@ -21,8 +21,6 @@
     <label for="centerId">Centre</label>
     <input type="text" name="centerId" id="centerId" value="<?= ($fields['centerId']) ?>">
     <input type="submit" value="Submit">
-
-
   </form>
 </div>
 <?php
