@@ -12,8 +12,8 @@ class FieldController
   {
     $field = new Field();
     $fields = $field->getAllFields();
-    $pageTitle = "hello world";
-    require_once('src/template/Field_view.php');
+    $pageTitle = "Field";
+    require_once('src/template/Field.php');
   }
 
   public function show($fieldId)
@@ -21,7 +21,7 @@ class FieldController
     $field = new Field();
     $field = $field->getOneField($fieldId);
     $pageTitle = "Field";
-    require_once('src/template/Field_view.php');
+    require_once('src/template/Field.php');
   }
 
   public function create()

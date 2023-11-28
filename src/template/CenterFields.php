@@ -7,6 +7,9 @@ foreach ($fields as $field) : ?>
         <p>Field ID: <?= htmlspecialchars($field['fieldId']) ?></p>
         <p>Tarif per Hour (HT): <?= htmlspecialchars($field['fieldTarifHourHT']) ?></p>
         <p>Tarif per Day (HT): <?= htmlspecialchars($field['fieldTarifDayHT']) ?></p>
-        <!-- ... other field information ... -->
     </div>
 <?php endforeach; ?>
+
+<?php $content = ob_get_clean(); ?>
+
+<?php require('src/template/Layout.php') ?>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Model\CenterFields;
+namespace Application\Model;
 
 class CenterFields
 {
@@ -246,11 +246,13 @@ class CenterFields
     $this->centerField = $centerField;
   }
 
-  public function getAllFieldsByCenter($centerId): array
+  public function getAllFieldsByCenter($id): array
   {
+    
     $pdo = \Application\lib\DatabaseConnection::getDataBase();
-    $sql = "SELECT * FROM fields JOIN centers ON fields.centerid = centers.centerid  WHERE centerId = $centerId";
+    $sql = "SELECT * FROM fields JOIN centers ON fields.centerId = centers.centerId  WHERE fields.centerId = :centerId";
     $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':centerId', $id);
     $stmt->execute();
     $this->centerFields = $stmt->fetchAll();
     return $this->centerFields;

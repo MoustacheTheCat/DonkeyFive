@@ -9,6 +9,7 @@ require_once('src/controller/UserController.php');
 require_once('src/controller/OptionController.php');
 require_once('src/controller/FieldController.php');
 require_once('src/controller/FilterController.php');
+require_once('src/controller/CenterFieldsController.php');
 
 
 use Application\Controller\HomeController;
@@ -16,13 +17,18 @@ use Application\Controller\UserController;
 use Application\Controller\OptionController;
 use Application\Controller\FieldController;
 use Application\Controller\FilterController;
+use Application\Controller\CenterFieldsController;
+
+
 
 
 class Routes
 {
     private $routes = [
         '/' => ['controller' => 'HomeController', 'method' => 'index', 'static' => true],
-        '/filter' => ['controller' => 'FilterController', 'method' => 'index', 'static' => true]
+        '/filter' => ['controller' => 'FilterController', 'method' => 'index', 'static' => true],
+        '/field' => ['controller' => 'FieldController', 'method' => 'index', 'static' => true],
+        '/center/field' => ['controller' => 'CenterFieldsController', 'method' => 'index', 'static' => true],
     ];
 
     public function run()
@@ -36,13 +42,19 @@ class Routes
         $isStatic = $route['static'] ?? false; 
         if ($isStatic) {
             if (is_callable([$controllerName, $methodName])) {
+                
                 if ($method == 'POST' && $uri == '/filter') {
                     if (isset($_POST['filterForRentalOrCountry'])) {
                         $datas = $_POST;
                         call_user_func([$controllerName, $methodName], $datas);
                     }
                 } elseif ($method == 'GET') {
-                    call_user_func([$controllerName, $methodName]);
+                    if($uri == '/center/field'){
+                        call_user_func([$controllerName, $methodName],1);
+                    }
+                    else {
+                        call_user_func([$controllerName, $methodName]);
+                    }
                 }else {
                     $errorMessage = "404 Not Found - Static method not found";
                     require_once('src/template/Error.php');

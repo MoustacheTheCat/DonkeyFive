@@ -1,18 +1,18 @@
 <?php
 
-namespace Application\Controllerl\CenterFields\Controller;
+namespace Application\Controller;
 
 require_once('src/model/CenterFields.php');
 
-use Application\Model\CenterFields\CenterFields;
+use Application\Model\CenterFields;
 
 class CenterFieldsController{
-
-      public static function index($centerId)
+    
+      public static function index($id)
       {
         $centerField = new CenterFields();
-        $centerFields = $centerField->getAllFieldsByCenter($centerId);
-        $pageTitle = "hello world";
+        $fields = $centerField->getAllFieldsByCenter($id);
+        $pageTitle = "CentersFields";
         require_once('src/template/CenterFields.php');
       }
 
