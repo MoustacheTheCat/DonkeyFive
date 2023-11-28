@@ -28,6 +28,15 @@ class Filter
             $fields = $statement->fetchAll(\PDO::FETCH_ASSOC);
             return $fields;
         }
+        if(isset($data['dateStart']) && $data['dateStart'] != date('Y-m-d')){
+            $country = $data['country'];
+            $query = "SELECT * FROM fields WHERE country = :country";
+            $statement = $this->pdo->prepare($query);
+            $statement->bindValue(':country', $country, \PDO::PARAM_STR);
+            $statement->execute();
+            $fields = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            return $fields;
+        }
 
     }
 }

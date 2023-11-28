@@ -117,6 +117,8 @@ class Center {
         ];
     }
 
+    
+
     public function setCenter(array $center): void
     {
         $this->setCenterId($center['centerId']);
@@ -134,7 +136,11 @@ class Center {
         $stmt = $this->pdo->prepare("SELECT * FROM `centers`");
         $stmt->execute();
         $centers = $stmt->fetchAll();
-        $this->centers = $centers;
+        foreach($centers as $center){
+            $this->setCenter($center);
+            $this->centers[$center['centerId']] = $this->getCenter();
+        }
+        
         return $this->centers;
     }
 
@@ -142,8 +148,9 @@ class Center {
     {
         $stmt = $this->pdo->prepare("SELECT * FROM `centers` WHERE `centerId` = $centerId");
         $stmt->execute();
-        $this->center = $stmt->fetch();
-        return $this->center;
+        $center = $stmt->fetch();
+        $this->setCenter($center);
+        return $this;
     }
 
     public function getSelectCenterCitys(): array
@@ -191,6 +198,7 @@ class Center {
         $stmt->bindValue(':centerId', $centerId);
         $stmt->execute();
     }
+
 
 
     

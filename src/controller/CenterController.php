@@ -14,6 +14,12 @@ class CenterController {
             $citys = $center->getSelectCenterCitys();
             return $citys;
         }
+
+        public static function test(){
+            $center = new Center();
+            $datas = $center->getAll();
+            return $datas;
+        }
     
         public function show($centerId)
         {
@@ -21,6 +27,19 @@ class CenterController {
             $center = $center->getCenter($centerId);
             $pageTitle = "center";
             require_once('src/template/center.php');
+        }
+
+        public function updateName($centerId, $newName)
+        {
+            $center = new Center();
+            $center->getAllCenters();
+            //var_dump($center->getAllCenters());
+            //var_dump($datas); 
+            $center->updateCenterName($centerId, $newName);  
+            
+            // $center->updateCenterName($centerId, $centerName);
+            //header('Location: /centers');
+            return $center->getAll();
         }
     
         public function create()

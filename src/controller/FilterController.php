@@ -14,7 +14,6 @@ class FilterController
 
   public static function index($datas)
   {
-    
     $filter = new Filter();
     $citys = CenterController::index();
     $fields = $filter->filterForRental($datas);
