@@ -1,4 +1,4 @@
-<?php $pageTitle = "Donkey Car"; ?>
+<?php $pageTitle = "Error"; ?>  
 
 <?php ob_start(); ?>
 <p>Une erreur est survenue : <?= $errorMessage ?></p>

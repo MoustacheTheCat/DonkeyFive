@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Controller\CenterController;
+namespace Application\Controller;
 
 require_once('src/model/Center.php');
 
@@ -12,6 +12,7 @@ class CenterController {
         {
             $center = new Center();
             $citys = $center->getSelectCenterCitys();
+            return $citys;
         }
     
         public function show($centerId)
@@ -73,5 +74,5 @@ class CenterController {
             header('Location: /centers');
         }
 
-        
+
 }

@@ -8,7 +8,7 @@ use Application\Model\Option\Option;
 
 class OptionController {
         
-            public static function index()
+            public function index()
             {
                 $option = new Option();
                 $options = $option->getAllOptions();

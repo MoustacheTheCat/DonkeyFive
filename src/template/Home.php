@@ -9,7 +9,7 @@
     </div>
 </div>
 <div>
-    <form action="" method="POST">
+<form action="/filter" method="POST">
         <label for="city"></label>
         <select name="city">
             <option value="city">--City--</option>
@@ -25,10 +25,32 @@
         <input type="time" name="hourStart" id="" value="00:00">
         <label for="hourEnd"></label>
         <input type="time" name="hourEnd" id="" value="00:00">
-        <input type="submit" value="Search" name="filterByCityOrCountry">
+        <input type="submit" value="Search" name="filterForRentalOrCountry">
     </form>
 </div>
-
+<?php $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);?>
+<?php if ($uri  == '/filter'):?>
+        <?phpvar_dump($fields);?>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>fieldTarifHourHT</th>
+                        <th>fieldTarifDayHT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($fields as $field) : ?>
+                        <tr>
+                            <td><?= $field['fieldName']?></td>
+                            <td><?= $field['fieldTarifHourHT']?></td>
+                            <td><?= $field['fieldTarifDayHT'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+<?php endif; ?>
 
 <?php $content = ob_get_clean(); ?>
 
