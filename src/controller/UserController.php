@@ -29,6 +29,15 @@ class UserController {
             $pageTitle = "User";
             require_once('src/template/User.php');
         }
+
+        public static function profil()
+        {
+            $user = new User();
+            $user = $admin->getOneUser(intval($_SESSION['user']['userId']));
+            $rent = 
+            $pageTitle = "Admin";
+            require_once('src/template/ProfileUser.php');
+        }
     
         public static function add()
         {
@@ -44,10 +53,10 @@ class UserController {
             header('Location: /users');
         }
     
-        public static function edit($userId)
+        public static function edit($id)
         {
             $user = new User();
-            $user = $user->getUser($userId);
+            $user = $user->getOneUser(intval($id));
             $pageTitle = "Edit user";
             require_once('src/template/EditUser.php');
         }
@@ -74,9 +83,6 @@ class UserController {
 
         public static function loginCheck()
         {
-            $userEmail = $_POST['email'];
-            $userPassword = $_POST['password'];
-
             $user = new User();
             $user->loginCheck();
             if(!empty($_SESSION['user'])){
@@ -91,20 +97,21 @@ class UserController {
         {
             $user = new User();
             $user->logout();
+            header('Location: /');
         }
-
-
-        public static function resetPassword()
-        {
-            $pageTitle = "Reset password";
-            require_once('src/template/ResetPassword.php');
-        }   
 
         public static function resetPasswordCheck()
         {
             $user = new User();
-            $user->resetPasswordCheck();
-            header('Location: /login');
+            $check = $user->resetPasswordCheck();
+            if($check){
+                $result = "Password updated";
+                header('Location: /user/edit');
+            }else{
+                $error = "Password not updated";
+                header('Location: /user/edit');
+            }
+            
         }
 
         public static function forgotPassword()

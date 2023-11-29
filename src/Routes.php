@@ -1,10 +1,11 @@
 <?php
 
 namespace Application;
-
+session_start();
 require_once('src/config/Config.php');
 require_once('src/lib/DatabaseConnection.php');
 require_once('src/controller/HomeController.php');
+require_once('src/controller/UserController.php');
 require_once('src/controller/AdminController.php');
 require_once('src/controller/OptionController.php');
 require_once('src/controller/FieldController.php');
@@ -15,6 +16,7 @@ require_once('src/controller/CenterFieldsController.php');
 
 use Application\Controller\HomeController;
 use Application\Controller\UserController;
+use Application\Controller\AdminController;
 use Application\Controller\OptionController;
 use Application\Controller\FieldController;
 use Application\Controller\FilterController;
@@ -40,8 +42,12 @@ class Routes
 
         
         '/user/add' => ['controller' => 'UserController', 'method' => 'add', 'static' => true],
-       
+        '/user/edit' => ['controller' => 'UserController', 'method' => 'edit', 'static' => true],
+
+
         '/admin/add'=> ['controller' => 'AdminController', 'method' => 'add', 'static' => true],
+        '/admin/edit'=> ['controller' => 'AdminController', 'method' => 'edit', 'static' => true],
+        '/admin/profil' => ['controller' => 'AdminController', 'method' => 'profil', 'static' => true]
 
     ];
 
@@ -70,6 +76,14 @@ class Routes
                         call_user_func([$controllerName, $methodName],1);
                     }
                     elseif($uri == '/forgot/reset' && !empty($_GET['id'])){
+                        $id = $_GET['id'];
+                        call_user_func([$controllerName, $methodName], $id);
+                    }
+                    elseif($uri == '/user/edit' && !empty($_GET['id'])){
+                        $id = $_GET['id'];
+                        call_user_func([$controllerName, $methodName], $id);
+                    }
+                    elseif($uri == '/admin/edit' && !empty($_GET['id'])){
                         $id = $_GET['id'];
                         call_user_func([$controllerName, $methodName], $id);
                     }

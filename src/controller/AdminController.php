@@ -2,15 +2,14 @@
 
 namespace Application\Controller;
 
-require_once 'src/model/Admin.php';
-require_once 'src/controller/UserController.php';
+require_once ('src/model/Admin.php');
+require_once ('src/model/User.php');
+
+use Application\Model\Admin;
+use Application\Model\User;
 
 
-use Application\Model\Admin\Admin;
-use Application\Controller\UserController;
-
-
-class AdminController extends UserController {
+class AdminController{
     
         public static function viewAllAdmin()
         {
@@ -24,6 +23,13 @@ class AdminController extends UserController {
             $admin = $admin->getOneUser($adminId);
             $pageTitle = "Admin";
             require_once('src/template/Admin.php');
+        }
+        public static function profil()
+        {
+            $admin = new User();
+            $admin = $admin->getOneUser(intval($_SESSION['user']['userId']));
+            $pageTitle = "Admin";
+            require_once('src/template/ProfileAdmin.php');
         }
     
         public static function add()
@@ -39,10 +45,10 @@ class AdminController extends UserController {
             header('Location: /admins');
         }
     
-        public static function edit($adminId)
+        public static function edit($id)
         {
-            $admin = new Admin();
-            $admin = $admin->getAdmin($adminId);
+            $admin = new User();
+            $admin = $admin->getOneUser(intval($id));
             $pageTitle = "Edit admin";
             require_once('src/template/EditAdmin.php');
         }

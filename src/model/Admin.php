@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\Model\Admin;
+namespace Application\Model;
 
-require 'src/model/User.php';
+require_once('src/model/User.php');
 require_once('src/lib/DatabaseConnection.php');
 
 use Application\lib\DatabaseConnection;
@@ -70,23 +70,24 @@ class Admin extends User {
                     return $errorArray;
                 }else {
                     $password = password_hash($adminPassword,PASSWORD_ARGON2I);
+                    $adminPicture = $this->addUserPicture();
+                    $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userPicture, userRole) VALUES (:adminFirstName, :adminLastName, :adminEmail, :adminPassword, :adminNumber,:adminPicture, :adminRole)');
+                    $query->bindValue(':adminFirstName',$_POST['adminFirstName']); 
+                    $query->bindValue(':adminLastName',  $_POST['adminLastName']); 
+                    $query->bindValue(':adminEmail', $_POST['adminEmail']); 
+                    $query->bindValue(':adminPassword',$password); 
+                    $query->bindValue(':adminNumber', $_POST['adminNumber']); 
+                    $query->bindValue(':adminPicture', $adminPicture()); 
+                    $query->bindValue(':adminRole', 2); 
+                    if($query->execute()){
+                        $result = "admin created";
+                        return $result;
+                    }else{
+                        $error = "admin not created";
+                        return $error;
+                    }
                 }
-                $adminPicture = $this->addUserPicture();
-                $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userPicture, userRole) VALUES (:adminFirstName, :adminLastName, :adminEmail, :adminPassword, :adminNumber,:adminPicture, :adminRole)');
-                $query->bindValue(':adminFirstName',$_POST['adminFirstName']); 
-                $query->bindValue(':adminLastName',  $_POST['adminLastName']); 
-                $query->bindValue(':adminEmail', $_POST['adminEmail']); 
-                $query->bindValue(':adminPassword',$password); 
-                $query->bindValue(':adminNumber', $_POST['adminNumber']); 
-                $query->bindValue(':adminPicture', $adminPicture()); 
-                $query->bindValue(':adminRole', 2); 
-                if($query->execute()){
-                    $result = "admin created";
-                    return $result;
-                }else{
-                    $error = "admin not created";
-                    return $error;
-                }
+                
             }else {
                 return $errorArray;
             }

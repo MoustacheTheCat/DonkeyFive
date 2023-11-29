@@ -1,12 +1,21 @@
-<footer class="bg-light text-center text-lg-start mt-5">
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2023 donkeycar.com
-        <?php if (!empty($_SESSION['user']) && $_SESSION['user']['role'] === "customer") : ?>
-            <div class="row justify-content-center mt-3">
-                <div class="col-md-2">
-                    <a href="http://donkeycar.com/pages/pageContact.php">Contact</a>
-                </div>
-            </div>
-        <?php endif; ?>
-    </div>
+
+<footer class="row bg-dark text-white py-3 d-flex justify-content-center">
+    <?php if (!empty($_SESSION['user']) && $_SESSION['user']['userRole'] === 2) : ?>
+        <div class="col-md-4">
+            <span><a href="http://donkeycar.com/pages/pageContact.php">Contact</a> - À propos</span>
+        </div>
+        <div class="col-md-4">
+            <span> © 2023 donkeyfive.com</span>
+        </div>
+        <div class="col-md-4">
+            <span>Paris</span>
+        </div>
+    <?php else :?>
+        <div class="col-md-2">
+            <span> © 2023 donkeyfive.com</span>
+        </div>
+        <div class="col-md-2">
+            <span>Paris</span>
+        </div>
+    <?php endif; ?>
 </footer>

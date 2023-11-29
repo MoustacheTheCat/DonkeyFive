@@ -186,13 +186,16 @@ class User {
         return $this->users;
     }  
 
-    public function getOneUser($userId): self
+    public function getOneUser($id)
     {
         $query = $this->pdo->prepare('SELECT * FROM users WHERE userId = :userId');
-        $query->bindValue(':userId', $userId, \PDO::PARAM_INT); 
+        $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
         $query->execute();
-        $this->users = $query->fetch();
-        return $this->users;
+        $data = $query->fetch();
+        
+        return $data;
+        // $this->users = $query->fetch();
+        // return $this->users;
     }
 
 
@@ -297,27 +300,27 @@ class User {
                     return $errorArray;
                 }else {
                     $password = password_hash($userPassword,PASSWORD_ARGON2I);
-                }
-                $userpicture = $this->addUserPicture();
-                $query = $this->pdo->prepare('INSERT INTO user (userFirstName, userLastName, userEmail, userPassword, userNumber, userAddress, userZip, userCity, userCountry, userBirthdate, userpicture, userRole) VALUES (:userFirstName, :userLastName, :userEmail, :userPassword, :userNumber, :userAddress, :userZip, :userCity, :userCountry, :userBirthdate, :userpicture, :userRole)');
-                $query->bindValue(':userFirstName',$_POST['userFirstName']); 
-                $query->bindValue(':userLastName',  $_POST['userLastName']); 
-                $query->bindValue(':userEmail', $_POST['userEmail']); 
-                $query->bindValue(':userPassword',$password); 
-                $query->bindValue(':userNumber', $_POST['userNumber']); 
-                $query->bindValue(':userAddress',  $_POST['userAddress']); 
-                $query->bindValue(':userZip', $_POST['userZip']); 
-                $query->bindValue(':userCity',  $_POST['userCity']); 
-                $query->bindValue(':userCountry', $_POST['userCountry']); 
-                $query->bindValue(':userBirthdate',  $_POST['userBirthdate']); 
-                $query->bindValue(':userpicture', $userpicture()); 
-                $query->bindValue(':userRole', 1); 
-                if($query->execute()){
-                    $result = "user created";
-                    return $result;
-                }else{
-                    $error = "user not created";
-                    return $error;
+                    $userpicture = $this->addUserPicture();
+                    $query = $this->pdo->prepare('INSERT INTO user (userFirstName, userLastName, userEmail, userPassword, userNumber, userAddress, userZip, userCity, userCountry, userBirthdate, userpicture, userRole) VALUES (:userFirstName, :userLastName, :userEmail, :userPassword, :userNumber, :userAddress, :userZip, :userCity, :userCountry, :userBirthdate, :userpicture, :userRole)');
+                    $query->bindValue(':userFirstName',$_POST['userFirstName']); 
+                    $query->bindValue(':userLastName',  $_POST['userLastName']); 
+                    $query->bindValue(':userEmail', $_POST['userEmail']); 
+                    $query->bindValue(':userPassword',$password); 
+                    $query->bindValue(':userNumber', $_POST['userNumber']); 
+                    $query->bindValue(':userAddress',  $_POST['userAddress']); 
+                    $query->bindValue(':userZip', $_POST['userZip']); 
+                    $query->bindValue(':userCity',  $_POST['userCity']); 
+                    $query->bindValue(':userCountry', $_POST['userCountry']); 
+                    $query->bindValue(':userBirthdate',  $_POST['userBirthdate']); 
+                    $query->bindValue(':userpicture', $userpicture()); 
+                    $query->bindValue(':userRole', 1); 
+                    if($query->execute()){
+                        $result = "user created";
+                        return $result;
+                    }else{
+                        $error = "user not created";
+                        return $error;
+                    }
                 }
             }else {
                 return $errorArray;
@@ -332,7 +335,7 @@ class User {
             return $error;
         }else {
             $user = self::getOneUser($id);
-            if(!isset($id)){
+            if(!isset($user)){
                 $error = "user not found";
                 return $error;
             }
@@ -439,7 +442,7 @@ class User {
             }
         }
     }
-
+    // 
     public function delete($id)
     {
         if(empty($id)){
@@ -447,7 +450,8 @@ class User {
             return $error;
         }else {
             $user = self::getOneUser($id);
-            if(!isset($id)){
+            $password = $_POST['userPassword'];
+            if(!isset($user) && password_verify($userPassword, $user['userPassword'])){
                 $query = $this->pdo->prepare('DELETE FROM users WHERE userId = :userId');
                 $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
                 if($query->execute()){
@@ -474,7 +478,7 @@ class User {
         $query->execute();
         $user = $query->fetch();
         if($user != false){
-            if ($userPassword != $user['userPassword']) /*  -> Remplacer une fois le un user et admin crée avec password_hash  par ->   if ($user && password_verify($userPassword, $user['userPassword'])) */{
+            if ($userPassword === $user['userPassword']) /*  -> Remplacer une fois le un user et admin crée avec password_hash  par ->   if ($user && password_verify($userPassword, $user['userPassword'])) */{
                 session_start();
                 $_SESSION['user']['userId'] = $user['userId'];
                 $_SESSION['user']['userEmail'] = $user['userEmail'];
@@ -500,12 +504,10 @@ class User {
     public function resetPassWordCheck()
     {
         $userId = $_SESSION['user']['userId'];
-        $userEmail = $_POST['email'];
-        $userPassword = $_POST['password'];
-        $newUserPassword = $_POST['newPassword'];
-        $newUserPasswordConfirm = $_POST['newPasswordConfirm'];
-        $user = USER::getOneUser( $userId);
-        if($userEmail != $user['userEmail'] && password_verify($userPassword, $user['userPassword'])){
+        $userPassword = $_POST['userPassword'];
+        $newUserPassword = $_POST['newUserPassword'];
+        $newUserPasswordConfirm = $_POST['newUserPasswordConfirm'];
+        if(password_verify($userPassword, $user['userPassword'])){
             if($newUserPassword === $newUserPasswordConfirm){
                 $password = password_hash($newUserPassword,PASSWORD_ARGON2I);
                 $query = $this->pdo->prepare('UPDATE users SET userPassword = :userPassword WHERE userId = :id');
@@ -513,10 +515,10 @@ class User {
                 $query->bindValue(':userPassword',$password); 
                 if($query->execute()){
                     $result = "Password updated";
-                    return $result;
+                    return true;
                 }else{
-                    $error = "Password not updated";
-                    return $error;
+                    
+                    return false;
                 }
             }
         }
