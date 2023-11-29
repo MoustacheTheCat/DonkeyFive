@@ -1,0 +1,4 @@
+https://www.php.net/manual/fr/function.session-unset.php
+https://www.php.net/manual/fr/language.oop5.static.php
+https://www.php.net/manual/fr/function.intval.php
+https://www.php.net/manual/fr/function.password-hash.php
