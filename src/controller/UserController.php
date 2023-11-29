@@ -4,20 +4,25 @@ namespace Application\Controller;
 
 require_once('src/model/User.php');
 
-use Application\Model\User\User;
+use Application\Model\User;
 
 
 class UserController {
 
-        public static function index()
+        public static array $pays = [
+            "France", "Germany", "Italy", "Spain", "United Kingdom", "Netherlands",
+            "Belgium", "Sweden", "Poland", "Switzerland", "Norway", "Denmark",
+            "Finland", "Austria", "Portugal", "Greece", "Ireland", "Czech Republic",
+            "Hungary", "Croatia", "United States", "Canada", "Australia", "India", "China"
+        ];
+        
+        public static function viewAllUser()
         {
             $user = new User();
             $users = $user->getAllUsers();
-            $pageTitle = "Users";
-            //require_once('src/template/Users.php');
         }
     
-        public function show($userId)
+        public static function viewOneUser($userId)
         {
             $user = new User();
             $user = $user->getOneUser($userId);
@@ -25,32 +30,21 @@ class UserController {
             require_once('src/template/User.php');
         }
     
-        public function create()
+        public static function add()
         {
             $pageTitle = "Create user";
+            $pays = self::$pays;
             require_once('src/template/CreateUser.php');
         }
     
-        public function store()
+        public function addCheck()
         {
-            $userFirstName = $_POST['userFirstName'];
-            $userLastName = $_POST['userLastName'];
-            $userEmail = $_POST['userEmail'];
-            $userPassword = $_POST['userPassword'];
-            $userNumber = $_POST['userNumber'];
-            $userAddress = $_POST['userAddress'];
-            $userZip = $_POST['userZip'];
-            $userCity = $_POST['userCity'];
-            $userCountry = $_POST['userCountry'];
-            $userBirthdate = $_POST['userBirthdate'];
-            $userpicture = $_POST['userpicture'];
-            $userRole = $_POST['userRole'];
             $user = new User();
-            $user->createUser($userFirstName, $userLastName, $userEmail, $userPassword, $userNumber, $userAddress, $userZip, $userCity, $userCountry, $userBirthdate, $userpicture, $userRole);
+            $user->addUser();
             header('Location: /users');
         }
     
-        public function edit($userId)
+        public static function edit($userId)
         {
             $user = new User();
             $user = $user->getUser($userId);
@@ -58,21 +52,10 @@ class UserController {
             require_once('src/template/EditUser.php');
         }
     
-        public function update($userId)
+        public static function editCheck($userId)
         {
-            $userFirstName = $_POST['userFirstName'];
-            $userLastName = $_POST['userLastName'];
-            $userEmail = $_POST['userEmail'];
-            $userPassword = $_POST['userPassword'];
-            $userNumber = $_POST['userNumber'];
-            $userAddress = $_POST['userAddress'];
-            $userZip = $_POST['userZip'];
-            $userCity = $_POST['userCity'];
-            $userCountry = $_POST['userCountry'];
-            $userBirthdate = $_POST['userBirthdate'];
-            $userpicture = $_POST['userpicture'];
             $user = new User();
-            $user->updateUser($userId, $userFirstName, $userLastName, $userEmail, $userPassword, $userNumber, $userAddress, $userZip, $userCity, $userCountry, $userBirthdate, $userpicture);
+            $user->updateUser();
             header('Location: /users');
         }
 
@@ -80,7 +63,7 @@ class UserController {
         {
             $user = new User();
             $user->deleteUser($userId);
-            header('Location: /users');
+            header('Location: /');
         }
 
         public static function login()
@@ -91,11 +74,17 @@ class UserController {
 
         public static function loginCheck()
         {
-            $userEmail = $_POST['userEmail'];
-            $userPassword = $_POST['userPassword'];
+            $userEmail = $_POST['email'];
+            $userPassword = $_POST['password'];
 
             $user = new User();
-            $user->loginCheck($userEmail, $userPassword);
+            $user->loginCheck();
+            if(!empty($_SESSION['user'])){
+                header('Location: /');
+            }else{
+                $error = $user->loginCheck();
+                require_once('src/template/Login.php');
+            }
         }
 
         public static function logout()
@@ -104,69 +93,47 @@ class UserController {
             $user->logout();
         }
 
-        public static function profile()
+
+        public static function resetPassword()
+        {
+            $pageTitle = "Reset password";
+            require_once('src/template/ResetPassword.php');
+        }   
+
+        public static function resetPasswordCheck()
         {
             $user = new User();
-            $user->profile();
+            $user->resetPasswordCheck();
+            header('Location: /login');
         }
 
-        public static function profileEdit()
+        public static function forgotPassword()
         {
-            $user = new User();
-            $user->profileEdit();
+            $pageTitle = "Forgot password";
+            require_once('src/template/ForgotPassword.php');
         }
 
-        public function profileUpdate()
+        public static function sendMailResetPassword()
         {
-            $userFirstName = $_POST['userFirstName'];
-            $userLastName = $_POST['userLastName'];
-            $userEmail = $_POST['userEmail'];
-            $userPassword = $_POST['userPassword'];
-            $userNumber = $_POST['userNumber'];
-            $userAddress = $_POST['userAddress'];
-            $userZip = $_POST['userZip'];
-            $userCity = $_POST['userCity'];
-            $userCountry = $_POST['userCountry'];
-            $userBirthdate = $_POST['userBirthdate'];
-            $userpicture = $_POST['userpicture'];
-
             $user = new User();
-            $user->profileUpdate($userFirstName, $userLastName, $userEmail, $userPassword, $userNumber, $userAddress, $userZip, $userCity, $userCountry, $userBirthdate, $userpicture);
-            header('Location: /profile');
+            $user->sendMailResetPassword();
+            header('Location: /login');
         }
 
-        public static function profileDelete()
+        public static function forgotPasswordReset()
         {
-            $user = new User();
-            $user->profileDelete();
-        }
-
-        public static function profileDeleteConfirm()
-        {
-            $user = new User();
-            $user->profileDeleteConfirm();
-        }
-
-        public static function profileDeleteConfirmYes()
-        {
-            $user = new User();
-            $user->profileDeleteConfirmYes();
-        }
-
-        public static function profileDeleteConfirmNo()
-        {
-            $user = new User();
-            $user->profileDeleteConfirmNo();
-        }
-
-        public static function profileDeleteYes()
-        {
-            $user = new User();
-            $user->profileDeleteYes();
+            $pageTitle = "Reset Forgot password";
+            require_once('src/template/ForgotPasswordReset.php');
         }
 
 
+        public static function forgotPasswordCheck()
+        {
+            $user = new User();
+            $user->forgotPasswordCheck();
+            header('Location: /login');
+        }
 
-
+        
 
 }

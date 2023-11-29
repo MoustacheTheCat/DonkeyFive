@@ -10,7 +10,7 @@
             <ul class="navbar-nav ms-auto nav-mr">
                 <?php if(empty($_SESSION['user']) || empty($_SESSION['user']['role'])):?>
                         <li class="nav-item">
-                            <a class="nav-link" href="http://donkeycar.com/pages/pageLogin.php">Login</a>
+                            <a class="nav-link" href="/login">Login</a>
                         </li>
                 <?php endif;?>      
                 <?php if(!empty($_SESSION['user']['role']) && $_SESSION['user']['role'] == 'admin'):?>
