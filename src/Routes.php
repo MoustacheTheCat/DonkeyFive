@@ -11,6 +11,7 @@ require_once('src/controller/OptionController.php');
 require_once('src/controller/FieldController.php');
 require_once('src/controller/FilterController.php');
 require_once('src/controller/CenterFieldsController.php');
+require_once('src/controller/MessageController.php');
 
 
 
@@ -21,6 +22,7 @@ use Application\Controller\OptionController;
 use Application\Controller\FieldController;
 use Application\Controller\FilterController;
 use Application\Controller\CenterFieldsController;
+use Application\Controller\MessageController;
 
 
 
@@ -29,12 +31,20 @@ class Routes
 {
     private $routes = [
         '/' => ['controller' => 'HomeController', 'method' => 'index', 'static' => true],
+
         '/filter' => ['controller' => 'FilterController', 'method' => 'index', 'static' => true],
+
+        '/contact' => ['controller' => 'MessageController', 'method' => 'contact', 'static' => true],
+        '/contact/submit' => ['controller' => 'MessageController', 'method' => 'addCheck', 'static' => true],
+
         '/field' => ['controller' => 'FieldController', 'method' => 'index', 'static' => true],
+
         '/center/field' => ['controller' => 'CenterFieldsController', 'method' => 'index', 'static' => true],
+
         '/login' => ['controller' => 'UserController', 'method' => 'login', 'static' => true],
         '/login/submit' => ['controller' => 'UserController', 'method' => 'loginCheck', 'static' => true],
         '/logout' => ['controller' => 'UserController', 'method' => 'logout', 'static' => true],
+
         '/forgot/password' => ['controller' => 'UserController', 'method' => 'forgotPassword', 'static' => true],
         '/forgot/submit' => ['controller' => 'UserController', 'method' => 'sendMailResetPassword', 'static' => true],
         '/forgot/reset' => ['controller' => 'UserController', 'method' => 'forgotPasswordReset', 'static' => true],
@@ -62,7 +72,13 @@ class Routes
         $controllerName = 'Application\Controller\\' .$route['controller'];
         $methodName = $route['method'];
         $isStatic = $route['static'] ?? false; 
+        // var_dump($route);
+        // var_dump($controllerName);
+        // var_dump($methodName);
+        // var_dump($isStatic);
         if ($isStatic) {
+            // var_dump(is_callable([$controllerName, $methodName]));
+            // die();
             if (is_callable([$controllerName, $methodName])) {
                 if ($method == 'POST') {
                     

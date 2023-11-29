@@ -5,7 +5,7 @@
             <span> © 2023 donkeyfive.com</span>
         </div>
         <div class="col-md-4">
-            <span><a href="http://donkeycar.com/pages/pageContact.php">Contact</a> - À propos</span>
+            <span><a href="/contact">Contact</a> - À propos</span>
         </div>
         <div class="col-md-4">
             <span>Paris</span>
