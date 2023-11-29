@@ -50,7 +50,15 @@ class UserController {
         {
             $user = new User();
             $user->addUser();
-            header('Location: /users');
+            $res = $user->addUser();
+            if($res){
+                $result = "user created";
+                header('Location: /');
+            }else{
+                $error = "user not created";
+                header('Location: /user/add');
+            }
+            
         }
     
         public static function edit($id)
@@ -106,12 +114,10 @@ class UserController {
             $check = $user->resetPasswordCheck();
             if($check){
                 $result = "Password updated";
-                header('Location: /user/edit');
             }else{
                 $error = "Password not updated";
-                header('Location: /user/edit');
             }
-            
+            header('Location: /');
         }
 
         public static function forgotPassword()

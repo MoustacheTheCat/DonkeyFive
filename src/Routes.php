@@ -42,7 +42,9 @@ class Routes
 
         
         '/user/add' => ['controller' => 'UserController', 'method' => 'add', 'static' => true],
+        '/user/add/check' => ['controller' => 'UserController', 'method' => 'addCheck', 'static' => false],
         '/user/edit' => ['controller' => 'UserController', 'method' => 'edit', 'static' => true],
+        '/user/edit/password' => ['controller' => 'UserController', 'method' => 'resetPasswordCheck', 'static' => true],
 
 
         '/admin/add'=> ['controller' => 'AdminController', 'method' => 'add', 'static' => true],
@@ -63,11 +65,16 @@ class Routes
         if ($isStatic) {
             if (is_callable([$controllerName, $methodName])) {
                 if ($method == 'POST') {
+                    
                     if($uri == '/filter'){
                         if (isset($_POST['filterForRentalOrCountry'])) {
                             $datas = $_POST;
                             call_user_func([$controllerName, $methodName], $datas);
                         }
+                    if($uri == '/user/edit/password'){
+                        $data = new $controllerName();
+                        $data->$methodName();
+                    }
                     }else{
                         call_user_func([$controllerName, $methodName]);
                     }
@@ -94,15 +101,22 @@ class Routes
                     $errorMessage = "404 Not Found - Static method not found";
                     require_once('src/template/Error.php');
                 }
+            } else {
+                $errorMessage = "404 Not Found - Static method not found";
+                require_once('src/template/Error.php');
+            }
+
         } else {
-            die();
             if (class_exists($controllerName) && is_callable($controllerName, $methodName)) {
                 if($method == 'POST' && $uri == '/filter'){
                     if(isset($_POST['filterForRentalOrCountry'])){
                         $datas = $_POST;
                         $fields = $controller->$methodName($datas);
                     }
-                } elseif($method == 'GET'){
+                } elseif($method == 'POST' && $uri == '/user/add/check'){
+                    $data = new $controllerName();
+                    $data->$methodName();
+                }elseif($method == 'GET'){
                     $controller->$methodName();
                 }
             } else {
@@ -116,7 +130,7 @@ class Routes
     }
 }
 }
-}
+
 
 
 $routes = new Routes();

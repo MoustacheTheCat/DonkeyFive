@@ -9,7 +9,7 @@ class HomeController
 {
     public static function index()
     {
-        $pageTitle = "Donkey Car";
+        $pageTitle = "Donkey Five";
         $citys = CenterController::index();
         require_once('src/template/Home.php');
     }
