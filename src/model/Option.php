@@ -6,7 +6,8 @@ require_once('src/lib/DatabaseConnection.php');
 
 use Application\lib\DatabaseConnection;
 
-class Option {
+class Option
+{
 
     public function __construct(
         private $optionId = null,
@@ -15,8 +16,7 @@ class Option {
         private $option = [],
         private $options = [],
         private $pdo = null,
-        )
-    {
+    ) {
         $this->pdo = DatabaseConnection::getDataBase();
     }
 
@@ -40,7 +40,7 @@ class Option {
         $this->option = $option;
     }
 
-    public function setOptionCostHT(string $optionC): void
+    public function setOptionCostHT(string $optionCostHT): void
     {
         $this->optionCostHT = $optionCostHT;
     }
@@ -90,5 +90,31 @@ class Option {
         $pdoStatement->execute();
     }
 
-}
 
+
+    public function getOneOption($optionId): array
+    {
+        $sql = "SELECT * FROM `options` WHERE `optionId` = :option_id";
+        $pdoStatement = $this->pdo->prepare($sql);
+        $pdoStatement->bindValue(':option_id', $optionId, \PDO::PARAM_INT);
+        $pdoStatement->execute();
+        $this->option = $pdoStatement->fetch();
+        return $this->option;
+    }
+
+    public function createOption($optionName, $optionCostHT)
+    {
+        $sql = "INSERT INTO `options` (`optionName`, `optionCostHT`) VALUES (:optionName, :optionCostHT)";
+        $pdoStatement = $this->pdo->prepare($sql);
+        $pdoStatement->bindValue(':optionName', $optionName, \PDO::PARAM_STR);
+        $pdoStatement->bindValue(':optionCostHT', $optionCostHT, \PDO::PARAM_STR);
+        $pdoStatement->execute();
+    }
+
+    public function deleteAllOptions()
+    {
+        $sql = "DELETE FROM `options`";
+        $pdoStatement = $this->pdo->prepare($sql);
+        $pdoStatement->execute();
+    }
+}
