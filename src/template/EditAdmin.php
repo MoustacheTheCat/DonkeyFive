@@ -20,7 +20,7 @@
                                         <?= $result ?>
                                     </div>
                                 <?php endif; ?>
-                                <form action="/user/edit/info" method="POST" enctype="multipart/form-data">
+                                <form action="/user/edit/password" method="POST" enctype="multipart/form-data">
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userFirstName">First Name</label>
                                         <input type="text" id="userFirstName" name="userFirstName" class="form-control form-control-lg" value="<?=$admin['userFirstName']?>">

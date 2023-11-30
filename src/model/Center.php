@@ -10,7 +10,7 @@ class Center {
         private $centerId = null,
         private $centerName = null,
         private $centerCity = null,
-        private $centerAdress = null,
+        private $centerAddress = null,
         private $centerZip = null,
         private $centerCountry = null,
         private $centerNumber = null,
@@ -38,9 +38,9 @@ class Center {
         return $this->centerCity;
     }
 
-    public function getCenterAdress(): string
+    public function getCenterAddress(): string
     {
-        return $this->centerAdress;
+        return $this->centerAddress;
     }
 
     public function getCenterZip(): string
@@ -78,9 +78,9 @@ class Center {
         $this->centerCity = $centerCity;
     }
 
-    public function setCenterAdress(string $centerAdress): void
+    public function setCenterAddress(string $centerAddress): void
     {
-        $this->centerAdress = $centerAdress;
+        $this->centerAddress = $centerAddress;
     }
 
     public function setCenterZip(string $centerZip): void
@@ -109,7 +109,7 @@ class Center {
             'centerId' => $this->getCenterId(),
             'centerName' => $this->getCenterName(),
             'centerCity' => $this->getCenterCity(),
-            'centerAdress' => $this->getCenterAdress(),
+            'centerAddress' => $this->getCenterAddress(),
             'centerZip' => $this->getCenterZip(),
             'centerCountry' => $this->getCenterCountry(),
             'centerNumber' => $this->getCenterNumber(),
@@ -124,7 +124,7 @@ class Center {
         $this->setCenterId($center['centerId']);
         $this->setCenterName($center['centerName']);
         $this->setCenterCity($center['centerCity']);
-        $this->setCenterAdress($center['centerAdress']);
+        $this->setCenterAddress($center['centerAddress']);
         $this->setCenterZip($center['centerZip']);
         $this->setCenterCountry($center['centerCountry']);
         $this->setCenterNumber($center['centerNumber']);
@@ -165,12 +165,12 @@ class Center {
         return $arrayCitys;
     }
 
-    public function createCenter($centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail): void
+    public function createCenter($centerName, $centerCity, $centerAddress, $centerZip, $centerCountry, $centerNumber, $centerEmail): void
     {
-        $stmt = $this->pdo->prepare("INSERT INTO `centers` (`centerName`, `centerCity`, `centerAdress`, `centerZip`, `centerCountry`, `centerNumber`, `centerEmail`) VALUES (:centerName, :centerCity, :centerAdress, :centerZip, :centerCountry, :centerNumber, :centerEmail)");
+        $stmt = $this->pdo->prepare("INSERT INTO `centers` (`centerName`, `centerCity`, `centerAddress`, `centerZip`, `centerCountry`, `centerNumber`, `centerEmail`) VALUES (:centerName, :centerCity, :centerAddress, :centerZip, :centerCountry, :centerNumber, :centerEmail)");
         $stmt->bindValue(':centerName', $centerName);
         $stmt->bindValue(':centerCity', $centerCity);
-        $stmt->bindValue(':centerAdress', $centerAdress);
+        $stmt->bindValue(':centerAddress', $centerAddress);
         $stmt->bindValue(':centerZip', $centerZip);
         $stmt->bindValue(':centerCountry', $centerCountry);
         $stmt->bindValue(':centerNumber', $centerNumber);
@@ -178,13 +178,13 @@ class Center {
         $stmt->execute();
     }
 
-    public function updateCenter($centerId, $centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail): void
+    public function updateCenter($centerId, $centerName, $centerCity, $centerAddress, $centerZip, $centerCountry, $centerNumber, $centerEmail): void
     {
-        $stmt = $this->pdo->prepare("UPDATE `centers` SET `centerName` = :centerName, `centerCity` = :centerCity, `centerAdress` = :centerAdress, `centerZip` = :centerZip, `centerCountry` = :centerCountry, `centerNumber` = :centerNumber, `centerEmail` = :centerEmail WHERE `centerId` = :centerId");
+        $stmt = $this->pdo->prepare("UPDATE `centers` SET `centerName` = :centerName, `centerCity` = :centerCity, `centerAddress` = :centerAddress, `centerZip` = :centerZip, `centerCountry` = :centerCountry, `centerNumber` = :centerNumber, `centerEmail` = :centerEmail WHERE `centerId` = :centerId");
         $stmt->bindValue(':centerId', $centerId);
         $stmt->bindValue(':centerName', $centerName);
         $stmt->bindValue(':centerCity', $centerCity);
-        $stmt->bindValue(':centerAdress', $centerAdress);
+        $stmt->bindValue(':centerAddress', $centerAddress);
         $stmt->bindValue(':centerZip', $centerZip);
         $stmt->bindValue(':centerCountry', $centerCountry);
         $stmt->bindValue(':centerNumber', $centerNumber);

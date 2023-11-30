@@ -78,7 +78,7 @@ class Admin extends User {
                     $query->bindValue(':adminPassword',$password); 
                     $query->bindValue(':adminNumber', $_POST['adminNumber']); 
                     $query->bindValue(':adminPicture', $adminPicture()); 
-                    $query->bindValue(':adminRole', 2); 
+                    $query->bindValue(':adminRole', 1); 
                     if($query->execute()){
                         $result = "admin created";
                         return $result;

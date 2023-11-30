@@ -292,16 +292,18 @@ class User {
                 $errorArray['userBirthdate'] = "Please enter your birthdate";
             }
             if(empty($_POST['userpicture'])){
-                $errorArray['userpicture'] = "Please enter your picture";
+                $userpicture = "default.png";
+            }
+            else {
+                $userpicture = $this->addUserPicture();
             }
             if(empty($errorArray)){
                 if($_POST['userPassword'] != $_POST['userPasswordConfirm']){
                     $errorArray['userPasswordConfirm'] = "Please enter the same password";
                     return $errorArray;
                 }else {
-                    $password = password_hash($userPassword,PASSWORD_ARGON2I);
-                    $userpicture = $this->addUserPicture();
-                    $query = $this->pdo->prepare('INSERT INTO user (userFirstName, userLastName, userEmail, userPassword, userNumber, userAddress, userZip, userCity, userCountry, userBirthdate, userpicture, userRole) VALUES (:userFirstName, :userLastName, :userEmail, :userPassword, :userNumber, :userAddress, :userZip, :userCity, :userCountry, :userBirthdate, :userpicture, :userRole)');
+                    $password = password_hash($_POST['userPassword'],PASSWORD_ARGON2I);
+                    $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userAddress, userZip, userCity, userCountry, userBirthDay, userPicture, userRole) VALUES (:userFirstName, :userLastName, :userEmail, :userPassword, :userNumber, :userAddress, :userZip, :userCity, :userCountry, :userBirthdate, :userpicture, :userRole)');
                     $query->bindValue(':userFirstName',$_POST['userFirstName']); 
                     $query->bindValue(':userLastName',  $_POST['userLastName']); 
                     $query->bindValue(':userEmail', $_POST['userEmail']); 
@@ -312,14 +314,12 @@ class User {
                     $query->bindValue(':userCity',  $_POST['userCity']); 
                     $query->bindValue(':userCountry', $_POST['userCountry']); 
                     $query->bindValue(':userBirthdate',  $_POST['userBirthdate']); 
-                    $query->bindValue(':userpicture', $userpicture()); 
-                    $query->bindValue(':userRole', 1); 
+                    $query->bindValue(':userpicture', $userpicture); 
+                    $query->bindValue(':userRole', 2); 
                     if($query->execute()){
-                        $result = "user created";
-                        return $result;
+                        return true;
                     }else{
-                        $error = "user not created";
-                        return $error;
+                        return false;
                     }
                 }
             }else {
@@ -431,7 +431,7 @@ class User {
                 $query->bindValue(':userCity',  $userCity); 
                 $query->bindValue(':userCountry', $userCountry); 
                 $query->bindValue(':userBirthdate',  $userBirthdate); 
-                $query->bindValue(':userpicture', $userpicture()); 
+                $query->bindValue(':userpicture', $userpicture); 
                 if($query->execute()){
                     $result  = "user Updated";
                     return $result;
@@ -478,7 +478,7 @@ class User {
         $query->execute();
         $user = $query->fetch();
         if($user != false){
-            if ($userPassword === $user['userPassword']) /*  -> Remplacer une fois le un user et admin crée avec password_hash  par ->   if ($user && password_verify($userPassword, $user['userPassword'])) */{
+            if (password_verify($userPassword, $user['userPassword'])) {
                 session_start();
                 $_SESSION['user']['userId'] = $user['userId'];
                 $_SESSION['user']['userEmail'] = $user['userEmail'];
@@ -500,14 +500,15 @@ class User {
         $result = "user disconnected";
         return $result;
     }
-
+//
     public function resetPassWordCheck()
     {
         $userId = $_SESSION['user']['userId'];
         $userPassword = $_POST['userPassword'];
         $newUserPassword = $_POST['newUserPassword'];
         $newUserPasswordConfirm = $_POST['newUserPasswordConfirm'];
-        if(password_verify($userPassword, $user['userPassword'])){
+        $user = self::getOneUser($userId);
+        if($password_verify($userPassword, $user['userPassword'])){
             if($newUserPassword === $newUserPasswordConfirm){
                 $password = password_hash($newUserPassword,PASSWORD_ARGON2I);
                 $query = $this->pdo->prepare('UPDATE users SET userPassword = :userPassword WHERE userId = :id');
@@ -575,9 +576,6 @@ class User {
         }else {
             $error = "Email is incorrect";
             return $error;
-        }
-
-        
+        } 
     }
-
 }

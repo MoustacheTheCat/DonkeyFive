@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Model\Rentalscenters;
+namespace Application\Model\RentalsCenters;
 
 require_once('src/lib/DatabaseConnection.php');
 
@@ -11,8 +11,6 @@ class RentalsCenters {
         public function __construct(
             private $rentalId = null,
             private $centerId = null,
-            private $createdAt = null,
-            private $updatedAt = null,
             private $pdo = null
             )
         {
@@ -29,16 +27,6 @@ class RentalsCenters {
         return $this->centerId;
     }
 
-    public function getCreatedAt(): string
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): string
-    {
-        return $this->updatedAt;
-    }
-
     public function setRentalId(int $rentalId): void
     {
         $this->rentalId = $rentalId;
@@ -49,28 +37,19 @@ class RentalsCenters {
         $this->centerId = $centerId;
     }
 
-    public function setCreatedAt(string $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    public function setUpdatedAt(string $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
-    }
 
     public function getAllRentalsCenters(): array
     {
-        $sql = "SELECT * FROM rentalscenters";
+        $sql = "SELECT * FROM rentalsCenters";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        $rentalscenters = $stmt->fetchAll();
-        return $rentalscenters;
+        $rentalsCenters = $stmt->fetchAll();
+        return $rentalsCenters;
     }
 
-    public function getRentalCenterById($rentalId): array
+    public function getRentalCenterByRentalId($rentalId): array
     {
-        $sql = "SELECT * FROM rentalscenters WHERE rentalId = :rentalId";
+        $sql = "SELECT * FROM rentalsCenters WHERE rentalId = :rentalId";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':rentalId', $rentalId);
         $stmt->execute();
@@ -80,7 +59,7 @@ class RentalsCenters {
 
     public function getRentalCenterByCenterId($centerId): array
     {
-        $sql = "SELECT * FROM rentalscenters WHERE centerId = :centerId";
+        $sql = "SELECT * FROM rentalsCenters WHERE centerId = :centerId";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':centerId', $centerId);
         $stmt->execute();
@@ -90,32 +69,11 @@ class RentalsCenters {
 
     public function addRentalCenter($rentalId, $centerId)
     {
-        $sql = "INSERT INTO `rentalscenters` (`rentalId`, `centerId`) VALUES (:rentalId, :centerId)";
+        $sql = "INSERT INTO `rentalsCenters` (`rentalId`, `centerId`) VALUES (:rentalId, :centerId)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':rentalId', $rentalId);
         $stmt->bindValue(':centerId', $centerId);
         $stmt->execute();
     }
-
-    public function deleteRentalCenter($rentalId)
-    {
-        $sql = "DELETE FROM `rentalscenters` WHERE `rentalId` = :rentalId";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':rentalId', $rentalId);
-        $stmt->execute();
-    }
-
-    public function updateRentalCenter($rentalId, $centerId)
-    {
-        $sql = "UPDATE `rentalscenters` SET `centerId` = :centerId WHERE `rentalId` = :rentalId";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':rentalId', $rentalId);
-        $stmt->bindValue(':centerId', $centerId);
-        $stmt->execute();
-    }
-
-    
-
-
 
 }

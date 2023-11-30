@@ -8,10 +8,11 @@ use Application\lib\DatabaseConnection;
 
 class FieldsOptions
 {
-    
     public function __construct(
         private $optionId = null,
         private $fieldId = null,
+        private $fieldsOptions = [],
+        private $fieldsOption = [],
         private $pdo = null,
         )
     {
@@ -69,31 +70,11 @@ class FieldsOptions
 
     public function addFieldsOptions($optionId, $fieldId)
     {
-        $sql = "INSERT INTO `fields_options` (`option_id`, `field_id`) VALUES (:option_id, :field_id)";
+        $sql = "INSERT INTO `fieldsOptions` (`option_id`, `field_id`) VALUES (:option_id, :field_id)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':option_id', $optionId);
         $stmt->bindValue(':field_id', $fieldId);
         $stmt->execute();
     }
-
-    public function updateFieldsOptions(): void
-    {
-        $sql = "UPDATE fields_options SET option_id = :option_id, field_id = :field_id WHERE option_id = :option_id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([
-            'option_id' => $this->getOptionId(),
-            'field_id' => $this->getFieldId(),
-        ]);
-
-    }
-    public function deleteFieldsOptions($optionId)
-    {
-        $sql = "DELETE FROM `fields_options` WHERE `option_id` = :option_id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':option_id', $optionId);
-        $stmt->execute();
-    }
-
-
 
 }
