@@ -6,7 +6,8 @@ require_once('src/model/Cart.php');
 
 use Application\Model\Cart;
 
-class CartController {
+class CartController
+{
     public static function viewCarts()
     {
         $cart = new Cart();
@@ -27,34 +28,49 @@ class CartController {
     {
         $cart = new Cart();
         $res = $cart->addItemInCart();
-        if($res){
+        if ($res) {
             $pageTitle = "Select Time ";
             require_once('src/template/SelectTime.php');
-        }else{
+        } else {
             $error = "cart not created";
             return $error;
         }
     }
 
-    public static function timeCheck(){
+    public static function timeCheck()
+    {
         $cart = new Cart();
         $res = $cart->addSelectTime();
-        if($res){
+        if ($res) {
             $result = "cart created";
             header('Location: /');
-        }else{
+        } else {
             $error = "cart not created";
             return $error;
         }
     }
 
-    public static function displayCards(){
+    public static function displayCarts()
+    {
         $cart = new Cart();
         $res = $cart->displayCarts();
-        if($res){
-            $pageTitle = "Cards";
+        if ($res) {
+            $pageTitle = "Carts";
             require_once('src/template/Cart.php');
-        }else{
+        } else {
+            $error = "cart not created";
+            return $error;
+        }
+    }
+
+    public static function displayCartDetails()
+    {
+        $cart = new Cart();
+        $res = $cart->displayCartDetails();
+        if ($res) {
+            $pageTitle = "Carts";
+            require_once('src/template/CartDetails.php');
+        } else {
             $error = "cart not created";
             return $error;
         }
@@ -64,10 +80,10 @@ class CartController {
     {
         $cart = new Cart();
         $res = $cart->deleteCart();
-        if($res){
+        if ($res) {
             $result = "cart deleted";
             return $result;
-        }else{
+        } else {
             $error = "cart not deleted";
             return $error;
         }
@@ -77,10 +93,10 @@ class CartController {
     {
         $cart = new Cart();
         $res = $cart->updateCart();
-        if($res){
+        if ($res) {
             $result = "cart updated";
             return $result;
-        }else{
+        } else {
             $error = "cart not updated";
             return $error;
         }

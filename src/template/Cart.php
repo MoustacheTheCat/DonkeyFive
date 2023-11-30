@@ -1,73 +1,68 @@
 <?php ob_start(); ?>
 <?php
-$datas =$_SESSION['cart'];
-var_dump($datas); 
+$datas = $_SESSION['cart'];
+
 ?>
-<div class="container-fluid cont">
-    <section class="gradient-custom">
-        <div class="container py-5 ">
-            <div class="row d-flex justify-content-center align-items-center">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
-                        <div class="card-body p-5 text-center">
-                            <div class="mb-md-5 mt-md-4 pb-5">
-                                <h2 class="fw-bold mb-2 text-uppercase">Cards</h2>
-                                <p class="text-white-50 mb-5">...........</p>
-                                <?php if (!empty($error)) : ?>
-                                    <div class="alert alert-danger" role="alert">
-                                        <?= $error ?>
-                                    </div>
-                                <?php elseif(!empty($success)) : ?>
-                                    <div class="alert alert-success" role="alert">
-                                        <?= $success ?>
-                                    </div>
-                                <?php endif; ?>
-                                <div class="container mt-5">
-                                    <table class="table table-responsive table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Field Name</th>
-                                                <th scope="col">Date Start</th>
-                                                <th scope="col">Date End</th>
-                                                <th scope="col">Hour Start</th>
-                                                <th scope="col">Hour End</th>
-                                                <th scope="col">Number Hour</th>
-                                                <th scope="col">Number Option</th>
-                                                <th scope="col">Cost HT</th>
-                                                <th scope="col">Cost TTC</th>
-                                                <th scope="col">Detail</th>
-                                                <th scope="col">Edit</th>
-                                                <th scope="col">Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($datas as $key => $data): ?>
-                                                <tr>
-                                                    <td><?= $datas[$key]['field']['fieldName'] ?></td>
-                                                    <td><?= $datas[$key]['time']['dateStart'] ?></td>
-                                                    <td><?= $datas[$key]['time']['dateEnd'] ?></td>
-                                                    <td><?= $datas[$key]['time']['hourStart'] ?></td>
-                                                    <td><?= $datas[$key]['time']['hourEnd'] ?></td>
-                                                    <td><?= $datas[$key]['time']['nbHour'] ?></td>
-                                                    <td><?= $datas[$key]['nbOp'] ?></td>
-                                                    <td><?= $datas[$key]['totalHTField'] ?></td>
-                                                    <td><?= $datas[$key]['totalTTCField'] ?></td>
-                                                    <td><button class="btn btn-primary">Detail</button></td>
-                                                    <td><button class="btn btn-primary">Edit</button></td>
-                                                    <td><button class="btn btn-danger">Delete</button></td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+<div class="container mt-5 mb-5 pb-5 pt-5 bg-dark text-light text-center">
+    <h2 class="fw-bold mb-2 text-uppercase">Mon Panier</h2>
+    <p class="text-white-50 mb-5">...........</p>
+
+    <?php if (!empty($error)) : ?>
+        <div class="alert alert-danger" role="alert">
+            <?= $error ?>
         </div>
-    </section>
+    <?php elseif (!empty($success)) : ?>
+        <div class="alert alert-success" role="alert">
+            <?= $success ?>
+        </div>
+    <?php endif; ?>
+
+
+
+    <div class="container mt-5 bg-dark">
+        <table class="table table-responsive table-hover table-striped" style="border-radius: 10px;">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nom du terrain</th>
+                    <th scope="col">Date de debut et de fin </th>
+                    <th scope="col">Heure de debut et de fin</th>
+                    <th scope="col">Nombre d'heures</th>
+                    <th scope="col">Nombre d'option</th>
+                    <th scope="col">Coût des options TTC</th>
+                    <th scope="col">Coût du terrain TTC</th>
+                    <th scope="col">Détails</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($datas as $key => $data) : ?>
+                    <tr>
+                        <td><?= $datas[$key]['field']['fieldName'] ?></td>
+                        <td><?= $datas[$key]['time']['dateStart'] ?> <br> <?= $datas[$key]['time']['dateEnd'] ?></td>
+
+                        <td><?= $datas[$key]['time']['hourStart'] ?> <br> <?= $datas[$key]['time']['hourEnd'] ?></td>
+
+                        <td><?= $datas[$key]['time']['nbHour'] ?></td>
+                        <td><?= $datas[$key]['nbOp'] ?></td>
+                        <td><?= $datas[$key]['options']['totalCostTTC'] ?></td>
+                        <td><?= $datas[$key]['field']['totalTTCField'] ?></td>
+                        <td><a href="/cart/details" class="btn btn-secondary">Détails</a></td>
+                        <td><button class="btn btn-secondary">Edit</button></td>
+                        <td><button class="btn btn-danger">Delete</button></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <h4>Prix total TTC : <?= $datas[$key]['totalTTC'] ?> €</h4>
+            <button class="btn btn-primary">Passer la commande</button>
+        </div>
+    </div>
 </div>
+
 <?php $content = ob_get_clean();
 require_once 'src/template/Layout.php';
 ?>
