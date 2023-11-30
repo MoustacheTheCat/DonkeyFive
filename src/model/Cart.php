@@ -67,7 +67,10 @@ class Cart {
         return false;
     }
 
-    public function addItemInCart ($itemId, $items){
+    public function addItemInCart (){
+        var_dump($_POST);
+        var_dump($_GET);
+        die();
         if(!isset($_SESSION['cart'])){
             $_SESSION['cart'] = array();
         }

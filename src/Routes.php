@@ -13,6 +13,7 @@ require_once('src/controller/FilterController.php');
 require_once('src/controller/CenterFieldsController.php');
 require_once('src/controller/MessageController.php');
 require_once('src/controller/FieldsOptionsController.php');
+require_once('src/controller/CartController.php');
 
 
 
@@ -25,6 +26,7 @@ use Application\Controller\FilterController;
 use Application\Controller\CenterFieldsController;
 use Application\Controller\MessageController;
 use Application\Controller\FieldsOptionsController;
+use Application\Controller\CartController;
 
 
 
@@ -40,6 +42,9 @@ class Routes
         '/contact/submit' => ['controller' => 'MessageController', 'method' => 'addCheck', 'static' => true],
 
         '/field' => ['controller' => 'FieldsOptionsController', 'method' => 'show', 'static' => true],
+
+        '/field/rent' => ['controller' => 'FieldsOptionsController', 'method' => 'showForrent', 'static' => true],
+        '/field/rent/check' => ['controller' => 'CartController', 'method' => 'addCheck', 'static' => true],
 
         '/center/field' => ['controller' => 'CenterFieldsController', 'method' => 'index', 'static' => true],
 

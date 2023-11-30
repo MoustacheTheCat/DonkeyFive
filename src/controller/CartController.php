@@ -26,7 +26,7 @@ class CartController {
     public static function addCheck()
     {
         $cart = new Cart();
-        $res = $cart->addCart();
+        $res = $cart->addItemInCart();
         if($res){
             $result = "cart created";
             return $result;

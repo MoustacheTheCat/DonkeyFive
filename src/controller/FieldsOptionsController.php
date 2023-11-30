@@ -19,10 +19,17 @@ class FieldsOptionsController {
         public static function show()
         {
             $fieldsOptions = new FieldsOptions();
-            
             $fieldsOptions = $fieldsOptions->getFieldsOptionsByFieldId();
             $pageTitle = "Field";
             require_once('src/template/ViewField.php');
+        }
+
+        public static function showForrent()
+        {
+            $fieldsOptions = new FieldsOptions();
+            $fieldsOptions = $fieldsOptions->getFieldsOptionsByFieldId();
+            $pageTitle = "Field";
+            require_once('src/template/ViewForRent.php');
         }
 
         public function create()

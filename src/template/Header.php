@@ -47,6 +47,12 @@
                             </li>
                         <?php endif;?> 
                     <?php endif;?> 
+                    <?php if(empty($_SESSION)|| (!empty($_SESSION['user']['userRole']) && $_SESSION['user']['userRole'] != 1) || empty($_SESSION['user']['userRole'])):?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://donkeycar.com/pages/pagesBasket.php">Panier <i class="bi bi-cart"></i>
+                            </a>
+                        </li>
+                    <?php endif;?>   
                     <?php if(!empty($_SESSION['user']['userRole']) && ($_SESSION['user']['userRole'] == 1 ||$_SESSION['user']['userRole'] == 2)):?>
                         <li class="nav-item dropdown mr-5 pr-5">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">
