@@ -48,32 +48,39 @@ class FieldsOptions
         return $fieldsOptions;
     }
 
-    public function getFieldsOptionsByOptionId($optionId): array
-    {
-        $sql = "SELECT * FROM fields_options WHERE option_id = :option_id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':option_id', $optionId);
-        $stmt->execute();
-        $fieldsOptions = $stmt->fetch();
-        return $fieldsOptions;
-    }
+    // public function getFieldsOptionsByOptionId($optionId): array
+    // {
+    //     $sql = "SELECT * FROM fields_options WHERE optionId = :optionId";
+    //     $stmt = $this->pdo->prepare($sql);
+    //     $stmt->bindValue(':optionId', $optionId);
+    //     $stmt->execute();
+    //     $fieldsOptions = $stmt->fetch();
+    //     return $fieldsOptions;
+    // }
 
-    public function getFieldsOptionsByFieldId($fieldId): array
+    public function getFieldsOptionsByFieldId()
     {
-        $sql = "SELECT * FROM fields_options WHERE field_id = :field_id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':field_id', $fieldId);
-        $stmt->execute();
-        $fieldsOptions = $stmt->fetch();
-        return $fieldsOptions;
+        if(!empty($_GET['id'])){
+            $id = $_GET['id'];
+            $sql = "SELECT f.*, o.* FROM fieldsOptions fo JOIN fields f ON fo.fieldId = f.fieldId JOIN options o ON fo.optionId = o.optionId  WHERE f.fieldId = :fieldId";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':fieldId', $id);
+            $stmt->execute();
+            $fieldsOptions = $stmt->fetchAll();
+            return $fieldsOptions;
+        }
+        else{
+            $error = "Aucun champs n'a été trouvé";
+            return  $error;
+        }
     }
 
     public function addFieldsOptions($optionId, $fieldId)
     {
-        $sql = "INSERT INTO `fieldsOptions` (`option_id`, `field_id`) VALUES (:option_id, :field_id)";
+        $sql = "INSERT INTO `fieldsOptions` (`optionId`, `fieldId`) VALUES (:optionId, :fieldId)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':option_id', $optionId);
-        $stmt->bindValue(':field_id', $fieldId);
+        $stmt->bindValue(':optionId', $optionId);
+        $stmt->bindValue(':fieldId', $fieldId);
         $stmt->execute();
     }
 

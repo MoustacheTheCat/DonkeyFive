@@ -12,6 +12,7 @@ require_once('src/controller/FieldController.php');
 require_once('src/controller/FilterController.php');
 require_once('src/controller/CenterFieldsController.php');
 require_once('src/controller/MessageController.php');
+require_once('src/controller/FieldsOptionsController.php');
 
 
 
@@ -23,6 +24,7 @@ use Application\Controller\FieldController;
 use Application\Controller\FilterController;
 use Application\Controller\CenterFieldsController;
 use Application\Controller\MessageController;
+use Application\Controller\FieldsOptionsController;
 
 
 
@@ -37,7 +39,7 @@ class Routes
         '/contact' => ['controller' => 'MessageController', 'method' => 'contact', 'static' => true],
         '/contact/submit' => ['controller' => 'MessageController', 'method' => 'addCheck', 'static' => true],
 
-        '/field' => ['controller' => 'FieldController', 'method' => 'index', 'static' => true],
+        '/field' => ['controller' => 'FieldsOptionsController', 'method' => 'show', 'static' => true],
 
         '/center/field' => ['controller' => 'CenterFieldsController', 'method' => 'index', 'static' => true],
 
@@ -72,12 +74,12 @@ class Routes
         $controllerName = 'Application\Controller\\' .$route['controller'];
         $methodName = $route['method'];
         $isStatic = $route['static'] ?? false; 
-        // var_dump($route);
-        // var_dump($controllerName);
-        // var_dump($methodName);
-        // var_dump($isStatic);
+        var_dump($route);
+        var_dump($controllerName);
+        var_dump($methodName);
+        var_dump($isStatic);
         if ($isStatic) {
-            // var_dump(is_callable([$controllerName, $methodName]));
+            var_dump(is_callable([$controllerName, $methodName]));
             // die();
             if (is_callable([$controllerName, $methodName])) {
                 if ($method == 'POST') {

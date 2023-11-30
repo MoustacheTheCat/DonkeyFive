@@ -55,6 +55,7 @@
                                     <th>Field Name</th>
                                     <th>fieldTarifHourHT</th>
                                     <th>fieldTarifDayHT</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,6 +64,8 @@
                                         <td><?= $field['fieldName']?></td>
                                         <td><?= $field['fieldTarifHourHT']?></td>
                                         <td><?= $field['fieldTarifDayHT'] ?></td>
+                                        <td><a href="/field?id=<?=$field['fieldId']?>">More</a></td>
+                                        <td><a href="">Rent field</a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
