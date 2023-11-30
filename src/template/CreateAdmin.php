@@ -15,6 +15,10 @@
                                     <div class="alert alert-danger" role="alert">
                                         <?= $error ?>
                                     </div>
+                                <?php elseif(!empty($success)) : ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <?= $success ?>
+                                    </div>
                                 <?php endif; ?>
                                 <form action="/admin/add" method="POST" enctype="multipart/form-data">
                                     <div class="form-outline form-white mb-4">

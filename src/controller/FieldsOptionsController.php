@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Controller\FieldsOptionsController;
+namespace Application\Controller;
 
 require_once('src/model/FieldsOptions.php');
 
@@ -16,12 +16,13 @@ class FieldsOptionsController {
             require_once('src/template/FieldsOptions.php');
         }
 
-        public function show($optionId)
+        public static function show()
         {
             $fieldsOptions = new FieldsOptions();
-            $fieldsOptions = $fieldsOptions->getFieldsOptionsByOptionId($optionId);
-            $pageTitle = "FieldsOptions";
-            require_once('src/template/FieldsOptions.php');
+            
+            $fieldsOptions = $fieldsOptions->getFieldsOptionsByFieldId();
+            $pageTitle = "Field";
+            require_once('src/template/ViewField.php');
         }
 
         public function create()

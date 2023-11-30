@@ -129,6 +129,16 @@ class Field
         return $this->field;
     }
 
+    public function getFieldsByCenterId($centerId): array
+    {
+        $sql = "SELECT * FROM `fields` WHERE `centerId` = :centerId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':centerId', $centerId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $fields = $stmt->fetchAll();
+        return $fields;
+    }
+
     public function createField($fieldName, $fieldTarifHourHT, $fieldTarifDayHT, $fieldPicture, $centerId)
     {
         $sql = "INSERT INTO `fields` (`fieldName`, `fieldTarifHourHT`, `fieldTarifDayHT`, `fieldPicture`, `centerId`) VALUES (:fieldName, :fieldTarifHourHT, :fieldTarifDayHT, :fieldPicture, :centerId)";
