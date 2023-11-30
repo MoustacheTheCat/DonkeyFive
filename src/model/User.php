@@ -184,15 +184,15 @@ class User {
         $query->execute();
         $this->users = $query->fetchAll();
         return $this->users;
-    }  
+    }
 
     public function getOneUser($id)
     {
         $query = $this->pdo->prepare('SELECT * FROM users WHERE userId = :userId');
-        $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
+        $query->bindValue(':userId', $id, \PDO::PARAM_INT);
         $query->execute();
         $data = $query->fetch();
-        
+
         return $data;
         // $this->users = $query->fetch();
         // return $this->users;
@@ -253,7 +253,7 @@ class User {
         }
     }
 
-    
+
     public function addUser()
     {
         $errorArray = [];
@@ -304,18 +304,18 @@ class User {
                 }else {
                     $password = password_hash($_POST['userPassword'],PASSWORD_ARGON2I);
                     $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userAddress, userZip, userCity, userCountry, userBirthDay, userPicture, userRole) VALUES (:userFirstName, :userLastName, :userEmail, :userPassword, :userNumber, :userAddress, :userZip, :userCity, :userCountry, :userBirthdate, :userpicture, :userRole)');
-                    $query->bindValue(':userFirstName',$_POST['userFirstName']); 
-                    $query->bindValue(':userLastName',  $_POST['userLastName']); 
-                    $query->bindValue(':userEmail', $_POST['userEmail']); 
-                    $query->bindValue(':userPassword',$password); 
-                    $query->bindValue(':userNumber', $_POST['userNumber']); 
-                    $query->bindValue(':userAddress',  $_POST['userAddress']); 
-                    $query->bindValue(':userZip', $_POST['userZip']); 
-                    $query->bindValue(':userCity',  $_POST['userCity']); 
-                    $query->bindValue(':userCountry', $_POST['userCountry']); 
-                    $query->bindValue(':userBirthdate',  $_POST['userBirthdate']); 
-                    $query->bindValue(':userpicture', $userpicture); 
-                    $query->bindValue(':userRole', 2); 
+                    $query->bindValue(':userFirstName',$_POST['userFirstName']);
+                    $query->bindValue(':userLastName',  $_POST['userLastName']);
+                    $query->bindValue(':userEmail', $_POST['userEmail']);
+                    $query->bindValue(':userPassword',$password);
+                    $query->bindValue(':userNumber', $_POST['userNumber']);
+                    $query->bindValue(':userAddress',  $_POST['userAddress']);
+                    $query->bindValue(':userZip', $_POST['userZip']);
+                    $query->bindValue(':userCity',  $_POST['userCity']);
+                    $query->bindValue(':userCountry', $_POST['userCountry']);
+                    $query->bindValue(':userBirthdate',  $_POST['userBirthdate']);
+                    $query->bindValue(':userpicture', $userpicture);
+                    $query->bindValue(':userRole', 2);
                     if($query->execute()){
                         return true;
                     }else{
@@ -351,7 +351,7 @@ class User {
                 if(!empty($_POST['userLastName'])){
                     if ($_POST['userLastName'] != $user['userLastName']){
                         $userLastName = $_POST['userLastName'];
-                    } 
+                    }
                     else {
                         $userLastName = $user['userLastName'];
                     }
@@ -359,7 +359,7 @@ class User {
                 if(!empty($_POST['userEmail'])){
                     if ($_POST['userEmail'] != $user['userEmail']){
                         $userEmail = $_POST['userEmail'];
-                    } 
+                    }
                     else {
                         $userEmail = $user['userEmail'];
                     }
@@ -367,7 +367,7 @@ class User {
                 if(!empty($_POST['userNumber'])){
                     if ($_POST['userNumber'] != $user['userNumber']){
                         $userNumber = $_POST['userNumber'];
-                    } 
+                    }
                     else {
                         $userNumber = $user['userNumber'];
                     }
@@ -375,7 +375,7 @@ class User {
                 if(!empty($_POST['userAddress'])){
                     if ($_POST['userAddress'] != $user['userAddress']){
                         $userAddress = $_POST['userAddress'];
-                    } 
+                    }
                     else {
                         $userAddress = $user['userAddress'];
                     }
@@ -383,7 +383,7 @@ class User {
                 if(!empty($_POST['userZip'])){
                     if ($_POST['userZip'] != $user['userZip']){
                         $userZip = $_POST['userZip'];
-                    } 
+                    }
                     else {
                         $userZip = $user['userZip'];
                     }
@@ -391,7 +391,7 @@ class User {
                 if(!empty($_POST['userCity'])){
                     if ($_POST['userCity'] != $user['userCity']){
                         $userCity = $_POST['userCity'];
-                    } 
+                    }
                     else {
                         $userCity = $user['userCity'];
                     }
@@ -399,7 +399,7 @@ class User {
                 if(!empty($_POST['userCountry'])){
                     if ($_POST['userCountry'] != $user['userCountry']){
                         $userCountry = $_POST['userCountry'];
-                    } 
+                    }
                     else {
                         $userCountry = $user['userCountry'];
                     }
@@ -407,7 +407,7 @@ class User {
                 if(!empty($_POST['userBirthdate'])){
                     if ($_POST['userBirthdate'] != $user['userBirthdate']){
                         $userBirthdate = $_POST['userBirthdate'];
-                    } 
+                    }
                     else {
                         $userBirthdate = $user['userBirthdate'];
                     }
@@ -415,23 +415,23 @@ class User {
                 if(!empty($_POST['userpicture'])){
                     if ($_POST['userpicture'] != $user['userpicture']){
                         $userPicture = $this->updatePictureUser();
-                    } 
+                    }
                     else {
                         $userPicture = $user['userpicture'];
                     }
                 }
                 $query = $this->pdo->prepare('UPDATE users SET userFirstName = :userFirstName, userLastName = :userLastName, userEmail = :userEmail, userNumber = :userNumber, userAddress = :userAddress, userZip = :userZip, userCity = :userCity, userCountry = :userCountry, userBirthdate = :userBirthdate, userpicture = :userpicture WHERE userId = :userId');
-                $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
-                $query->bindValue(':userFirstName',$userFirstName); 
-                $query->bindValue(':userLastName',  $userLastName); 
-                $query->bindValue(':userEmail', $userEmail); 
-                $query->bindValue(':userNumber', $userNumber); 
-                $query->bindValue(':userAddress',  $userAddress); 
-                $query->bindValue(':userZip', $userZip); 
-                $query->bindValue(':userCity',  $userCity); 
-                $query->bindValue(':userCountry', $userCountry); 
-                $query->bindValue(':userBirthdate',  $userBirthdate); 
-                $query->bindValue(':userpicture', $userpicture); 
+                $query->bindValue(':userId', $id, \PDO::PARAM_INT);
+                $query->bindValue(':userFirstName',$userFirstName);
+                $query->bindValue(':userLastName',  $userLastName);
+                $query->bindValue(':userEmail', $userEmail);
+                $query->bindValue(':userNumber', $userNumber);
+                $query->bindValue(':userAddress',  $userAddress);
+                $query->bindValue(':userZip', $userZip);
+                $query->bindValue(':userCity',  $userCity);
+                $query->bindValue(':userCountry', $userCountry);
+                $query->bindValue(':userBirthdate',  $userBirthdate);
+                $query->bindValue(':userpicture', $userpicture);
                 if($query->execute()){
                     $result  = "user Updated";
                     return $result;
@@ -442,7 +442,7 @@ class User {
             }
         }
     }
-    // 
+    //
     public function delete($id)
     {
         if(empty($id)){
@@ -453,7 +453,7 @@ class User {
             $password = $_POST['userPassword'];
             if(!isset($user) && password_verify($userPassword, $user['userPassword'])){
                 $query = $this->pdo->prepare('DELETE FROM users WHERE userId = :userId');
-                $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
+                $query->bindValue(':userId', $id, \PDO::PARAM_INT);
                 if($query->execute()){
                     $result  = "user Deleted";
                     return $result;
@@ -465,7 +465,7 @@ class User {
                 $error = "user not found";
                 return $error;
             }
-            
+
         }
     }
 
@@ -474,12 +474,11 @@ class User {
         $userEmail = $_POST['email'];
         $userPassword = $_POST['password'];
         $query = $this->pdo->prepare('SELECT * FROM users WHERE userEmail = :userEmail');
-        $query->bindValue(':userEmail', $userEmail); 
+        $query->bindValue(':userEmail', $userEmail);
         $query->execute();
         $user = $query->fetch();
         if($user != false){
             if (password_verify($userPassword, $user['userPassword'])) {
-                session_start();
                 $_SESSION['user']['userId'] = $user['userId'];
                 $_SESSION['user']['userEmail'] = $user['userEmail'];
                 $_SESSION['user']['userRole'] = $user['userRole'];
@@ -512,13 +511,13 @@ class User {
             if($newUserPassword === $newUserPasswordConfirm){
                 $password = password_hash($newUserPassword,PASSWORD_ARGON2I);
                 $query = $this->pdo->prepare('UPDATE users SET userPassword = :userPassword WHERE userId = :id');
-                $query->bindValue(':id', $userId, \PDO::PARAM_INT); 
-                $query->bindValue(':userPassword',$password); 
+                $query->bindValue(':id', $userId, \PDO::PARAM_INT);
+                $query->bindValue(':userPassword',$password);
                 if($query->execute()){
                     $result = "Password updated";
                     return true;
                 }else{
-                    
+
                     return false;
                 }
             }
@@ -528,7 +527,7 @@ class User {
     public function sendMailResetPassword(){
         $userEmail = $_POST['email'];
         $query = $this->pdo->prepare('SELECT * FROM users WHERE userEmail = :userEmail');
-        $query->bindValue(':userEmail', $userEmail); 
+        $query->bindValue(':userEmail', $userEmail);
         $query->execute();
         $user = $query->fetch();
         if($user != false){
@@ -555,7 +554,7 @@ class User {
         $userEmail = $_POST['email'];
         $newUserPassword = $_POST['newPassword'];
         $newUserPasswordConfirm = $_POST['newPasswordConfirm'];
-        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE userEmail = :userEmail');    
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE userEmail = :userEmail');
         $stmt->bindValue(':userEmail', $userEmail);
         $stmt->execute();
         $user = $stmt->fetch();
@@ -563,8 +562,8 @@ class User {
             if($newUserPassword === $newUserPasswordConfirm){
                 $password = password_hash($newUserPassword,PASSWORD_ARGON2I);
                 $query = $this->pdo->prepare('UPDATE users SET userPassword = :userPassword WHERE userId = :id');
-                $query->bindValue(':id',$user['userId'], \PDO::PARAM_INT); 
-                $query->bindValue(':userPassword',$password); 
+                $query->bindValue(':id',$user['userId'], \PDO::PARAM_INT);
+                $query->bindValue(':userPassword',$password);
                 if($query->execute()){
                     $result = "Password updated";
                     return $result;
@@ -576,6 +575,6 @@ class User {
         }else {
             $error = "Email is incorrect";
             return $error;
-        } 
+        }
     }
 }

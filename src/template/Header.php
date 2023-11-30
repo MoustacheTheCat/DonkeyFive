@@ -68,7 +68,7 @@
                     <?php endif; ?>
                     <?php if (empty($_SESSION) || (!empty($_SESSION['user']['userRole']) && $_SESSION['user']['userRole'] != 1) || empty($_SESSION['user']['userRole'])) : ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="http://donkeycar.com/pages/pagesBasket.php">Panier <i class="bi bi-cart"></i>
+                            <a class="nav-link" href="/cards">Panier <i class="bi bi-cart"></i>
                             </a>
                         </li>
                     <?php endif; ?>
