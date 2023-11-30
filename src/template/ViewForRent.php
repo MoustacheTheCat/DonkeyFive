@@ -13,8 +13,8 @@
                     <div class="card" style="width: 100%;">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $fieldsOption['optionName']; ?></h5>
-                            <!-- <img src="<?php echo $fieldsOption['imageURL']; ?>" class="card-img-top" alt="Image Placeholder">
-                            <p class="card-text"><?php echo $fieldsOption['description']; ?></p> -->
+                            <img src="<?php echo $fieldsOption['imageURL']; ?>" class="card-img-top" alt="Image Placeholder">
+                            <p class="card-text"><?php echo $fieldsOption['description']; ?></p>
                             <div class="form-check">
                                 <input type="checkbox" value="<?= $fieldsOption['optionId']; ?>"name="ck_<?= $fieldsOption['optionId']; ?>"class="form-check-input" id="exampleCheck<?php echo $fieldsOption['optionId']; ?>">
                                 <label class="form-check-label" for="ck_<?= $fieldsOption['optionId']; ?>">Selectionner l'option</label>
