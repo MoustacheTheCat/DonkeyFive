@@ -577,4 +577,5 @@ class User {
             return $error;
         } 
     }
+    
 }
