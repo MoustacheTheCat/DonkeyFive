@@ -85,7 +85,7 @@ class Routes
         $route = $this->routes[$uri];
         $controllerName = 'Application\Controller\\' .$route['controller'];
         $methodName = $route['method'];
-        $isStatic = $route['static'] ?? false;
+        $isStatic = $route['static'] ?? false; 
         var_dump($route);
         var_dump($controllerName);
         var_dump($methodName);
@@ -95,7 +95,7 @@ class Routes
             // die();
             if (is_callable([$controllerName, $methodName])) {
                 if ($method == 'POST') {
-
+                    
                     if($uri == '/filter'){
                         if (isset($_POST['filterForRentalOrCountry'])) {
                             $datas = $_POST;
@@ -108,7 +108,26 @@ class Routes
                     }else{
                         call_user_func([$controllerName, $methodName]);
                     }
-                } else {
+                } elseif ($method == 'GET') {
+                    if($uri == '/center/field'){
+                        call_user_func([$controllerName, $methodName],1);
+                    }
+                    elseif($uri == '/forgot/reset' && !empty($_GET['id'])){
+                        $id = $_GET['id'];
+                        call_user_func([$controllerName, $methodName], $id);
+                    }
+                    elseif($uri == '/user/edit' && !empty($_GET['id'])){
+                        $id = $_GET['id'];
+                        call_user_func([$controllerName, $methodName], $id);
+                    }
+                    elseif($uri == '/admin/edit' && !empty($_GET['id'])){
+                        $id = $_GET['id'];
+                        call_user_func([$controllerName, $methodName], $id);
+                    }
+                    else {
+                        call_user_func([$controllerName, $methodName]);
+                    }
+                }else {
                     $errorMessage = "404 Not Found - Static method not found";
                     require_once('src/template/Error.php');
                 }
@@ -131,27 +150,13 @@ class Routes
                     $controller->$methodName();
                 }
             } else {
-                if (class_exists($controllerName) && is_callable($controllerName, $methodName)) {
-                    if ($method == 'POST' && $uri == '/filter') {
-                        if (isset($_POST['filterForRentalOrCountry'])) {
-                            $datas = $_POST;
-                            $fields = $controller->$methodName($datas);
-                        }
-                    } elseif ($method == 'POST' && $uri == '/user/add/check') {
-                        $data = new $controllerName();
-                        $data->$methodName();
-                    } elseif ($method == 'GET') {
-                        $controller->$methodName();
-                    }
-                } else {
-                    $errorMessage = "404 Not Found - Controller or Method not found";
-                    require_once('src/template/Error.php');
-                }
+                $errorMessage = "404 Not Found - Controller or Method not found";
+                require_once('src/template/Error.php');
             }
-        } else {
-            $errorMessage = "404 Not Found - Route not found";
-            require_once('src/template/Error.php');
         }
+    } else {
+        $errorMessage = "404 Not Found - Route not found";
+        require_once('src/template/Error.php');
     }
 }
 }

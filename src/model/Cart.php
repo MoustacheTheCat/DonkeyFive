@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Application\Model;
 require_once('src/lib/DatabaseConnection.php');
@@ -144,7 +144,7 @@ class Cart {
         $monthE = substr($dateE,0,2);
         $dayS = substr($dateS,2,2);
         $dayE = substr($dateE,2,2);
-
+        
         if($dayE == $dayS && $monthS == $monthE) {
             $nbDay = 1;
         }
@@ -186,14 +186,14 @@ class Cart {
                 elseif($_SESSION['cart'][$idField]['time']['nbDay'] > 1 ){
                     $totalHT = $dataField['fieldTarifDayHT'] * $_SESSION['cart'][$idField]['time']['nbDay'];
                 }
-                $totalTTC = $totalHT *  1.2;
-                $_SESSION['cart'][$idField]['field']['totalHTField'] = $totalHT;
-                $_SESSION['cart'][$idField]['field']['totalTTCField'] = $totalTTC;
-                $_SESSION['cart'][$idField]['totalHT'] = $totalHT +  $_SESSION['cart'][$idField]['options']['totalCostHT'];
-                $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];
+                $totalTTC = $totalHT *  1.2;  
+                $_SESSION['cart'][$idField]['field']['totalHTField'] = $totalHT; 
+                $_SESSION['cart'][$idField]['field']['totalTTCField'] = $totalTTC; 
+                $_SESSION['cart'][$idField]['totalHT'] = $totalHT +  $_SESSION['cart'][$idField]['options']['totalCostHT']; 
+                $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];      
             }
             return true;
-
+            
         }
         return false;
     }
