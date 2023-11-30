@@ -1,7 +1,9 @@
 <?php
 
 namespace Application;
+
 session_start();
+print_r($_SESSION);
 require_once('src/config/Config.php');
 require_once('src/lib/DatabaseConnection.php');
 require_once('src/controller/HomeController.php');
@@ -45,6 +47,7 @@ class Routes
 
         '/field/rent' => ['controller' => 'FieldsOptionsController', 'method' => 'showForrent', 'static' => true],
         '/field/rent/check' => ['controller' => 'CartController', 'method' => 'addCheck', 'static' => true],
+        '/field/time/check' => ['controller' => 'CartController', 'method' => 'timeCheck', 'static' => true],
 
         '/center/field' => ['controller' => 'CenterFieldsController', 'method' => 'index', 'static' => true],
 
@@ -57,16 +60,20 @@ class Routes
         '/forgot/reset' => ['controller' => 'UserController', 'method' => 'forgotPasswordReset', 'static' => true],
         '/forgot/reset/submit' => ['controller' => 'UserController', 'method' => 'forgotPasswordCheck', 'static' => true],
 
-        
+
         '/user/add' => ['controller' => 'UserController', 'method' => 'add', 'static' => true],
         '/user/add/check' => ['controller' => 'UserController', 'method' => 'addCheck', 'static' => false],
         '/user/edit' => ['controller' => 'UserController', 'method' => 'edit', 'static' => true],
         '/user/edit/password' => ['controller' => 'UserController', 'method' => 'resetPasswordCheck', 'static' => true],
 
 
-        '/admin/add'=> ['controller' => 'AdminController', 'method' => 'add', 'static' => true],
-        '/admin/edit'=> ['controller' => 'AdminController', 'method' => 'edit', 'static' => true],
-        '/admin/profil' => ['controller' => 'AdminController', 'method' => 'profil', 'static' => true]
+        '/admin/add' => ['controller' => 'AdminController', 'method' => 'add', 'static' => true],
+        '/admin/edit' => ['controller' => 'AdminController', 'method' => 'edit', 'static' => true],
+        '/admin/profil' => ['controller' => 'AdminController', 'method' => 'profil', 'static' => true],
+
+        '/option' => ['controller' => 'OptionController', 'method' => 'index', 'static' => true],
+
+        '/cards' => ['controller' => 'CartController', 'method' => 'displayCards', 'static' => true],
 
     ];
 

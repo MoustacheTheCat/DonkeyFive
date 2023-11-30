@@ -479,7 +479,6 @@ class User {
         $user = $query->fetch();
         if($user != false){
             if (password_verify($userPassword, $user['userPassword'])) {
-                session_start();
                 $_SESSION['user']['userId'] = $user['userId'];
                 $_SESSION['user']['userEmail'] = $user['userEmail'];
                 $_SESSION['user']['userRole'] = $user['userRole'];
