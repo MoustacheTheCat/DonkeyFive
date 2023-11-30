@@ -18,6 +18,7 @@ class FilterController
     $pageTitle = "Donkey Car";
     $citys = CenterController::index();
     $fields = $filter->filterForRental($datas);
+    
     require_once('src/template/Home.php');
   }
 }
