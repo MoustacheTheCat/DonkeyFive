@@ -1,5 +1,3 @@
-
-
 <?php ob_start(); ?>
 <div class="container-fluid cont">
     <section class="gradient-custom">
@@ -9,18 +7,14 @@
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
                             <div class="mb-md-5 mt-md-4 pb-5">
-                                <h2 class="fw-bold mb-2 text-uppercase">Sign Up</h2>
-                                <p class="text-white-50 mb-5">Please enter your details to create an account!</p>
+                                <h2 class="fw-bold mb-2 text-uppercase">Contact Us</h2>
+                                <p class="text-white-50 mb-5">If you would like information, please do not hesitate to write to us</p>
                                 <?php if (!empty($error)) : ?>
                                     <div class="alert alert-danger" role="alert">
                                         <?= $error ?>
                                     </div>
-                                <?php elseif(!empty($success)) : ?>
-                                    <div class="alert alert-success" role="alert">
-                                        <?= $success ?>
-                                    </div>
                                 <?php endif; ?>
-                                <form action="/admin/add" method="POST" enctype="multipart/form-data">
+                                <form action="/contact/send" method="POST" enctype="multipart/form-data">
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="adminFirstName">First Name</label>
                                         <input type="text" id="adminFirstName" name="adminFirstName" class="form-control form-control-lg" placeholder="Enter your first name" required>
@@ -34,26 +28,26 @@
                                         <input type="email" id="adminEmail" name="adminEmail" class="form-control form-control-lg" placeholder="Enter your email" required>
                                     </div>
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="adminNumber">Phone Number</label>
-                                        <input type="tel" id="adminNumber" name="adminNumber" class="form-control form-control-lg" placeholder="Enter your phone number" required>
+                                        <label class="form-label" for="subject">Subject</label>
+                                        <select class="form-control form-control-lg" aria-label="Floating label select example" name="subject">
+                                            <option value="">Subject</option>
+                                            <option value="Request information">Request information</option>
+                                            <option value="Follow-up of rental request">Follow-up of rental request</option>
+                                            <option value="Business Proposal">Business Proposale</option>
+                                            <option value="claim">claim</option>
+                                            <option value="Other">Other</option>
+                                        </select>
                                     </div>
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="adminPassword">Password</label>
-                                        <input type="password" id="adminPassword" name="adminPassword" class="form-control form-control-lg" placeholder="Enter your password" required>
+                                        <label class="form-label" for="message">Message</label>
+                                        <textarea id="message" name="message" class="form-control form-control-lg" rows="5" >Your message ...</textarea>
                                     </div>
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="adminPasswordConfirm">Password Confirm</label>
-                                        <input type="password" id="adminPasswordConfirm" name="adminPasswordConfirm" class="form-control form-control-lg" placeholder="Enter your password again" required>
+                                        <input type="checkbox" id="sendCopie" name="sendCopie">
+                                        <label class="form-check-label" for="sendCopie"> Check this box if you would like a copy of your message</label>
                                     </div>
-                                    <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="adminpicture">Profile Picture</label>
-                                        <input type="file" id="adminpicture" name="adminpicture" class="form-control form-control-lg">
-                                    </div>
-                                    <button class="btn btn-outline-light btn-lg px-5" type="submit" name="register">Register</button>
+                                    <button class="btn btn-outline-light btn-lg px-5" type="submit" name="register">Send your message</button>
                                 </form>
-                            </div>
-                            <div>
-                                <p class="mb-0">Already have an account? <a href="/login" class="text-white-50 fw-bold">Login</a></p>
                             </div>
                         </div>
                     </div>
@@ -62,6 +56,7 @@
         </div>
     </section>
 </div>
-<?php $content = ob_get_clean(); ?>
-
-<?php require('src/template/Layout.php') ?>
+<?php 
+$content = ob_get_clean(); 
+require_once('src/template/Layout.php');
+?>

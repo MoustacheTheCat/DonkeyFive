@@ -16,7 +16,7 @@
                                         <?= $error ?>
                                     </div>
                                 <?php endif; ?>
-                                <form action="/user/add" method="POST" enctype="multipart/form-data">
+                                <form action="/user/add/check" method="POST" enctype="multipart/form-data">
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userFirstName">First Name</label>
                                         <input type="text" id="userFirstName" name="userFirstName" class="form-control form-control-lg" placeholder="Enter your first name" required>

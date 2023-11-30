@@ -15,9 +15,10 @@ class FilterController
   public static function index($datas)
   {
     $filter = new Filter();
-    $pageTitle = "Donkey Car";
+    $pageTitle = "Donkey Five";
     $citys = CenterController::index();
     $fields = $filter->filterForRental($datas);
+    
     require_once('src/template/Home.php');
   }
 }
