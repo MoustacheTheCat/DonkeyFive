@@ -95,7 +95,7 @@ class Cart
         $nbOp = count($arrayOptions);
         $costs = new Option();
         $totalCostHT = $costs->getDetailOption($arrayOptions);
-        $totalCostTTC = $totalCostHT['costs'] * 1.2;
+        $totalCostTTC = $totalCostHT['costs']['totalHT'] * 1.2;
         $_SESSION['cart'][$idField]['options'] = $arrayOptions;
         $_SESSION['cart'][$idField]['nbOp'] = $nbOp;
         $_SESSION['cart'][$idField]['options']['totalCostHT'] = $totalCostHT;
@@ -204,7 +204,6 @@ class Cart
                 $totalTTC = $totalHT *  1.2;
                 $_SESSION['cart'][$idField]['field']['totalHT'] = $totalHT;
                 $_SESSION['cart'][$idField]['field']['totalTTC'] = $totalTTC;
-                // $_SESSION['cart'][$idField]['totalHT'] = $totalHT +  $_SESSION['cart'][$idField]['options']['totalCostHT'];
                 $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];
             }
             return true;

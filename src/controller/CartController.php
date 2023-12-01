@@ -63,16 +63,8 @@ class CartController
 
     public static function displayCartDetails()
     {
-        // // $cart = new Cart();
-        // // $res = $cart->displayCartDetails();
-        // // if ($res) {
         $pageTitle = "Carts";
         require_once('src/template/CartDetails.php');
-        // } else {
-        //     $error = "cart not created";
-        //     return $error;
-        // }
-
     }
 
     public static function deleteCheck()

@@ -3,7 +3,6 @@
 namespace Application;
 
 session_start();
-print_r($_SESSION);
 require_once('src/config/Config.php');
 require_once('src/lib/DatabaseConnection.php');
 require_once('src/controller/HomeController.php');
@@ -16,6 +15,7 @@ require_once('src/controller/CenterFieldsController.php');
 require_once('src/controller/MessageController.php');
 require_once('src/controller/FieldsOptionsController.php');
 require_once('src/controller/CartController.php');
+require_once('src/controller/CardHomeController.php');
 
 
 
@@ -29,6 +29,7 @@ use Application\Controller\CenterFieldsController;
 use Application\Controller\MessageController;
 use Application\Controller\FieldsOptionsController;
 use Application\Controller\CartController;
+use Application\Controller\CardHomeController;
 
 
 
@@ -80,6 +81,8 @@ class Routes
 
         '/messages' => ['controller' => 'MessageController', 'method' => 'viewMessages', 'static' => true],
 
+        '/card/home' => ['controller' => 'CardHomeController', 'method' => 'viewCardHomeDetail', 'static' => true]
+
     ];
 
     public function run()
@@ -97,6 +100,7 @@ class Routes
             var_dump($isStatic);
             if ($isStatic) {
                 var_dump(is_callable([$controllerName, $methodName]));
+
                 // die();
                 if (is_callable([$controllerName, $methodName])) {
                     if ($method == 'POST') {
