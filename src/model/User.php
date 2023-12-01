@@ -18,7 +18,7 @@ class User {
         private $userZip = null,
         private $userCity = null,
         private $userCountry = null,
-        private $userBirthdate = null,
+        private $userBirthDay = null,
         private $userpicture = null,
         public $userRole = null,
         private $user = [],
@@ -79,9 +79,9 @@ class User {
         return $this->userCountry;
     }
 
-    public function getUserBirthdate(): string
+    public function getuserBirthDay(): string
     {
-        return $this->userBirthdate;
+        return $this->userBirthDay;
     }
 
     public function getUserpicture(): string
@@ -104,9 +104,9 @@ class User {
         $this->userpicture = $userpicture;
     }
 
-    public function setUserBirthdate(string $userBirthdate): void
+    public function setuserBirthDay(string $userBirthDay): void
     {
-        $this->userBirthdate = $userBirthdate;
+        $this->userBirthDay = $userBirthDay;
     }
 
     public function setUserCountry(string $userCountry): void
@@ -172,7 +172,7 @@ class User {
             'userZip' => $this->getUserZip(),
             'userCity' => $this->getUserCity(),
             'userCountry' => $this->getUserCountry(),
-            'userBirthdate' => $this->getUserBirthdate(),
+            'userBirthDay' => $this->getuserBirthDay(),
             'userpicture' => $this->getUserpicture(),
             'userRole' => $this->getUserRole(),
         ];
@@ -288,8 +288,8 @@ class User {
             if(empty($_POST['userCountry'])){
                 $errorArray['userCountry'] = "Please enter your country";
             }
-            if(empty($_POST['userBirthdate'])){
-                $errorArray['userBirthdate'] = "Please enter your birthdate";
+            if(empty($_POST['userBirthDay'])){
+                $errorArray['userBirthDay'] = "Please enter your birthdate";
             }
             if(empty($_POST['userpicture'])){
                 $userpicture = "default.png";
@@ -303,7 +303,7 @@ class User {
                     return $errorArray;
                 }else {
                     $password = password_hash($_POST['userPassword'],PASSWORD_ARGON2I);
-                    $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userAddress, userZip, userCity, userCountry, userBirthDay, userPicture, userRole) VALUES (:userFirstName, :userLastName, :userEmail, :userPassword, :userNumber, :userAddress, :userZip, :userCity, :userCountry, :userBirthdate, :userpicture, :userRole)');
+                    $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userAddress, userZip, userCity, userCountry, userBirthDay, userPicture, userRole) VALUES (:userFirstName, :userLastName, :userEmail, :userPassword, :userNumber, :userAddress, :userZip, :userCity, :userCountry, :userBirthDay, :userpicture, :userRole)');
                     $query->bindValue(':userFirstName',$_POST['userFirstName']); 
                     $query->bindValue(':userLastName',  $_POST['userLastName']); 
                     $query->bindValue(':userEmail', $_POST['userEmail']); 
@@ -313,7 +313,7 @@ class User {
                     $query->bindValue(':userZip', $_POST['userZip']); 
                     $query->bindValue(':userCity',  $_POST['userCity']); 
                     $query->bindValue(':userCountry', $_POST['userCountry']); 
-                    $query->bindValue(':userBirthdate',  $_POST['userBirthdate']); 
+                    $query->bindValue(':userBirthDay',  $_POST['userBirthDay']); 
                     $query->bindValue(':userpicture', $userpicture); 
                     $query->bindValue(':userRole', 2); 
                     if($query->execute()){
@@ -404,12 +404,12 @@ class User {
                         $userCountry = $user['userCountry'];
                     }
                 }
-                if(!empty($_POST['userBirthdate'])){
-                    if ($_POST['userBirthdate'] != $user['userBirthdate']){
-                        $userBirthdate = $_POST['userBirthdate'];
+                if(!empty($_POST['userBirthDay'])){
+                    if ($_POST['userBirthDay'] != $user['userBirthDay']){
+                        $userBirthDay = $_POST['userBirthDay'];
                     } 
                     else {
-                        $userBirthdate = $user['userBirthdate'];
+                        $userBirthDay = $user['userBirthDay'];
                     }
                 }
                 if(!empty($_POST['userpicture'])){
@@ -420,7 +420,7 @@ class User {
                         $userPicture = $user['userpicture'];
                     }
                 }
-                $query = $this->pdo->prepare('UPDATE users SET userFirstName = :userFirstName, userLastName = :userLastName, userEmail = :userEmail, userNumber = :userNumber, userAddress = :userAddress, userZip = :userZip, userCity = :userCity, userCountry = :userCountry, userBirthdate = :userBirthdate, userpicture = :userpicture WHERE userId = :userId');
+                $query = $this->pdo->prepare('UPDATE users SET userFirstName = :userFirstName, userLastName = :userLastName, userEmail = :userEmail, userNumber = :userNumber, userAddress = :userAddress, userZip = :userZip, userCity = :userCity, userCountry = :userCountry, userBirthDay = :userBirthDay, userpicture = :userpicture WHERE userId = :userId');
                 $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
                 $query->bindValue(':userFirstName',$userFirstName); 
                 $query->bindValue(':userLastName',  $userLastName); 
@@ -430,7 +430,7 @@ class User {
                 $query->bindValue(':userZip', $userZip); 
                 $query->bindValue(':userCity',  $userCity); 
                 $query->bindValue(':userCountry', $userCountry); 
-                $query->bindValue(':userBirthdate',  $userBirthdate); 
+                $query->bindValue(':userBirthDay',  $userBirthDay); 
                 $query->bindValue(':userpicture', $userpicture); 
                 if($query->execute()){
                     $result  = "user Updated";

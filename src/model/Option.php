@@ -98,7 +98,7 @@ class Option
         $pdoStatement = $this->pdo->prepare($sql);
         $pdoStatement->bindValue(':option_id', $optionId, \PDO::PARAM_INT);
         $pdoStatement->execute();
-        $this->option = $pdoStatement->fetch();
+        $this->option = $pdoStatement->fetchAll();
         return $this->option;
     }
 
@@ -118,16 +118,22 @@ class Option
         $pdoStatement->execute();
     }
 
-    function getCostOption($arrayid){
-        $sql = "SELECT optionCostHT FROM `options` WHERE `optionId` = :option_id";
+    function getDetailOption($arrayid)
+    {
+        $sql = "SELECT optionName, optionCostHT FROM `options` WHERE `optionId` = :option_id";
         $pdoStatement = $this->pdo->prepare($sql);
         $costs = 0;
-        foreach($arrayid as $id){
+        $options = [];
+        foreach ($arrayid as $id) {
             $pdoStatement->bindValue(':option_id', $id, \PDO::PARAM_INT);
             $pdoStatement->execute();
             $cost = $pdoStatement->fetch();
-            $costs += $cost[0];
+            $options[$id]['names'] = $cost[0];
+            $options[$id]['prices'] = $cost[1];
+            $costs += $cost[1];
         }
-        return $costs;
+        
+        $options['costs'] = $costs;
+        return $options;
     }
 }

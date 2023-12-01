@@ -16,6 +16,7 @@ require_once('src/controller/CenterFieldsController.php');
 require_once('src/controller/MessageController.php');
 require_once('src/controller/FieldsOptionsController.php');
 require_once('src/controller/CartController.php');
+require_once('src/controller/CardHomeController.php');
 
 
 
@@ -29,6 +30,7 @@ use Application\Controller\CenterFieldsController;
 use Application\Controller\MessageController;
 use Application\Controller\FieldsOptionsController;
 use Application\Controller\CartController;
+use Application\Controller\CardHomeController;
 
 
 
@@ -65,6 +67,7 @@ class Routes
         '/user/add/check' => ['controller' => 'UserController', 'method' => 'addCheck', 'static' => false],
         '/user/edit' => ['controller' => 'UserController', 'method' => 'edit', 'static' => true],
         '/user/edit/password' => ['controller' => 'UserController', 'method' => 'resetPasswordCheck', 'static' => true],
+        '/user/profil' => ['controller' => 'UserController', 'method' => 'profil', 'static' => true],
 
 
         '/admin/add' => ['controller' => 'AdminController', 'method' => 'add', 'static' => true],
@@ -73,92 +76,94 @@ class Routes
 
         '/option' => ['controller' => 'OptionController', 'method' => 'index', 'static' => true],
 
-        '/cards' => ['controller' => 'CartController', 'method' => 'displayCards', 'static' => true],
+        '/carts' => ['controller' => 'CartController', 'method' => 'displayCarts', 'static' => true],
+        '/cart/details' => ['controller' => 'CartController', 'method' => 'displayCartDetails', 'static' => true],
+        '/cart/delete' => ['controller' => 'CartController', 'method' => 'deleteCheck', 'static' => true], 
+        
+        '/messages' => ['controller' => 'MessageController', 'method' => 'viewMessages', 'static' => true],
+
+        '/card/home' => ['controller' => 'CardHomeController', 'method' => 'viewCardHomeDetail', 'static' => true]
 
     ];
 
     public function run()
-{
-    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $method = $_SERVER['REQUEST_METHOD'];
-    if (array_key_exists($uri, $this->routes)) {
-        $route = $this->routes[$uri];
-        $controllerName = 'Application\Controller\\' .$route['controller'];
-        $methodName = $route['method'];
-        $isStatic = $route['static'] ?? false; 
-        var_dump($route);
-        var_dump($controllerName);
-        var_dump($methodName);
-        var_dump($isStatic);
-        if ($isStatic) {
-            var_dump(is_callable([$controllerName, $methodName]));
-            // die();
-            if (is_callable([$controllerName, $methodName])) {
-                if ($method == 'POST') {
-                    
-                    if($uri == '/filter'){
-                        if (isset($_POST['filterForRentalOrCountry'])) {
-                            $datas = $_POST;
-                            call_user_func([$controllerName, $methodName], $datas);
+    {
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $method = $_SERVER['REQUEST_METHOD'];
+        if (array_key_exists($uri, $this->routes)) {
+            $route = $this->routes[$uri];
+            $controllerName = 'Application\Controller\\' . $route['controller'];
+            $methodName = $route['method'];
+            $isStatic = $route['static'] ?? false;
+            var_dump($route);
+            var_dump($controllerName);
+            var_dump($methodName);
+            var_dump($isStatic);
+            if ($isStatic) {
+                var_dump(is_callable([$controllerName, $methodName]));
+
+                // die();
+                if (is_callable([$controllerName, $methodName])) {
+                    if ($method == 'POST') {
+
+                        if ($uri == '/filter') {
+                            if (isset($_POST['filterForRentalOrCountry'])) {
+                                $datas = $_POST;
+                                call_user_func([$controllerName, $methodName], $datas);
+                            }
+                            if ($uri == '/user/edit/password') {
+                                $data = new $controllerName();
+                                $data->$methodName();
+                            }
+                        } else {
+                            call_user_func([$controllerName, $methodName]);
                         }
-                    if($uri == '/user/edit/password'){
-                        $data = new $controllerName();
-                        $data->$methodName();
+                    } elseif ($method == 'GET') {
+                        if ($uri == '/center/field') {
+                            call_user_func([$controllerName, $methodName], 1);
+                        } elseif ($uri == '/forgot/reset' && !empty($_GET['id'])) {
+                            $id = $_GET['id'];
+                            call_user_func([$controllerName, $methodName], $id);
+                        } elseif ($uri == '/user/edit' && !empty($_GET['id'])) {
+                            $id = $_GET['id'];
+                            call_user_func([$controllerName, $methodName], $id);
+                        } elseif ($uri == '/admin/edit' && !empty($_GET['id'])) {
+                            $id = $_GET['id'];
+                            call_user_func([$controllerName, $methodName], $id);
+                        } else {
+                            call_user_func([$controllerName, $methodName]);
+                        }
+                    } else {
+                        $errorMessage = "404 Not Found - Static method not found";
+                        require_once('src/template/Error.php');
                     }
-                    }else{
-                        call_user_func([$controllerName, $methodName]);
-                    }
-                } elseif ($method == 'GET') {
-                    if($uri == '/center/field'){
-                        call_user_func([$controllerName, $methodName],1);
-                    }
-                    elseif($uri == '/forgot/reset' && !empty($_GET['id'])){
-                        $id = $_GET['id'];
-                        call_user_func([$controllerName, $methodName], $id);
-                    }
-                    elseif($uri == '/user/edit' && !empty($_GET['id'])){
-                        $id = $_GET['id'];
-                        call_user_func([$controllerName, $methodName], $id);
-                    }
-                    elseif($uri == '/admin/edit' && !empty($_GET['id'])){
-                        $id = $_GET['id'];
-                        call_user_func([$controllerName, $methodName], $id);
-                    }
-                    else {
-                        call_user_func([$controllerName, $methodName]);
-                    }
-                }else {
+                } else {
                     $errorMessage = "404 Not Found - Static method not found";
                     require_once('src/template/Error.php');
                 }
             } else {
-                $errorMessage = "404 Not Found - Static method not found";
-                require_once('src/template/Error.php');
-            }
-
-        } else {
-            if (class_exists($controllerName) && is_callable($controllerName, $methodName)) {
-                if($method == 'POST' && $uri == '/filter'){
-                    if(isset($_POST['filterForRentalOrCountry'])){
-                        $datas = $_POST;
-                        $fields = $controller->$methodName($datas);
+                if (class_exists($controllerName) && is_callable($controllerName, $methodName)) {
+                    if ($method == 'POST' && $uri == '/filter') {
+                        if (isset($_POST['filterForRentalOrCountry'])) {
+                            $datas = $_POST;
+                            $fields = $controller->$methodName($datas);
+                        }
+                    } elseif ($method == 'POST' && $uri == '/user/add/check') {
+                        $data = new $controllerName();
+                        $data->$methodName();
+                    } elseif ($method == 'GET') {
+                        $controller->$methodName();
                     }
-                } elseif($method == 'POST' && $uri == '/user/add/check'){
-                    $data = new $controllerName();
-                    $data->$methodName();
-                }elseif($method == 'GET'){
-                    $controller->$methodName();
+                } else {
+                    $errorMessage = "404 Not Found - Controller or Method not found";
+                    require_once('src/template/Error.php');
                 }
-            } else {
-                $errorMessage = "404 Not Found - Controller or Method not found";
-                require_once('src/template/Error.php');
             }
+        } else {
+            $errorMessage = "404 Not Found - Route not found";
+            require_once('src/template/Error.php');
         }
-    } else {
-        $errorMessage = "404 Not Found - Route not found";
-        require_once('src/template/Error.php');
     }
-}
 }
 
 

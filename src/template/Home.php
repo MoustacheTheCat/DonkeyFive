@@ -7,32 +7,32 @@
         </section>
     </div>
     <section class="my-4">
-    <h2 class="text-center">Recherche</h2>
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-            <form action="/filter" method="POST">
-                <div class="form-outline form-white mb-4">
-                    <label for="city"></label>
-                    <select name="city">
-                        <option value="city">--City--</option>
-                        <?php foreach ($citys as $key => $city) : ?>
-                            <option value="<?= $key ?>"><?= $city ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <label for="dateStart"></label>
-                    <input type="dateStart" name="dateStart" min="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>">
-                    <label for="dateEnd"></label>
-                    <input type="dateEnd" name="dateEnd" min="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>">
-                    <label for="hourStart"></label>
-                    <input type="time" name="hourStart" id="" value="00:00">
-                    <label for="hourEnd"></label>
-                    <input type="time" name="hourEnd" id="" value="00:00">
-                    <input type="submit" value="Search" name="filterForRentalOrCountry">
-                </div>
-            </form>
+        <h2 class="text-center">Recherche</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <form action="/filter" method="POST">
+                    <div class="form-outline form-white mb-4">
+                        <label for="city"></label>
+                        <select name="city">
+                            <option value="city">--City--</option>
+                            <?php foreach ($citys as $key => $city) : ?>
+                                <option value="<?= $key ?>"><?= $city ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label for="dateStart"></label>
+                        <input type="dateStart" name="dateStart" min="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>">
+                        <label for="dateEnd"></label>
+                        <input type="dateEnd" name="dateEnd" min="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>">
+                        <label for="hourStart"></label>
+                        <input type="time" name="hourStart" id="" value="00:00">
+                        <label for="hourEnd"></label>
+                        <input type="time" name="hourEnd" id="" value="00:00">
+                        <input type="submit" value="Search" name="filterForRentalOrCountry">
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
     <section>
         <?php if (!empty($error)) : ?>
             <div class="alert alert-danger" role="alert">
@@ -71,51 +71,48 @@
                     </tbody>
                 </table>
             </div>
-        <?php elseif ($uri  == '/' || ($uri  == '/filter' && $fields === false)) : ?>
-            <h2 class="text-center">Jouez partout en Europe</h2>
-            <div class="row">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
         <?php endif; ?>
-        </div>
-    </section>
-    <div class="container-fluid">
-        <div class="row bg-light py-4">
-            <div class="container">
-                <h2 class="text-center mb-4">Nos Partenaires</h2>
-                <div class="row justify-content-center">
-                    <div class="col-md-2 col-6 text-center mb-3">
-                        <img src="logo1.png" alt="Partenaire 1">
+        <div class="container">
+            <h2 class="text-center">Le top du top</h2>
+            <div class="row d-flex justify-content-between">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="<?= $europe['image'] ?>" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $europe['title'] ?></h5>
+                        <p class="card-text"><?= $europe['description'] ?></p>
+                        <a href="/card/home?id=<?= $europe['id'] ?>" class="btn btn-primary">Go somewhere</a>
                     </div>
-                    <div class="col-md-2 col-6 text-center mb-3">
-                        <img src="logo2.png" alt="Partenaire 2">
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="<?= $legende['image'] ?>" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $legende['title'] ?></h5>
+                        <p class="card-text"><?= $legende['description'] ?></p>
+                        <a href="/card/home?id=<?= $legende['id'] ?>" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="<?= $choix['image'] ?>" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $choix['title'] ?></h5>
+                        <p class="card-text"><?= $choix['description'] ?></p>
+                        <a href="/card/home?id=<?= $choix['id'] ?>" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="<?= $tournoi['image'] ?>" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $tournoi['title'] ?></h5>
+                        <p class="card-text"><?= $tournoi['description'] ?></p>
+                        <a href="/card/home?id=<?= $tournoi['id'] ?>" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+    </section>
 </main>
-< <?php $content = ob_get_clean(); ?> <?php require('src/template/Layout.php') ?>
+<?php
+$content = ob_get_clean();
+require('src/template/Layout.php');
+?>

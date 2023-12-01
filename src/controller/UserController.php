@@ -33,8 +33,7 @@ class UserController {
         public static function profil()
         {
             $user = new User();
-            $user = $admin->getOneUser(intval($_SESSION['user']['userId']));
-            $rent = 
+            $user = $user->getOneUser(intval($_SESSION['user']['userId']));
             $pageTitle = "Admin";
             require_once('src/template/ProfileUser.php');
         }

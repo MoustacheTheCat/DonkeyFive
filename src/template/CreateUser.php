@@ -4,7 +4,7 @@
 <div class="container-fluid cont">
     <section class="gradient-custom">
         <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center    ">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -26,8 +26,8 @@
                                         <input type="text" id="userLastName" name="userLastName" class="form-control form-control-lg" placeholder="Enter your last name" required>
                                     </div>
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="userBirthdate">Birthdate</label>
-                                        <input type="date" id="userBirthdate" name="userBirthdate" class="form-control form-control-lg" required>
+                                        <label class="form-label" for="userBirthDay">Birthdate</label>
+                                        <input type="date" id="userBirthDay" name="userBirthDay" class="form-control form-control-lg" required>
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userEmail">Email</label>

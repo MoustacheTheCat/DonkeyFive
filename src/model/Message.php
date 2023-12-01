@@ -189,5 +189,12 @@ class Message {
         return false;
     }
 
+    public function countNbMessageNoRead()
+    {
+        $pdoStatement = $this->pdo->query("SELECT COUNT(`messageId`) FROM `messages` WHERE `messageStatus` = 0");
+        $nbMessageNoRead = $pdoStatement->fetch();
+        return $nbMessageNoRead;
+    }   
+
 
 }

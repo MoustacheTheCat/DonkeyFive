@@ -6,7 +6,8 @@ require_once('src/model/Cart.php');
 
 use Application\Model\Cart;
 
-class CartController {
+class CartController
+{
     public static function viewCarts()
     {
         $cart = new Cart();
@@ -27,60 +28,78 @@ class CartController {
     {
         $cart = new Cart();
         $res = $cart->addItemInCart();
-        if($res){
+        if ($res) {
             $pageTitle = "Select Time ";
             require_once('src/template/SelectTime.php');
-        }else{
+        } else {
             $error = "cart not created";
             return $error;
         }
     }
 
-    public static function timeCheck(){
+    public static function timeCheck()
+    {
         $cart = new Cart();
         $res = $cart->addSelectTime();
-        if($res){
+        if ($res) {
             $result = "cart created";
             header('Location: /');
-        }else{
+        } else {
             $error = "cart not created";
             return $error;
         }
     }
 
-    public static function displayCards(){
+    public static function displayCarts()
+    {
         $cart = new Cart();
         $res = $cart->displayCarts();
-        if($res){
-            $pageTitle = "Cards";
-            require_once('src/template/Cart.php');
-        }else{
-            $error = "cart not created";
-            return $error;
+        if (!$res) {
+            $error = "le pannier est vide !!!!";
+            
         }
+        $pageTitle = "Carts";
+        require_once('src/template/Cart.php');
+    }
+
+    public static function displayCartDetails()
+    {
+        // $cart = new Cart();
+        // $res = $cart->displayCartDetails();
+        // if ($res) {
+       
+        // } else {
+        //     $error = "cart not created";
+        //     return $error;
+        // }
+        $pageTitle = "Carts";
+        require_once('src/template/CartDetails.php');
     }
 
     public static function deleteCheck()
     {
+        $id =$_GET['id'];
         $cart = new Cart();
-        $res = $cart->deleteCart();
-        if($res){
+        $res = $cart->deleteItemInCart($id);
+        if ($res) {
             $result = "cart deleted";
+            header('Location: /carts');
             return $result;
-        }else{
-            $error = "cart not deleted";
-            return $error;
-        }
+            
+        } 
+        $error = "cart not deleted";
+        header('Location: /carts');
+        return $error;
     }
 
     public static function updateCheck()
     {
         $cart = new Cart();
         $res = $cart->updateCart();
-        if($res){
+        if ($res) {
             $result = "cart updated";
             return $result;
-        }else{
+        } else {
             $error = "cart not updated";
             return $error;
         }
