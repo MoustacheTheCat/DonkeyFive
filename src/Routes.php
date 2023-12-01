@@ -77,8 +77,8 @@ class Routes
 
         '/carts' => ['controller' => 'CartController', 'method' => 'displayCarts', 'static' => true],
         '/cart/details' => ['controller' => 'CartController', 'method' => 'displayCartDetails', 'static' => true],
-        '/cart/delete' => ['controller' => 'CartController', 'method' => 'deleteCheck', 'static' => true],
-
+        '/cart/delete' => ['controller' => 'CartController', 'method' => 'deleteCheck', 'static' => true], 
+        
         '/messages' => ['controller' => 'MessageController', 'method' => 'viewMessages', 'static' => true],
 
         '/card/home' => ['controller' => 'CardHomeController', 'method' => 'viewCardHomeDetail', 'static' => true]

@@ -174,7 +174,7 @@ class Cart
         if (isset($_SESSION['cart'][$itemId])) {
             unset($_SESSION['cart'][$itemId]);
         }
-        if (empty($_SESSION['cart'])) {
+        if(empty($_SESSION['cart'])){
             unset($_SESSION['cart']);
         }
     }

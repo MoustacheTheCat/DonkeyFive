@@ -56,6 +56,7 @@ class CartController
         $res = $cart->displayCarts();
         if (!$res) {
             $error = "le pannier est vide !!!!";
+            
         }
         $pageTitle = "Carts";
         require_once('src/template/Cart.php');
@@ -69,14 +70,15 @@ class CartController
 
     public static function deleteCheck()
     {
-        $id = $_GET['id'];
+        $id =$_GET['id'];
         $cart = new Cart();
         $res = $cart->deleteItemInCart($id);
         if ($res) {
             $result = "cart deleted";
             header('Location: /carts');
             return $result;
-        }
+            
+        } 
         $error = "cart not deleted";
         header('Location: /carts');
         return $error;
