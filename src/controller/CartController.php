@@ -26,10 +26,34 @@ class CartController {
     public static function addCheck()
     {
         $cart = new Cart();
-        $res = $cart->addCart();
+        $res = $cart->addItemInCart();
+        if($res){
+            $pageTitle = "Select Time ";
+            require_once('src/template/SelectTime.php');
+        }else{
+            $error = "cart not created";
+            return $error;
+        }
+    }
+
+    public static function timeCheck(){
+        $cart = new Cart();
+        $res = $cart->addSelectTime();
         if($res){
             $result = "cart created";
-            return $result;
+            header('Location: /');
+        }else{
+            $error = "cart not created";
+            return $error;
+        }
+    }
+
+    public static function displayCards(){
+        $cart = new Cart();
+        $res = $cart->displayCarts();
+        if($res){
+            $pageTitle = "Cards";
+            require_once('src/template/Cart.php');
         }else{
             $error = "cart not created";
             return $error;
