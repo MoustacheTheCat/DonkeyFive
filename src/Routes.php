@@ -65,6 +65,7 @@ class Routes
         '/user/add/check' => ['controller' => 'UserController', 'method' => 'addCheck', 'static' => false],
         '/user/edit' => ['controller' => 'UserController', 'method' => 'edit', 'static' => true],
         '/user/edit/password' => ['controller' => 'UserController', 'method' => 'resetPasswordCheck', 'static' => true],
+        '/user/profil' => ['controller' => 'UserController', 'method' => 'profil', 'static' => true],
 
 
         '/admin/add' => ['controller' => 'AdminController', 'method' => 'add', 'static' => true],
@@ -75,6 +76,8 @@ class Routes
 
         '/carts' => ['controller' => 'CartController', 'method' => 'displayCarts', 'static' => true],
         '/cart/details' => ['controller' => 'CartController', 'method' => 'displayCartDetails', 'static' => true],
+        
+        '/messages' => ['controller' => 'MessageController', 'method' => 'viewMessages', 'static' => true],
 
     ];
 

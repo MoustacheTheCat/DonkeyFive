@@ -4,7 +4,7 @@
 <div class="container-fluid cont">
     <section class="gradient-custom">
         <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -30,8 +30,8 @@
                                         <input type="text" id="userLastName" name="userLastName" class="form-control form-control-lg" value="<?=$user['userLastName']?>">
                                     </div>
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="userBirthdate">Birthdate</label>
-                                        <input type="date" id="userBirthdate" name="userBirthdate" class="form-control form-control-lg" value="<?=$user['userBirthdate']?>">
+                                        <label class="form-label" for="userBirthDay">Birthdate</label>
+                                        <input type="date" id="userBirthDay" name="userBirthDay" class="form-control form-control-lg" value="<?=$user['userBirthDay']?>">
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userEmail">Email</label>
@@ -73,7 +73,7 @@
     </section>
     <section class="gradient-custom">
         <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -113,7 +113,7 @@
     </section>
     <section class="gradient-custom">
         <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -128,6 +128,11 @@
                                         <?= $result ?>
                                     </div>
                                 <?php endif; ?>
+                                <?php if(empty($user['userpicture'])) : ?>
+                                    <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
+                                <?php else:?>
+                                    <img src="<?php echo $user['userpicture']; ?>" class="card-img-top" alt="User Image">
+                                <?php endif; ?>
                                 <form action="/user/edit/picture" method="POST" enctype="multipart/form-data">
                                 <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userpicture">Profile Picture</label>
@@ -135,9 +140,6 @@
                                     </div>
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="updatePicture">Update picture</button>
                                 </form>
-                            </div>
-                            <div>
-                                <p class="mb-0">Already have an account? <a href="/user/update" class="text-white-50 fw-bold">Update</a></p>
                             </div>
                         </div>
                     </div>

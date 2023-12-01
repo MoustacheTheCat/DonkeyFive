@@ -1,10 +1,7 @@
-<?php ob_start(); ?>
-<?php
+<?php 
+ob_start(); 
 $datas = $_SESSION['cart'];
-
 ?>
-
-
 <div class="container bg-dark pt-5 mt-5 mb-5">
   <h2 class="fw-bold mb-2 text-uppercase text-center text-white">Détails de mon Panier</h2>
   <p class="text-white-50 mb-5 text-center">...........</p>
@@ -42,8 +39,9 @@ $datas = $_SESSION['cart'];
         <p class="text-white mb-5">Prix total TTC : <?= $datas[$key]['totalTTC'] ?> €</p>
       </div>
     </div>
+  <?php endforeach; ?>
 </div>
-<?php endforeach; ?>
-<?php $content = ob_get_clean();
+<?php 
+$content = ob_get_clean();
 require_once 'src/template/Layout.php';
 ?>

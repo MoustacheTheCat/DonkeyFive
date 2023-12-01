@@ -103,6 +103,11 @@
                                         <?= $result ?>
                                     </div>
                                 <?php endif; ?>
+                                <?php if(empty($user['userpicture'])) : ?>
+                                    <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
+                                <?php else:?>
+                                    <img src="<?php echo $user['userpicture']; ?>" class="card-img-top" alt="User Image">
+                                <?php endif; ?>
                                 <form action="/user/edit/picture" method="POST" enctype="multipart/form-data">
                                 <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userpicture">Profile Picture</label>
@@ -110,9 +115,6 @@
                                     </div>
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="updatePicture">Update picture</button>
                                 </form>
-                            </div>
-                            <div>
-                                <p class="mb-0">Already have an account? <a href="/user/update" class="text-white-50 fw-bold">Update</a></p>
                             </div>
                         </div>
                     </div>

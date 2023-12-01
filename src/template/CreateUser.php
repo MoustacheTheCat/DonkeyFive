@@ -26,8 +26,8 @@
                                         <input type="text" id="userLastName" name="userLastName" class="form-control form-control-lg" placeholder="Enter your last name" required>
                                     </div>
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="userBirthdate">Birthdate</label>
-                                        <input type="date" id="userBirthdate" name="userBirthdate" class="form-control form-control-lg" required>
+                                        <label class="form-label" for="userBirthDay">Birthdate</label>
+                                        <input type="date" id="userBirthDay" name="userBirthDay" class="form-control form-control-lg" required>
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userEmail">Email</label>

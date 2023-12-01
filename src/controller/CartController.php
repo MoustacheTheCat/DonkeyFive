@@ -54,13 +54,12 @@ class CartController
     {
         $cart = new Cart();
         $res = $cart->displayCarts();
-        if ($res) {
-            $pageTitle = "Carts";
-            require_once('src/template/Cart.php');
-        } else {
-            $error = "cart not created";
-            return $error;
+        if (!$res) {
+            $error = "le pannier est vide !!!!";
+            
         }
+        $pageTitle = "Carts";
+        require_once('src/template/Cart.php');
     }
 
     public static function displayCartDetails()

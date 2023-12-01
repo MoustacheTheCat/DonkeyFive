@@ -10,9 +10,12 @@ class MessageController {
     public static function viewMessages()
     {
         $message = new Message();
-        $messages = $message->getMessages();
+        $messages = $message->getAllMessages();
+        if(empty($messages)){
+            $error = "No messages";
+        }
         $pageTitle = "Message";
-        require_once('src/template/Message.php');
+        require_once('src/template/Messages.php');
     }
 
     public static function viewOneMessage($messageId)
@@ -71,6 +74,16 @@ class MessageController {
         }else{
             $error = "message not updated";
             return $error;
+        }
+    }
+
+    public static function countNbMessageNotRead()
+    {
+        $message = new Message();
+        $res = $message->countNbMessageNoRead();
+        if($res > 0){
+            $result = $res[0];
+            return $result;
         }
     }
 

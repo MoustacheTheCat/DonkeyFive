@@ -1,3 +1,9 @@
+<?php
+require_once('src/controller/MessageController.php');
+use Application\Controller\MessageController;
+$nbMessage = MessageController::countNbMessageNotRead();
+?>
+
 <header class="row text-white">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex container-fluid">
         <div class="container-fluid">
@@ -51,24 +57,36 @@
                         <li class="nav-item dropdown mr-5 pr-5">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Profil
+                                <?php if($nbMessage != 0):?>
+                                    <span class="badge bg-dark text-white rounded-pill cart-items"><?= $nbMessage?></span>
+                                <?php endif;?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdowncenter">
-                                <li><a class="dropdown-item" href="http://donkeycar.com/pages/pageListMessage.php">
+                                <li>
+                                    <a class="dropdown-item" href="/messages">
                                         Message
-                                    </a></li>
+                                        <?php if($nbMessage != 0):?>
+                                            <span class="badge bg-dark text-white rounded-pill cart-items"><?= $nbMessage?></span>
+                                        <?php endif;?>
+                                    </a>
+                                </li>
                                 <?php if ($_SESSION['user']['userRole'] == 1) : ?>
                                     <li><a class="dropdown-item" href="/admin/profil">Profil</a></li>
                                 <?php elseif ($_SESSION['user']['userRole'] == 2) : ?>
                                     <li><a class="dropdown-item" href="/user/profil">Profil</a></li>
                                 <?php endif; ?>
-
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
                         </li>
                     <?php endif; ?>
                     <?php if (empty($_SESSION) || (!empty($_SESSION['user']['userRole']) && $_SESSION['user']['userRole'] != 1) || empty($_SESSION['user']['userRole'])) : ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/carts">Panier <i class="bi bi-cart"></i>
+                            <a class="nav-link" href="/carts"> 
+                                <i class="bi bi-cart">Panier
+                                    <?php if(!empty($_SESSION['cart'])):?>
+                                        <span class="badge bg-dark text-white rounded-pill cart-items"><?= count($_SESSION['cart'])?></span>
+                                    <?php endif;?>
+                                </i>
                             </a>
                         </li>
                     <?php endif; ?>
