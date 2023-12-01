@@ -7,19 +7,36 @@ require_once('src/model/CardHome.php');
 use Application\Model\CardHome;
 
 class CardHomeController {
-    public static function viewCardHomeKid()
+
+    
+    public static function viewCardHomeEurope()
     {
         $cardHome = new CardHome();
-        $cardHomes = $cardHome->getKids();
+        $cardHomes = $cardHome->getEurope();
+        return $cardHomes;
+    }
+    public static function viewCardHomeLegende()
+    {
+        $cardHome = new CardHome();
+        $cardHomes = $cardHome->getLegende();
         return $cardHomes;
     }
 
-    public static function viewCardHomeKid2()
+    public static function viewCardHomeChoix()
     {
         $cardHome = new CardHome();
-        $cardHomes = $cardHome->getKid2s();
+        $cardHomes = $cardHome->getChoix();
         return $cardHomes;
     }
+
+
+    public static function viewCardHomeTournoi()
+    {
+        $cardHome = new CardHome();
+        $cardHomes = $cardHome->getTournoi();
+        return $cardHomes;
+    }
+
 
     public static function viewCardHomeDetail()
     {

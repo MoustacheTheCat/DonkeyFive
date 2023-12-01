@@ -3,6 +3,7 @@
 namespace Application;
 
 session_start();
+print_r($_SESSION);
 require_once('src/config/Config.php');
 require_once('src/lib/DatabaseConnection.php');
 require_once('src/controller/HomeController.php');

@@ -12,8 +12,10 @@ class HomeController
     public static function index()
     {
         $pageTitle = "Donkey Five";
-        $kids = CardHomeController::viewCardHomeKid();
-        $kids2 = CardHomeController::viewCardHomeKid2();
+        $europe = CardHomeController::viewCardHomeEurope();
+        $legende = CardHomeController::viewCardHomeLegende();
+        $choix = CardHomeController::viewCardHomeChoix();
+        $tournoi = CardHomeController::viewCardHomeTournoi();
         $citys = CenterController::index();
         require_once('src/template/Home.php');
     }
