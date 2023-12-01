@@ -3,7 +3,7 @@
 if(!empty($_SESSION['cart'])) {
     $datas = $_SESSION['cart'];
 }
-var_dump($_SESSION);
+var_dump($datas);
 
 ?>
 

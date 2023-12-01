@@ -133,7 +133,7 @@ class Option
             $costs += $cost[1];
         }
         
-        $options['costs'] = $costs;
+        $options['costs']['totalHT'] = $costs;
         return $options;
     }
 }

@@ -64,14 +64,6 @@ class CartController
 
     public static function displayCartDetails()
     {
-        // $cart = new Cart();
-        // $res = $cart->displayCartDetails();
-        // if ($res) {
-       
-        // } else {
-        //     $error = "cart not created";
-        //     return $error;
-        // }
         $pageTitle = "Carts";
         require_once('src/template/CartDetails.php');
     }
