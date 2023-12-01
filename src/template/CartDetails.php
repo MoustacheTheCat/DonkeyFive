@@ -1,6 +1,12 @@
-<?php 
-ob_start(); 
+<?php
+ob_start();
 $datas = $_SESSION['cart'];
+$id = $_GET['id'];
+
+$dataOptions = $datas[$id]['options'];
+$dataOps = $dataOptions['totalCostHT'];
+
+var_dump($dataOps);
 ?>
 <div class="container bg-dark pt-5 mt-5 mb-5">
   <h2 class="fw-bold mb-2 text-uppercase text-center text-white">Détails de mon Panier</h2>
@@ -26,22 +32,24 @@ $datas = $_SESSION['cart'];
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($datas[$key]['options']['optionNames'] as $index => $optionName) : ?>
+            <?php foreach ($dataOps as $key => $value) : ?>
               <tr>
-                <td class="text-dark"><?= $optionName ?></td>
-                <td class="text-dark"><?= $datas[$key]['options']['optionPrices'][$index] ?></td>
+                <td class="text-dark"><?= $value['names'] ?></td>
+
+                <td class="text-dark"><?= intval($value['prices']) ?></td>
               </tr>
             <?php endforeach; ?>
+
           </tbody>
         </table>
-        <p class="text-white mb-5">Coût des options TTC : <?= $datas[$key]['options']['totalCostTTC'] ?></p>
-        <p class="text-white mb-5">Coût du terrain TTC : <?= $datas[$key]['field']['totalTTCField'] ?></p>
-        <p class="text-white mb-5">Prix total TTC : <?= $datas[$key]['totalTTC'] ?> €</p>
+        <!-- <p class="text-white mb-5">Coût des options TTC : <?= $datas[$key]['options']['totalCostTTC'] ?></p>
+        <p class="text-white mb-5">Coût du terrain TTC : <?= $datas[$key]['field']['totalTTC'] ?></p>
+        <p class="text-white mb-5">Prix total TTC : <?= $datas[$key]['totalTTC'] ?> €</p> -->
       </div>
     </div>
   <?php endforeach; ?>
 </div>
-<?php 
+<?php
 $content = ob_get_clean();
 require_once 'src/template/Layout.php';
 ?>

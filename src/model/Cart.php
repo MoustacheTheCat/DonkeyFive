@@ -174,7 +174,7 @@ class Cart
         if (isset($_SESSION['cart'][$itemId])) {
             unset($_SESSION['cart'][$itemId]);
         }
-        if(empty($_SESSION['cart'])){
+        if (empty($_SESSION['cart'])) {
             unset($_SESSION['cart']);
         }
     }
@@ -205,7 +205,7 @@ class Cart
                 $_SESSION['cart'][$idField]['field']['totalHT'] = $totalHT;
                 $_SESSION['cart'][$idField]['field']['totalTTC'] = $totalTTC;
                 // $_SESSION['cart'][$idField]['totalHT'] = $totalHT +  $_SESSION['cart'][$idField]['options']['totalCostHT'];
-                // $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];
+                $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];
             }
             return true;
         }
