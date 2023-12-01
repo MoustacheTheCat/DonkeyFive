@@ -22,33 +22,33 @@ $nbMessage = MessageController::countNbMessageNotRead();
                     <?php endif; ?>
                     <?php if (!empty($_SESSION['user']['userRole']) && $_SESSION['user']['userRole'] == 1) : ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Car</a>
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Center</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCar">
-                                <li><a class="dropdown-item" href="http://donkeycar.com/pages/admin/pageListAllCar.php?userRole=<?= $_SESSION['user']['userRole'] ?>">Car</a></li>
-                                <li><a class="dropdown-item" href="http://donkeycar.com/pages/admin/pageAddCar.php?id=<?= $_SESSION['user']['userId'] ?>&userRole=<?= $_SESSION['user']['userRole'] ?>">Add Car</a></li>
+                                <li><a class="dropdown-item" href="">Centers</a></li>
+                                <li><a class="dropdown-item" href="">Add Center</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">center</a>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Fields</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdowncenter">
-                                <li><a class="dropdown-item" href="http://donkeycar.com/pages/admin/pageListcenter.php?userRole=<?= $_SESSION['user']['userRole'] ?>">center and Garage</a></li>
-                                <li><a class="dropdown-item" href="http://donkeycar.com/pages/admin/pageAddGaragecenter.php?id=<?= $_SESSION['user']['userId'] ?>&userRole=<?= $_SESSION['user']['userRole'] ?>">Add center and Garage</a></li>
+                                <li><a class="dropdown-item" href="">Fields</a></li>
+                                <li><a class="dropdown-item" href="">Add Fields</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Rental</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCar">
-                                <li><a class="dropdown-item" href="http://donkeycar.com/pages/admin/pageListRental.php?userRole=<?= $_SESSION['user']['userRole'] ?>">Rental</a></li>
+                                <li><a class="dropdown-item" href="">Rental</a></li>
                             </ul>
                         </li>
                         <?php if ($_SESSION['user']['userRole'] == 1) : ?>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Admin and Customer</a>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Admin and User</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdowncenter">
-                                    <li><a class="dropdown-item" href="http://donkeycar.com/pages/admin/pageListUser.php?userRole=admin">List admin</a></li>
-                                    <li><a class="dropdown-item" href="http://donkeycar.com/pages/pageCreateProfil.php?userRole=admin">Add Admin</a></li>
-                                    <li><a class="dropdown-item" href="http://donkeycar.com/pages/admin/pageListUser.php?userRole=customer">List Customer</a></li>
-                                    <li><a class="dropdown-item" href="http://donkeycar.com/pages/pageCreateProfil.php?userRole=customer">Add Customer</a></li>
+                                    <li><a class="dropdown-item" href="">List admin</a></li>
+                                    <li><a class="dropdown-item" href="/admin/add">Add Admin</a></li>
+                                    <li><a class="dropdown-item" href="">List User</a></li>
+                                    <li><a class="dropdown-item" href="/user/add">Add User</a></li>
                                 </ul>
                             </li>
                         <?php endif; ?>

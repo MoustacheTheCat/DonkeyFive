@@ -1,0 +1,17 @@
+.lf-sponsor-logos {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto !important;
+    width: 100%;
+}
+
+.lf-sponsor-logos .lf-sponsor-logo {
+    align-items: center;
+    display: flex;
+    height: 150px;
+    justify-content: center;
+    margin: 0 20px;
+    width: 150px;
+}
