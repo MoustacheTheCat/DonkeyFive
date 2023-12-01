@@ -3,7 +3,7 @@
 namespace Application;
 
 session_start();
-
+print_r($_SESSION);
 require_once('src/config/Config.php');
 require_once('src/lib/DatabaseConnection.php');
 require_once('src/controller/HomeController.php');
@@ -76,6 +76,7 @@ class Routes
 
         '/carts' => ['controller' => 'CartController', 'method' => 'displayCarts', 'static' => true],
         '/cart/details' => ['controller' => 'CartController', 'method' => 'displayCartDetails', 'static' => true],
+        '/cart/delete' => ['controller' => 'CartController', 'method' => 'deleteCheck', 'static' => true], 
         
         '/messages' => ['controller' => 'MessageController', 'method' => 'viewMessages', 'static' => true],
 

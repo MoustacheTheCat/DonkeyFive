@@ -82,6 +82,8 @@ class Cart
         $posts = $_POST;
         $idField = $_GET['id'];
         $arrayOptions = [];
+        $arrayOptionNames = [];
+        $arrayOptionCosts = [];
         foreach ($posts as $key => $post) {
             if (substr($key, 0, 3) == 'ck_') {
                 $arrayOptions[] = $post;
@@ -92,8 +94,8 @@ class Cart
         }
         $nbOp = count($arrayOptions);
         $costs = new Option();
-        $totalCostHT = $costs->getCostOption($arrayOptions);
-        $totalCostTTC = $totalCostHT * 1.2;
+        $totalCostHT = $costs->getDetailOption($arrayOptions);
+        $totalCostTTC = $totalCostHT['costs'] * 1.2;
         $_SESSION['cart'][$idField]['options'] = $arrayOptions;
         $_SESSION['cart'][$idField]['nbOp'] = $nbOp;
         $_SESSION['cart'][$idField]['options']['totalCostHT'] = $totalCostHT;
@@ -172,6 +174,9 @@ class Cart
         if (isset($_SESSION['cart'][$itemId])) {
             unset($_SESSION['cart'][$itemId]);
         }
+        if(empty($_SESSION['cart'])){
+            unset($_SESSION['cart']);
+        }
     }
 
     public function displayCarts()
@@ -197,10 +202,10 @@ class Cart
                     $totalHT = $dataField['fieldTarifDayHT'] * $_SESSION['cart'][$idField]['time']['nbDay'];
                 }
                 $totalTTC = $totalHT *  1.2;
-                $_SESSION['cart'][$idField]['field']['totalHTField'] = $totalHT;
-                $_SESSION['cart'][$idField]['field']['totalTTCField'] = $totalTTC;
-                $_SESSION['cart'][$idField]['totalHT'] = $totalHT +  $_SESSION['cart'][$idField]['options']['totalCostHT'];
-                $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];
+                $_SESSION['cart'][$idField]['field']['totalHT'] = $totalHT;
+                $_SESSION['cart'][$idField]['field']['totalTTC'] = $totalTTC;
+                // $_SESSION['cart'][$idField]['totalHT'] = $totalHT +  $_SESSION['cart'][$idField]['options']['totalCostHT'];
+                // $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];
             }
             return true;
         }

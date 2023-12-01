@@ -64,28 +64,32 @@ class CartController
 
     public static function displayCartDetails()
     {
-        $cart = new Cart();
-        $res = $cart->displayCartDetails();
-        if ($res) {
-            $pageTitle = "Carts";
-            require_once('src/template/CartDetails.php');
-        } else {
-            $error = "cart not created";
-            return $error;
-        }
+        // $cart = new Cart();
+        // $res = $cart->displayCartDetails();
+        // if ($res) {
+       
+        // } else {
+        //     $error = "cart not created";
+        //     return $error;
+        // }
+        $pageTitle = "Carts";
+        require_once('src/template/CartDetails.php');
     }
 
     public static function deleteCheck()
     {
+        $id =$_GET['id'];
         $cart = new Cart();
-        $res = $cart->deleteCart();
+        $res = $cart->deleteItemInCart($id);
         if ($res) {
             $result = "cart deleted";
+            header('Location: /carts');
             return $result;
-        } else {
-            $error = "cart not deleted";
-            return $error;
-        }
+            
+        } 
+        $error = "cart not deleted";
+        header('Location: /carts');
+        return $error;
     }
 
     public static function updateCheck()
