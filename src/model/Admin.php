@@ -186,33 +186,24 @@ class Admin extends User {
         $target_file = $target_dir . basename($_FILES["adminPicture"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    
-        // Initialisation d'un tableau pour stocker les erreurs potentielles
+
         $errorArray = [];
     
-        // Vérification si le fichier est une image
         $check = getimagesize($_FILES["adminPicture"]["tmp_name"]);
         if ($check === false) {
             $errorArray[] = "File is not an image.";
             return $errorArray;
         }
-    
-        // Vérification si le fichier existe déjà
         if (file_exists($target_file)) {
             $errorArray[] = "Sorry, file already exists.";
         }
     
-        // Vérification de la taille du fichier
         if ($_FILES["adminPicture"]["size"] > 500000) {
             $errorArray[] = "Sorry, your file is too large.";
         }
-    
-        // Vérification du type de fichier
         if ($imageFileType != "png" && $imageFileType != "jpg" && $imageFileType != "jpeg") {
             $errorArray[] = "Sorry, only PNG, JPG, and JPEG files are allowed.";
         }
-    
-        // Si aucune erreur, procéder au chargement du fichier
         if (empty($errorArray)) {
             if (move_uploaded_file($_FILES["adminPicture"]["tmp_name"], $target_file)) {
                 return basename($_FILES["adminPicture"]["name"]);
