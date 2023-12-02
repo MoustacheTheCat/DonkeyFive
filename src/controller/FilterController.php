@@ -16,6 +16,10 @@ class FilterController
   {
     $filter = new Filter();
     $pageTitle = "Donkey Five";
+    $europe = CardHomeController::viewCardHomeEurope();
+    $legende = CardHomeController::viewCardHomeLegende();
+    $choix = CardHomeController::viewCardHomeChoix();
+    $tournoi = CardHomeController::viewCardHomeTournoi();
     $citys = CenterController::index();
     $fields = $filter->filterForRental($datas);
     

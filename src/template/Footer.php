@@ -1,14 +1,22 @@
 
 <footer class="row bg-dark text-white py-3 d-flex justify-content-center">
     <div class="lf-sponsor-logos">
-    <a href="https://www.adidas.fr/football" target="_blank" class="lf-sponsor-logo"><svg id="katman_1" version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 3694.2 2666.7" xml:space="preserve" class="adidas" style="enable-background: new 0 0 3694.2 2666.7"><style type="text/css">
-          .st0 {
-            /*fill-rule: evenodd;*/
-            /*clip-rule: evenodd;*/
-            /*fill: #1d1e1b;*/
-          }
-        </style> <path d="M3054.2,2039.3L2156.1,486.9l-488.2,277.4l732.5,1275H3054.2z M1347.1,2039.3l-288.9-504.2l-478.7,282.4
-	l121.6,221.8 M1551.5,2039.3h649.3L1609,1010L1123,1290.7L1551.5,2039.3z" class="st0"></path></svg></a> <a href="https://www.betclic.fr/" target="_blank" class="lf-sponsor-logo"><svg id="Calque_1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 2822 966" xml:space="preserve" class="betclick"><style type="text/css"></style> <g><path d="M2807,15.4v935.1H15V15.4H2807 M2822,0.4H0v965.1h2822V0.4L2822,0.4z" class="st0"></path></g> <g><g><path d="M324,231.6h220.9c87.7,0,147,49.6,147,118c0,61.4-41.1,114.9-102.8,142.4c44.3,21.2,73.5,64.5,73.5,114.1
+    <a href="https://www.adidas.fr/football" target="_blank" class="lf-sponsor-logo">
+        <svg id="katman_1" version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 3694.2 2666.7" xml:space="preserve" class="adidas" style="enable-background: new 0 0 3694.2 2666.7">
+            <style type="text/css">
+            .st0 {
+                /*fill-rule: evenodd;*/
+                /*clip-rule: evenodd;*/
+                /*fill: #1d1e1b;*/
+            }
+            </style> 
+            <path d="M3054.2,2039.3L2156.1,486.9l-488.2,277.4l732.5,1275H3054.2z M1347.1,2039.3l-288.9-504.2l-478.7,282.4l121.6,221.8 M1551.5,2039.3h649.3L1609,1010L1123,1290.7L1551.5,2039.3z" class="st0"></path>
+        </svg>
+    </a> 
+    <a href="https://www.betclic.fr/" target="_blank" class="lf-sponsor-logo">
+        <svg id="Calque_1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 2822 966" xml:space="preserve" class="betclick">
+            <style type="text/css"></style> 
+            <g><path d="M2807,15.4v935.1H15V15.4H2807 M2822,0.4H0v965.1h2822V0.4L2822,0.4z" class="st0"></path></g> <g><g><path d="M324,231.6h220.9c87.7,0,147,49.6,147,118c0,61.4-41.1,114.9-102.8,142.4c44.3,21.2,73.5,64.5,73.5,114.1
 			c0,102.3-99.6,166-211.1,166H211L324,231.6z M443,658.1c49.8,0,87.8-30.7,87.8-72.4c0-23.6-19-36.2-56.9-36.2H392l-22.9,108.6H443
 			z M467.5,445.6c46.6,0,82.2-29.1,82.2-67.7c-0.8-21.2-18.2-32.3-53-32.3h-62l-20.6,99.9H467.5z" class="st0"></path> <path d="M1420.9,599.8c0-133.8,132-243.9,265.6-243.9c71.9,0,124.1,33,155.7,76.3l-98,65.3
 			c-12.7-19.7-41.9-30.7-65.6-30.7c-68,0-131.2,66.1-131.2,129.8c0,41.7,31.6,74,73.5,74c32.4,0,68.8-18.1,91.7-40.1l78.3,80.3
@@ -20,7 +28,10 @@
 				c23.9,0,44.2,9.8,57.6,25.4l-189.1,84.2C823,519.2,881.4,466.9,942.9,466.9z" class="st0"></path> <path d="M1396.2,208l-141.4,63l-20,94.4H1181L1158,471.6h54.5c-35.6,165.2-39.5,182.5-39.5,203
 				c0,62.2,44.3,107,111.5,107c36.4,0,75.9-13.4,103.6-35.4l-14.2-92.8c-8.7,7.9-27.7,17.3-45.9,17.3c-14.2,0-22.1-7.1-22.1-24.4
 				c0-9.4,2.4-18.9,34.8-174.7h84.6l22.1-106.2h-84.6L1396.2,208z" class="st0"></path></g></g> <path d="M1918.6,231.6h127L1933,772.2h-127L1918.6,231.6z" class="st0"></path> <path d="M2071.2,365.4h127.6l-85.4,406.8h-127.6L2071.2,365.4z M2089.8,260.7c0-42.5,38-76.3,77.5-76.3
-		c36.4,0,63.2,29.1,63.2,64.5c0,40.1-36.4,75.5-75.1,75.5C2116.7,324.5,2089.8,296.1,2089.8,260.7z" class="st0"></path></g></svg></a> <a href="https://www.fff.fr/" target="_blank" class="lf-sponsor-logo"><svg id="Calque_1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 56.69 56.69" xml:space="preserve" class="fff"><g><g><rect x="14.89" y="46.67" width="2.95" height="0.17"></rect> <rect x="38.59" y="46.67" width="2.95" height="0.17"></rect> <rect x="14.89" y="46.69" width="2.95" height="0.17"></rect> <rect x="38.59" y="46.69" width="2.95" height="0.17"></rect> <path d="M20.94,47.6h-0.46L20.16,47c-0.09,0-0.2,0-0.28,0v0.6h-0.4v-1.74c0.2-0.02,0.38-0.03,0.54-0.03
+		c36.4,0,63.2,29.1,63.2,64.5c0,40.1-36.4,75.5-75.1,75.5C2116.7,324.5,2089.8,296.1,2089.8,260.7z" class="st0"></path></g>
+        </svg>
+    </a> 
+        <a href="https://www.fff.fr/" target="_blank" class="lf-sponsor-logo"><svg id="Calque_1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 56.69 56.69" xml:space="preserve" class="fff"><g><g><rect x="14.89" y="46.67" width="2.95" height="0.17"></rect> <rect x="38.59" y="46.67" width="2.95" height="0.17"></rect> <rect x="14.89" y="46.69" width="2.95" height="0.17"></rect> <rect x="38.59" y="46.69" width="2.95" height="0.17"></rect> <path d="M20.94,47.6h-0.46L20.16,47c-0.09,0-0.2,0-0.28,0v0.6h-0.4v-1.74c0.2-0.02,0.38-0.03,0.54-0.03
         c0.51,0,0.82,0.12,0.82,0.57c0,0.25-0.11,0.43-0.32,0.5L20.94,47.6z M19.88,46.67c0.07,0.01,0.14,0.01,0.19,0.01
         c0.24,0,0.36-0.05,0.36-0.26c0-0.19-0.12-0.24-0.34-0.24c-0.06,0-0.14,0-0.21,0.01V46.67z"></path> <path d="M22.36,47.6h-1.25v-1.75h1.21v0.33h-0.81v0.37h0.72v0.32h-0.72v0.39h0.85V47.6z M21.77,45.7h-0.28l0.2-0.4h0.41
         L21.77,45.7z"></path> <path d="M22.57,47.53v-0.35c0.19,0.07,0.38,0.11,0.54,0.11c0.21,0,0.3-0.06,0.3-0.17c0-0.12-0.1-0.17-0.26-0.21

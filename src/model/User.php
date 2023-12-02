@@ -551,9 +551,9 @@ class User {
 
     public function forgotPasswordCheck()
     {
-        $userEmail = $_POST['email'];
-        $newUserPassword = $_POST['newPassword'];
-        $newUserPasswordConfirm = $_POST['newPasswordConfirm'];
+        $userEmail = $_POST['userEmail'];
+        $newUserPassword = $_POST['newUserPassword'];
+        $newUserPasswordConfirm = $_POST['newUserPasswordConfirm'];
         $stmt = $this->pdo->prepare('SELECT * FROM users WHERE userEmail = :userEmail');    
         $stmt->bindValue(':userEmail', $userEmail);
         $stmt->execute();
