@@ -12,8 +12,21 @@ class CenterController {
         {
             $center = new Center();
             $citys = $center->getSelectCenterCitys();
-            return $citys;
+            //require_once('src/template/ViewAll.php');
         }
+
+        public static function viewAll()
+        {
+            $center = new Center();
+            $pageTitle = "Center";
+            $datas = $center->getAllCenters();
+            if(empty($datas)){
+                $error = "Aucune donnée à afficher";
+            }
+            require_once('src/template/ViewAll.php');
+        }
+
+
 
         public static function test(){
             $center = new Center();

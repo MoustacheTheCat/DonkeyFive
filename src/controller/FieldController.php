@@ -16,6 +16,17 @@ class FieldController
     require_once('src/template/Field.php');
   }
 
+  public static function viewAll()
+  {
+      $center = new Field();
+      $pageTitle = "Field";
+      $datas = $center->getAllFields();
+      if(empty($datas)){
+        $error = "Aucune donnée à afficher";
+      }
+      require_once('src/template/ViewAll.php');
+  }
+
   public function show($fieldId)
   {
     $field = new Field();

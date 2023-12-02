@@ -200,7 +200,7 @@ class User {
 
 
     public function addUserPicture() {
-        $target_dir = "/var/www/html/donkeyfive/src/public/img/user/img/";
+        $target_dir = "/var/www/html/donkeyfive/src/public/img/user/";
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0755, true);
         }
@@ -248,6 +248,8 @@ class User {
     public function updatePictureUser(){
         $userId = $_SESSION['user']['userId'];
         $user = self::getOneUser($userId);
+        // var_dump($user);
+        var_dump($_FILES['userPicture']['name']);
         if($user['userPicture'] != $_FILES['userPicture']['name']){
             $picture = $this->addUserPicture();
             if(!is_array($picture)){
@@ -471,23 +473,21 @@ class User {
     public function delete($id)
     {
         if(empty($id)){
-            $error = "not id user selected for delete";
+            $error = "not id  selected for delete";
             return $error;
         }else {
             $user = self::getOneUser($id);
-            $password = $_POST['userPassword'];
-            if(!isset($user) && password_verify($userPassword, $user['userPassword'])){
+            if(password_verify($_POST['userPassword'], $user['userPassword'])){
                 $query = $this->pdo->prepare('DELETE FROM users WHERE userId = :userId');
                 $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
                 if($query->execute()){
-                    $result  = "user Deleted";
-                    return $result;
+                    return true;
                 }else{
-                    $error = "user not Deleted";
+                    $error = "user not deleted";
                     return $error;
                 }
             }else {
-                $error = "user not found";
+                $error = "password incorrect";
                 return $error;
             }
             
@@ -532,7 +532,7 @@ class User {
         $newUserPassword = $_POST['newUserPassword'];
         $newUserPasswordConfirm = $_POST['newUserPasswordConfirm'];
         $user = self::getOneUser($userId);
-        if($password_verify($userPassword, $user['userPassword'])){
+        if(password_verify($userPassword, $user['userPassword'])){
             if($newUserPassword === $newUserPasswordConfirm){
                 $password = password_hash($newUserPassword,PASSWORD_ARGON2I);
                 $query = $this->pdo->prepare('UPDATE users SET userPassword = :userPassword WHERE userId = :id');

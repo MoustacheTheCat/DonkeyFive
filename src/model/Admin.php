@@ -61,33 +61,45 @@ class Admin extends User {
             if(empty($_POST['adminNumber'])){
                 $errorArray['adminNumber'] = "Please enter your phone number";
             }
+            if(empty($_POST['adminBirthDay'])){
+                $errorArray['adminBirthDay'] = "Please enter your birthday";
+            }
             if(empty($_POST['adminPicture'])){
-                $errorArray['adminPicture'] = "Please enter your picture";
+                $adminPicture = null;
+            }
+            else {
+                $adminPicture = $this->addAdminPicture();
             }
             if(empty($errorArray)){
                 if($_POST['adminPassword'] != $_POST['adminPasswordConfirm']){
                     $errorArray['adminPasswordConfirm'] = "Please enter the same password";
                     return $errorArray;
                 }else {
-                    $password = password_hash($adminPassword,PASSWORD_ARGON2I);
-                    $adminPicture = $this->addUserPicture();
-                    $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userPicture, userRole) VALUES (:adminFirstName, :adminLastName, :adminEmail, :adminPassword, :adminNumber,:adminPicture, :adminRole)');
+                    $password = password_hash($_POST['adminPassword'],PASSWORD_ARGON2I);
+                    $query = $this->pdo->prepare('INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userNumber, userPicture, userRole,userBirthDay) VALUES (:adminFirstName, :adminLastName, :adminEmail, :adminPassword, :adminNumber,:adminPicture, :adminRole, :adminBirthDay)');
                     $query->bindValue(':adminFirstName',$_POST['adminFirstName']); 
                     $query->bindValue(':adminLastName',  $_POST['adminLastName']); 
                     $query->bindValue(':adminEmail', $_POST['adminEmail']); 
                     $query->bindValue(':adminPassword',$password); 
                     $query->bindValue(':adminNumber', $_POST['adminNumber']); 
-                    $query->bindValue(':adminPicture', $adminPicture()); 
+                    $query->bindValue(':adminPicture', $adminPicture); 
+                    $query->bindValue(':adminBirthDay', $_POST['adminBirthDay']);
                     $query->bindValue(':adminRole', 1); 
                     if($query->execute()){
-                        $result = "admin created";
-                        return $result;
+                        $to = $_POST['adminEmail'];
+                        $subject = "Crete Account";
+                        $message = "Hello, you have created an account on our site, you can now log in with your email and password";
+                        $headers = "From: admin@donkeyfive.com";
+                        mail($to, $subject, $message, $headers);
+                        if(mail($to, $subject, $message, $headers)){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }else{
-                        $error = "admin not created";
-                        return $error;
+                        return false;
                     }
                 }
-                
             }else {
                 return $errorArray;
             }
@@ -96,11 +108,13 @@ class Admin extends User {
 
     public function updateAdmin()
     {
+        $id = $_GET['id'];
         if(empty($id)){
             $error = "not id Admin selected for update";
             return $error;
         }else {
-            $admin = self::getOneUser($id);
+            $data = new User();
+            $admin = $data->getOneUser($id);
             if(!isset($id)){
                 $error = "Admin not found";
                 return $error;
@@ -140,7 +154,7 @@ class Admin extends User {
                 }
                 if(!empty($_POST['adminPicture'])){
                     if ($_POST['adminPicture'] != $admin['userPicture']){
-                        $adminPicture = $this-> updatePictureUser();
+                    $adminPicture = $this-> updatePictureAdmin();
                     } 
                     else {
                         $adminPicture = $admin['userPicture'];
@@ -152,7 +166,7 @@ class Admin extends User {
                 $query->bindValue(':adminLastName',  $adminLastName); 
                 $query->bindValue(':adminEmail', $adminEmail); 
                 $query->bindValue(':adminNumber', $adminNumber); 
-                $query->bindValue(':adminPicture', $adminPicture()); 
+                $query->bindValue(':adminPicture', $adminPicture); 
                 if($query->execute()){
                     $result  = "admin Updated";
                     return $result;
@@ -161,6 +175,77 @@ class Admin extends User {
                     return $error;
                 }
             }
+        }
+    }
+
+    public function addAdminPicture() {
+        $target_dir = "/var/www/html/donkeyfive/src/public/img/admin/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+        $target_file = $target_dir . basename($_FILES["adminPicture"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+        // Initialisation d'un tableau pour stocker les erreurs potentielles
+        $errorArray = [];
+    
+        // Vérification si le fichier est une image
+        $check = getimagesize($_FILES["adminPicture"]["tmp_name"]);
+        if ($check === false) {
+            $errorArray[] = "File is not an image.";
+            return $errorArray;
+        }
+    
+        // Vérification si le fichier existe déjà
+        if (file_exists($target_file)) {
+            $errorArray[] = "Sorry, file already exists.";
+        }
+    
+        // Vérification de la taille du fichier
+        if ($_FILES["adminPicture"]["size"] > 500000) {
+            $errorArray[] = "Sorry, your file is too large.";
+        }
+    
+        // Vérification du type de fichier
+        if ($imageFileType != "png" && $imageFileType != "jpg" && $imageFileType != "jpeg") {
+            $errorArray[] = "Sorry, only PNG, JPG, and JPEG files are allowed.";
+        }
+    
+        // Si aucune erreur, procéder au chargement du fichier
+        if (empty($errorArray)) {
+            if (move_uploaded_file($_FILES["adminPicture"]["tmp_name"], $target_file)) {
+                return basename($_FILES["adminPicture"]["name"]);
+            } else {
+                $errorArray[] = "Sorry, there was an error uploading your file.";
+            }
+        }
+    
+        return $errorArray;
+    }
+
+    public function updatePictureAdmin(){
+        $userId = $_SESSION['user']['userId'];
+        $data = new User();
+        $user =  $data->getOneUser($userId);
+        if($user['userPicture'] != $_FILES['adminPicture']['name']){
+            $picture = $this->addAdminPicture();
+            if(!is_array($picture)){
+                $query = $this->pdo->prepare('UPDATE users SET userPicture = :userPicture WHERE userId = :userId');
+                $query->bindValue(':userId', $userId, \PDO::PARAM_INT);
+                $query->bindValue(':userPicture', $picture);
+                if($query->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            else {
+                return $picture;
+            }
+            
+        }else {
+            return false;
         }
     }
 }

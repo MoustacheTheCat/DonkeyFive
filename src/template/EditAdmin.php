@@ -1,10 +1,8 @@
-
-
 <?php ob_start(); ?>
 <div class="container-fluid cont">
     <section class="gradient-custom">
         <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -35,7 +33,7 @@
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userNumber">Phone Number</label>
-                                        <input type="tel" id="userNumber" name="userNumber" class="form-control form-control-lg" value="<?=$admin['userNumber']?>">
+                                        <input type="tel" id="userNumber" name="userNumber" class="form-control form-control-lg" value="0<?=$admin['userNumber']?>">
                                     </div>
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="updateInfo">Update info</button>
                                 </form>
@@ -48,7 +46,7 @@
     </section>
     <section class="gradient-custom">
         <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -64,7 +62,7 @@
                                         <?= $result ?>
                                     </div>
                                 <?php endif; ?>
-                                <form action="/user/edit/password" method="POST" enctype="multipart/form-data">
+                                <form action="/admin/edit/password" method="POST" enctype="multipart/form-data">
                                 <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userPassword">Password</label>
                                         <input type="password" id="userPassword" name="userPassword" class="form-control form-control-lg" placeholder="Enter your password">
@@ -88,7 +86,7 @@
     </section>
     <section class="gradient-custom">
         <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -103,15 +101,15 @@
                                         <?= $result ?>
                                     </div>
                                 <?php endif; ?>
-                                <?php if(empty($user['userpicture'])) : ?>
+                                <?php if(empty($admin['userPicture'])) : ?>
                                     <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
                                 <?php else:?>
-                                    <img src="<?php echo $user['userpicture']; ?>" class="card-img-top" alt="User Image">
+                                    <img src="<?='/src/public/img/admin/'.$admin['userPicture']; ?>" class="card-img-top" alt="User Image">
                                 <?php endif; ?>
-                                <form action="/user/edit/picture" method="POST" enctype="multipart/form-data">
+                                <form action="/admin/edit/picture" method="POST" enctype="multipart/form-data">
                                 <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="userpicture">Profile Picture</label>
-                                        <input type="file" id="userpicture" name="userpicture" class="form-control form-control-lg" placeholder="<?=$admin['userPicture']?>">
+                                        <label class="form-label" for="userPicture">Profile Picture</label>
+                                        <input type="file" id="userPicture" name="userPicture" class="form-control form-control-lg" placeholder="<?=$admin['userPicture']?>">
                                     </div>
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="updatePicture">Update picture</button>
                                 </form>

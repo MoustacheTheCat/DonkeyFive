@@ -41,8 +41,14 @@ class AdminController{
         public function addCheck()
         {
             $admin = new Admin();
-            $admin->addAdmin();
-            header('Location: /admins');
+            $res = $admin->addAdmin();
+            if($res){
+                $result = "admin created";
+                header('Location: /');
+            }else{
+                $error = "admin not created";
+                header('Location: /user/add');
+            }
         }
     
         public static function edit($id)
@@ -60,12 +66,12 @@ class AdminController{
             header('Location: /admins');
         }
 
-        public static function delete($adminId)
+        public static function delete()
         {
-            $admin = new Admin();
-            $admin->delete($adminId);
-            header('Location: /admins');
+            $pageTitle = "Delete admin";
+            require_once('src/template/DeleteUser.php');
         }
+
 
         public static function login()
         {
@@ -85,6 +91,59 @@ class AdminController{
             $admin = new Admin();
             $admin->logout();
             header('Location: /');
+        }
+
+        public static function resetPasswordCheck()
+        {
+            $user = new User();
+            $check = $user->resetPasswordCheck();
+            if($check){
+                $result = "Password updated";
+            }else{
+                $error = "Password not updated";
+            }
+            header('Location: /');
+        }
+
+        public static function forgotPassword()
+        {
+            $pageTitle = "Forgot password";
+            require_once('src/template/ForgotPassword.php');
+        }
+
+        public static function sendMailResetPassword()
+        {
+            $user = new User();
+            $user->sendMailResetPassword();
+            header('Location: /login');
+        }
+
+        public static function forgotPasswordReset()
+        {
+            $pageTitle = "Reset Forgot password";
+            require_once('src/template/ForgotPasswordReset.php');
+        }
+
+
+        public static function forgotPasswordCheck()
+        {
+            $user = new User();
+            $user->forgotPasswordCheck();
+            header('Location: /login');
+        }
+
+        public static function updatePicture()
+        {
+            $user = new Admin();
+            $id = intval($_SESSION['user']['userId']);
+            $user->updatePictureAdmin();
+            if($user){
+                $result = "Picture updated";
+                header('Location: /admin/profil');
+            }else{
+                $error = "Picture not updated";
+                header('Location: /admin/profil');
+            }
         }
 
 }

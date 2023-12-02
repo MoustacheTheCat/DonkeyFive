@@ -17,6 +17,7 @@ require_once('src/controller/MessageController.php');
 require_once('src/controller/FieldsOptionsController.php');
 require_once('src/controller/CartController.php');
 require_once('src/controller/CardHomeController.php');
+require_once('src/controller/RentalController.php');
 
 
 
@@ -31,6 +32,7 @@ use Application\Controller\MessageController;
 use Application\Controller\FieldsOptionsController;
 use Application\Controller\CartController;
 use Application\Controller\CardHomeController;
+use Application\Controller\RentalController;
 
 
 
@@ -45,7 +47,10 @@ class Routes
         '/contact' => ['controller' => 'MessageController', 'method' => 'contact', 'static' => true],
         '/contact/submit' => ['controller' => 'MessageController', 'method' => 'addCheck', 'static' => true],
 
+        '/fields' => ['controller' => 'FieldController', 'method' => 'viewAll', 'static' => true],
         '/field' => ['controller' => 'FieldsOptionsController', 'method' => 'show', 'static' => true],
+
+        '/centers' => ['controller' => 'CenterController', 'method' => 'viewAll', 'static' => true],
 
         '/field/rent' => ['controller' => 'FieldsOptionsController', 'method' => 'showForrent', 'static' => true],
         '/field/rent/check' => ['controller' => 'CartController', 'method' => 'addCheck', 'static' => true],
@@ -69,13 +74,25 @@ class Routes
         '/user/edit/password' => ['controller' => 'UserController', 'method' => 'resetPasswordCheck', 'static' => true],
         '/user/edit/picture' => ['controller' => 'UserController', 'method' => 'updatePicture', 'static' => true],
         '/user/profil' => ['controller' => 'UserController', 'method' => 'profil', 'static' => true],
+        '/users' => ['controller' => 'UserController', 'method' => 'showAllUser', 'static' => true],
+        '/user/delete' => ['controller' => 'UserController', 'method' => 'delete', 'static' => true],
 
 
         '/admin/add' => ['controller' => 'AdminController', 'method' => 'add', 'static' => true],
+        '/admin/add/check' => ['controller' => 'AdminController', 'method' => 'addCheck', 'static' => false],
         '/admin/edit' => ['controller' => 'AdminController', 'method' => 'edit', 'static' => true],
+        '/admin/edit/password' => ['controller' => 'AdminController', 'method' => 'resetPasswordCheck', 'static' => true],
+        '/admin/edit/picture' => ['controller' => 'AdminController', 'method' => 'updatePicture', 'static' => true],
         '/admin/profil' => ['controller' => 'AdminController', 'method' => 'profil', 'static' => true],
+        '/admins' => ['controller' => 'UserController', 'method' => 'showAllAdmin', 'static' => true],
+        '/admin/delete' => ['controller' => 'AdminController', 'method' => 'delete', 'static' => true],
+
+
+        '/delete/check' => ['controller' => 'UserController', 'method' => 'deleteCheck', 'static' => true],
 
         '/option' => ['controller' => 'OptionController', 'method' => 'index', 'static' => true],
+
+        '/rentals' => ['controller' => 'RentalController', 'method' => 'viewAll', 'static' => true],
 
         '/carts' => ['controller' => 'CartController', 'method' => 'displayCarts', 'static' => true],
         '/cart/details' => ['controller' => 'CartController', 'method' => 'displayCartDetails', 'static' => true],
@@ -152,7 +169,10 @@ class Routes
                     } elseif ($method == 'POST' && $uri == '/user/add/check') {
                         $data = new $controllerName();
                         $data->$methodName();
-                    } elseif ($method == 'GET') {
+                    } elseif ($method == 'POST' && $uri == '/admin/add/check') {
+                        $data = new $controllerName();
+                        $data->$methodName();
+                    }elseif ($method == 'GET') {
                         $controller->$methodName();
                     }
                 } else {

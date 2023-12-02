@@ -14,13 +14,13 @@
     <?php if(empty($user['userPicture'])) : ?>
         <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
     <?php else:?>
-        <img src="<?= '/src/public/img/user/img/'.$user['userPicture']; ?>" class="card-img-top" alt="User Image">
+        <img src="<?= '/src/public/img/user/'.$user['userPicture']; ?>" class="card-img-top" alt="User Image">
     <?php endif; ?>
         <div class="card-body">
             <h5 class="card-title"><?php echo $user['userFirstName'] . ' ' . $user['userLastName']; ?></h5>
             <p class="card-text">
                 Email: <?php echo $user['userEmail']; ?><br>
-                Phone: <?php echo $user['userNumber']; ?><br>
+                Phone: 0<?php echo $user['userNumber']; ?><br>
                 Address: <?php echo $user['userAddress']; ?><br>
                 Zip: <?php echo $user['userZip']; ?><br>
                 City: <?php echo $user['userCity']; ?><br>

@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userNumber">Phone Number</label>
-                                        <input type="tel" id="userNumber" name="userNumber" class="form-control form-control-lg" value="<?=$user['userNumber']?>">
+                                        <input type="tel" id="userNumber" name="userNumber" class="form-control form-control-lg" value="0<?=$user['userNumber']?>">
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userAddress">Address</label>
@@ -131,7 +131,7 @@
                                 <?php if(empty($user['userPicture'])) : ?>
                                     <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
                                 <?php else:?>
-                                    <img src="<?='/src/public/img/user/img/'.$user['userPicture']; ?>" class="card-img-top" alt="User Image">
+                                    <img src="<?='/src/public/img/user/'.$user['userPicture']; ?>" class="card-img-top" alt="User Image">
                                 <?php endif; ?>
                                 <form action="/user/edit/picture" method="POST" enctype="multipart/form-data">
                                     <div class="form-outline form-white mb-4">

@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Controller\RentalController;
+namespace Application\Controller;
 
 require_once('src/model/Rental.php');
 
@@ -14,6 +14,17 @@ class RentalController {
             $rentals = $rental->getAllRentals();
             $pageTitle = "hello world";
             require_once('src/template/Rental.php');
+        }
+
+        public static function viewAll()
+        {
+            $rental = new Rental();
+            $pageTitle = "Rental";
+            $datas = $rental->getAllRentals();
+            if(empty($datas)){
+                $error = "Aucune donnée à afficher";
+            }
+            require_once('src/template/ViewRental.php');
         }
 
         public function show($rentalId)
