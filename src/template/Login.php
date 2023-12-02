@@ -15,6 +15,10 @@
                                     <div class="alert alert-danger" role="alert">
                                         <?= $error ?>
                                     </div>
+                                <?php elseif (!empty($result)) : ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <?= $result ?>
+                                    </div>
                                 <?php endif; ?>
                                 <form action="/login/submit" method="POST">
                                     <div class="form-outline form-white mb-4">

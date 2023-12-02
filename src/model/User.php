@@ -199,57 +199,73 @@ class User {
     }
 
 
-    public function addUserPicture(){
-        $target_dir = "src/public/img/customers/";
-        $target_file = $target_dir . basename($_FILES["userpicture"]["name"]);
+    public function addUserPicture() {
+        $target_dir = "/var/www/html/donkeyfive/src/public/img/user/img/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+        $target_file = $target_dir . basename($_FILES["userPicture"]["name"]);
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        $userpicture = $_FILES["userpicture"]["name"];
-        if(isset($_POST["register"])) {
-            $check = getimagesize($_FILES["userpicture"]["tmp_name"]);
-            if($check !== false) {
-                $uploadOk = 1;
-            } else {
-                $error = "File is not an image.";
-                return $error;
-            }
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+        // Initialisation d'un tableau pour stocker les erreurs potentielles
+        $errorArray = [];
+    
+        // Vérification si le fichier est une image
+        $check = getimagesize($_FILES["userPicture"]["tmp_name"]);
+        if ($check === false) {
+            $errorArray[] = "File is not an image.";
+            return $errorArray;
         }
+    
+        // Vérification si le fichier existe déjà
         if (file_exists($target_file)) {
-            $error = "Sorry, file already exists.";
-            return $error;
+            $errorArray[] = "Sorry, file already exists.";
         }
-        if ($_FILES["userpicture"]["size"] > 500000) {
-            $error = "Sorry, your file is too large.";
-            return $error;
+    
+        // Vérification de la taille du fichier
+        if ($_FILES["userPicture"]["size"] > 500000) {
+            $errorArray[] = "Sorry, your file is too large.";
         }
-        if($imageFileType != "png" ) {
-            $error = "Sorry, only PNG files are allowed.";
-            return $error;
+    
+        // Vérification du type de fichier
+        if ($imageFileType != "png" && $imageFileType != "jpg" && $imageFileType != "jpeg") {
+            $errorArray[] = "Sorry, only PNG, JPG, and JPEG files are allowed.";
         }
-        if($imageFileType != "jpg" ) {
-            $error = "Sorry, only JPG files are allowed.";
-            return $error;
-        }
-        if($imageFileType != "jpeg" ) {
-            $error = "Sorry, only JPEG files are allowed.";
-            return $error;
-        }
-        if ($uploadOk == 1) {
-            if (move_uploaded_file($_FILES["userpicture"]["tmp_name"], $target_file)) {
-                return $userpicture;
+    
+        // Si aucune erreur, procéder au chargement du fichier
+        if (empty($errorArray)) {
+            if (move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file)) {
+                return basename($_FILES["userPicture"]["name"]);
             } else {
-                $error = "Sorry, there was an error uploading your file.";
-                return $error;
+                $errorArray[] = "Sorry, there was an error uploading your file.";
             }
         }
+    
+        return $errorArray;
     }
 
     public function updatePictureUser(){
         $userId = $_SESSION['user']['userId'];
         $user = self::getOneUser($userId);
-        if($user['userPicture'] != $_POST['userPicture']){
+        if($user['userPicture'] != $_FILES['userPicture']['name']){
             $picture = $this->addUserPicture();
-            return $picture;
+            if(!is_array($picture)){
+                $query = $this->pdo->prepare('UPDATE users SET userPicture = :userPicture WHERE userId = :userId');
+                $query->bindValue(':userId', $userId, \PDO::PARAM_INT);
+                $query->bindValue(':userPicture', $picture);
+                if($query->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            else {
+                return $picture;
+            }
+            
+        }else {
+            return false;
         }
     }
 
@@ -317,7 +333,16 @@ class User {
                     $query->bindValue(':userpicture', $userpicture); 
                     $query->bindValue(':userRole', 2); 
                     if($query->execute()){
-                        return true;
+                        $to = $_POST['userEmail'];
+                        $subject = "Crete Account";
+                        $message = "Hello, you have created an account on our site, you can now log in with your email and password";
+                        $headers = "From: admin@donkeyfive.com";
+                        mail($to, $subject, $message, $headers);
+                        if(mail($to, $subject, $message, $headers)){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }else{
                         return false;
                     }
@@ -546,7 +571,7 @@ class User {
         }else {
             $error = "Email is incorrect";
             return $error;
-        }
+        }   
     }
 
     public function forgotPasswordCheck()

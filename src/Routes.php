@@ -67,6 +67,7 @@ class Routes
         '/user/add/check' => ['controller' => 'UserController', 'method' => 'addCheck', 'static' => false],
         '/user/edit' => ['controller' => 'UserController', 'method' => 'edit', 'static' => true],
         '/user/edit/password' => ['controller' => 'UserController', 'method' => 'resetPasswordCheck', 'static' => true],
+        '/user/edit/picture' => ['controller' => 'UserController', 'method' => 'updatePicture', 'static' => true],
         '/user/profil' => ['controller' => 'UserController', 'method' => 'profil', 'static' => true],
 
 

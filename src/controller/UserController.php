@@ -146,6 +146,20 @@ class UserController {
             header('Location: /login');
         }
 
+        public static function updatePicture()
+        {
+            $user = new User();
+            $id = intval($_SESSION['user']['userId']);
+            $user->updatePictureUser();
+            if($user){
+                $result = "Picture updated";
+                header('Location: /user/profil');
+            }else{
+                $error = "Picture not updated";
+                require_once('src/template/ProfileUser.php');
+            }
+        }
+
         
 
 }
