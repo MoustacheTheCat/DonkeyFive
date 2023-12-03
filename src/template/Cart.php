@@ -3,10 +3,7 @@
 if(!empty($_SESSION['cart'])) {
     $datas = $_SESSION['cart'];
 }
-var_dump($datas);
-
 ?>
-
 <div class="container mt-5 mb-5 pb-5 pt-5 bg-dark text-light text-center">
     <h2 class="fw-bold mb-2 text-uppercase">Mon Panier</h2>
     <p class="text-white-50 mb-5">...........</p>

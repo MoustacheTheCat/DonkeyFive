@@ -44,7 +44,7 @@ class CenterFields
   {
     
     $sql = "SELECT * FROM fields JOIN centers ON fields.centerId = centers.centerId  WHERE fields.centerId = :centerId";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':centerId', $id);
     $stmt->execute();
     $this->centerFields = $stmt->fetchAll();

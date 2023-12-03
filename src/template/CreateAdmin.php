@@ -56,9 +56,6 @@
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="register">Register</button>
                                 </form>
                             </div>
-                            <div>
-                                <p class="mb-0">Already have an account? <a href="/login" class="text-white-50 fw-bold">Login</a></p>
-                            </div>
                         </div>
                     </div>
                 </div>

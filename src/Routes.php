@@ -49,8 +49,21 @@ class Routes
 
         '/fields' => ['controller' => 'FieldController', 'method' => 'viewAll', 'static' => true],
         '/field' => ['controller' => 'FieldsOptionsController', 'method' => 'show', 'static' => true],
+        '/field/add' => ['controller' => 'FieldController', 'method' => 'add', 'static' => true],
+        '/field/add/check' => ['controller' => 'FieldController', 'method' => 'addCheeck', 'static' => true],
+        '/field/edit' => ['controller' => 'FieldController', 'method' => 'edit', 'static' => true],
+        '/field/edit/check' => ['controller' => 'FieldController', 'method' => 'editCheck', 'static' => true],
+        '/field/edit/picture' => ['controller' => 'FieldController', 'method' => 'editPicture', 'static' => true],
+        '/field/delete' => ['controller' => 'FieldController', 'method' => 'delete', 'static' => true],
 
         '/centers' => ['controller' => 'CenterController', 'method' => 'viewAll', 'static' => true],
+        '/center' => ['controller' => 'CenterFieldsController', 'method' => 'viewCenter', 'static' => true],
+        '/center/add' => ['controller' => 'CenterController', 'method' => 'add', 'static' => true],
+        '/center/add/check' => ['controller' => 'CenterController', 'method' => 'addCheck', 'static' => true],
+        '/center/edit' => ['controller' => 'CenterController', 'method' => 'edit', 'static' => true],
+        '/center/edit/check' => ['controller' => 'CenterController', 'method' => 'editCheck', 'static' => true],
+        '/center/edit/picture' => ['controller' => 'CenterController', 'method' => 'editPicture', 'static' => true],
+        '/center/delete' => ['controller' => 'CenterController', 'method' => 'delete', 'static' => true],
 
         '/field/rent' => ['controller' => 'FieldsOptionsController', 'method' => 'showForrent', 'static' => true],
         '/field/rent/check' => ['controller' => 'CartController', 'method' => 'addCheck', 'static' => true],

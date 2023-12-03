@@ -4,21 +4,28 @@ namespace Application\Controller;
 
 require_once('src/model/Center.php');
 
-use Application\Model\Center\Center;
+use Application\Model\Center;
 
 class CenterController {
+
+        public static array $pays = [
+            "France", "Germany", "Italy", "Spain", "United Kingdom", "Netherlands",
+            "Belgium", "Sweden", "Poland", "Switzerland", "Norway", "Denmark",
+            "Finland", "Austria", "Portugal", "Greece", "Ireland", "Czech Republic",
+            "Hungary", "Croatia", "United States", "Canada", "Australia", "India", "China"
+        ];
     
         public static function index()
         {
             $center = new Center();
             $citys = $center->getSelectCenterCitys();
-            //require_once('src/template/ViewAll.php');
+            return $citys;
         }
 
         public static function viewAll()
         {
             $center = new Center();
-            $pageTitle = "Center";
+            $pageTitle = "Centers";
             $datas = $center->getAllCenters();
             if(empty($datas)){
                 $error = "Aucune donnée à afficher";
@@ -26,85 +33,72 @@ class CenterController {
             require_once('src/template/ViewAll.php');
         }
 
-
-
-        public static function test(){
-            $center = new Center();
-            $datas = $center->getAll();
-            return $datas;
-        }
-    
-        public function show($centerId)
-        {
-            $center = new Center();
-            $center = $center->getCenter($centerId);
-            $pageTitle = "center";
-            require_once('src/template/center.php');
-        }
-
-        public function updateName($centerId, $newName)
-        {
-            $center = new Center();
-            $center->getAllCenters();
-            //var_dump($center->getAllCenters());
-            //var_dump($datas); 
-            $center->updateCenterName($centerId, $newName);  
-            
-            // $center->updateCenterName($centerId, $centerName);
-            //header('Location: /centers');
-            return $center->getAll();
-        }
-    
-        public function create()
+        public static function add()
         {
             $pageTitle = "Create center";
+            $pays = self::$pays;
             require_once('src/template/CreateCenter.php');
         }
-    
-        public function store()
+
+        public static function addCheck()
         {
-            $centerName = $_POST['centerName'];
-            $centerCity = $_POST['centerCity'];
-            $centerAdress = $_POST['centerAdress'];
-            $centerZip = $_POST['centerZip'];
-            $centerCountry = $_POST['centerCountry'];
-            $centerNumber = $_POST['centerNumber'];
-            $centerEmail = $_POST['centerEmail'];
-    
             $center = new Center();
-            $center->createCenter($centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail);
-            header('Location: /centers');
+            $res = $center->addCheck();
+            if($res){
+                $success = "center created";
+                header('Location: /centers');
+            }else{
+                $error = "center not created";
+                header('Location: /center/add');
+            }
         }
     
-        public function edit($centerId)
+        public static function edit()
         {
+            $id = $_GET['id'];
             $center = new Center();
-            $center = $center->getCenter($centerId);
+            $center = $center->getOneCenter($id);
             $pageTitle = "Edit center";
-            require_once('src/template/Editcenter.php');
+            require_once('src/template/EditCenter.php');
         }
     
-        public function update($centerId)
+        public static function editCheck()
         {
-            $centerName = $_POST['centerName'];
-            $centerCity = $_POST['centerCity'];
-            $centerAdress = $_POST['centerAdress'];
-            $centerZip = $_POST['centerZip'];
-            $centerCountry = $_POST['centerCountry'];
-            $centerNumber = $_POST['centerNumber'];
-            $centerEmail = $_POST['centerEmail'];
-    
+            
             $center = new Center();
-            $center->updateCenter($centerId, $centerName, $centerCity, $centerAdress, $centerZip, $centerCountry, $centerNumber, $centerEmail);
-            header('Location: /centers');
-        }
-    
-        public function delete($centerId)
-        {
-            $center = new Center();
-            $center->deleteCenter($centerId);
-            header('Location: /centers');
+            $res = $center->updateCheck();
+            if($res){
+                $success = "center updated";
+                header('Location: /center');
+            }else{
+                $error = "center not updated";
+                header('Location: /center/edit?id='.$_GET['id'].'');
+            }
         }
 
-
+        public static function editPicture()
+        {
+            $center = new Center();
+            $res = $center->updatePictureCenter();
+            if($res){
+                $success = "center updated";
+                header('Location: /center');
+            }else{
+                $error = "center not updated";
+                header('Location: /center/edit?id='.$_GET['id'].'');
+            }
+        }
+    
+        public static function delete()
+        {
+            $center = new Center();
+            $res = $center->delete($centerId);
+            if($res){
+                $success = "center deleted";
+                header('Location: /centers');
+            }else{
+                $error = "center not deleted";
+                header('Location: /center/edit?id='.$_GET['id'].'');
+            }
+        }
 }

@@ -20,8 +20,14 @@ class FieldsOptionsController {
         {
             $fieldsOptions = new FieldsOptions();
             $fieldsOptions = $fieldsOptions->getFieldsOptionsByFieldId();
-            $pageTitle = "Field";
-            require_once('src/template/ViewField.php');
+            if(!empty($fieldsOptions)){
+                $pageTitle = "Field";
+                require_once('src/template/ViewField.php');
+            }else{
+                $pageTitle = "Field not found";
+                $error = "Field not found";
+                require_once('src/template/ViewField.php');
+            }
         }
 
         public static function showForrent()

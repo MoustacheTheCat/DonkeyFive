@@ -25,14 +25,14 @@ $nbMessage = MessageController::countNbMessageNotRead();
                             <a class="nav-link dropdown-toggle" href="" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Center</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCar">
                                 <li><a class="dropdown-item" href="/centers">Centers</a></li>
-                                <li><a class="dropdown-item" href="">Add Center</a></li>
+                                <li><a class="dropdown-item" href="/center/add">Add Center</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Fields</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdowncenter">
                                 <li><a class="dropdown-item" href="/fields">Fields</a></li>
-                                <li><a class="dropdown-item" href="">Add Fields</a></li>
+                                <li><a class="dropdown-item" href="/field/add">Add Fields</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
