@@ -33,7 +33,7 @@ $dataOps = $dataOptions['totalCostHT'];
               <?php print_r($value) ?>
               <?php if(is_int($key)) :?>
               <tr>
-                 <td class="text-dark"><?= $value['names'] ?></td>
+                  <td class="text-dark"><?= $value['names'] ?></td>
                   <td class="text-dark"><?= $value['prices'] ?></td>
               </tr>
             <?php endif;?>
@@ -44,7 +44,7 @@ $dataOps = $dataOptions['totalCostHT'];
         <?php $costTTC = $dataOps['costs']['totalHT']*1.2;?>
           <p class="text-white mb-5">Coût des options TTC : <?= $costTTC; ?></p>
           <p class="text-white mb-5">Coût du terrain TTC : <?= $datas[$id]['field']['totalTTC'] ?></p>
-          <p class="text-white mb-5">Prix total TTC : <?= $costTTC +$datas[$id]['field']['totalTTC']?> €</p>
+          <p class="text-white mb-5">Prix total TTC : <?= $costTTC + $datas[$id]['field']['totalTTC']?> €</p>
       </div>
     </div>
   <?php endforeach; ?>

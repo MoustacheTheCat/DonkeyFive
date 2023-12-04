@@ -20,7 +20,7 @@
                                         <?= $success ?>
                                     </div>
                                 <?php endif; ?>
-                                <form action="/admin/add" method="POST" enctype="multipart/form-data">
+                                <form action="/admin/add/check" method="POST" enctype="multipart/form-data">
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="adminFirstName">First Name</label>
                                         <input type="text" id="adminFirstName" name="adminFirstName" class="form-control form-control-lg" placeholder="Enter your first name" required>
@@ -28,6 +28,10 @@
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="adminLastName">Last Name</label>
                                         <input type="text" id="adminLastName" name="adminLastName" class="form-control form-control-lg" placeholder="Enter your last name" required>
+                                    </div>
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="adminBirthDay">Birthdate</label>
+                                        <input type="date" id="adminBirthDay" name="adminBirthDay" class="form-control form-control-lg" required>
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="adminEmail">Email</label>
@@ -51,9 +55,6 @@
                                     </div>
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="register">Register</button>
                                 </form>
-                            </div>
-                            <div>
-                                <p class="mb-0">Already have an account? <a href="/login" class="text-white-50 fw-bold">Login</a></p>
                             </div>
                         </div>
                     </div>

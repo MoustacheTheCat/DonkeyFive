@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userNumber">Phone Number</label>
-                                        <input type="tel" id="userNumber" name="userNumber" class="form-control form-control-lg" value="<?=$user['userNumber']?>">
+                                        <input type="tel" id="userNumber" name="userNumber" class="form-control form-control-lg" value="0<?=$user['userNumber']?>">
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="userAddress">Address</label>
@@ -128,15 +128,15 @@
                                         <?= $result ?>
                                     </div>
                                 <?php endif; ?>
-                                <?php if(empty($user['userpicture'])) : ?>
+                                <?php if(empty($user['userPicture'])) : ?>
                                     <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
                                 <?php else:?>
-                                    <img src="<?php echo $user['userpicture']; ?>" class="card-img-top" alt="User Image">
+                                    <img src="<?='/src/public/img/user/'.$user['userPicture']; ?>" class="card-img-top" alt="User Image">
                                 <?php endif; ?>
                                 <form action="/user/edit/picture" method="POST" enctype="multipart/form-data">
-                                <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="userpicture">Profile Picture</label>
-                                        <input type="file" id="userpicture" name="userpicture" class="form-control form-control-lg" placeholder="<?=$user['userPicture']?>">
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="userPicture">Profile Picture</label>
+                                        <input type="file" id="userPicture" name="userPicture" class="form-control form-control-lg" placeholder="<?=$user['userPicture']?>">
                                     </div>
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="updatePicture">Update picture</button>
                                 </form>

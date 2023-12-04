@@ -194,65 +194,78 @@ class User {
         $data = $query->fetch();
         
         return $data;
-        // $this->users = $query->fetch();
-        // return $this->users;
     }
 
 
-    public function addUserPicture(){
-        $target_dir = "src/public/img/customers/";
-        $target_file = $target_dir . basename($_FILES["userpicture"]["name"]);
+    public function addUserPicture() {
+        $target_dir = "/var/www/html/donkeyfive/src/public/img/user/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+        $target_file = $target_dir . basename($_FILES["userPicture"]["name"]);
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        $userpicture = $_FILES["userpicture"]["name"];
-        if(isset($_POST["register"])) {
-            $check = getimagesize($_FILES["userpicture"]["tmp_name"]);
-            if($check !== false) {
-                $uploadOk = 1;
-            } else {
-                $error = "File is not an image.";
-                return $error;
-            }
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $errorArray = [];
+        $check = getimagesize($_FILES["userPicture"]["tmp_name"]);
+        if ($check === false) {
+            $errorArray[] = "File is not an image.";
+            return $errorArray;
         }
         if (file_exists($target_file)) {
-            $error = "Sorry, file already exists.";
-            return $error;
+            $errorArray[] = "Sorry, file already exists.";
         }
-        if ($_FILES["userpicture"]["size"] > 500000) {
-            $error = "Sorry, your file is too large.";
-            return $error;
+        if ($_FILES["userPicture"]["size"] > 500000) {
+            $errorArray[] = "Sorry, your file is too large.";
         }
-        if($imageFileType != "png" ) {
-            $error = "Sorry, only PNG files are allowed.";
-            return $error;
+        if ($imageFileType != "png" && $imageFileType != "jpg" && $imageFileType != "jpeg") {
+            $errorArray[] = "Sorry, only PNG, JPG, and JPEG files are allowed.";
         }
-        if($imageFileType != "jpg" ) {
-            $error = "Sorry, only JPG files are allowed.";
-            return $error;
-        }
-        if($imageFileType != "jpeg" ) {
-            $error = "Sorry, only JPEG files are allowed.";
-            return $error;
-        }
-        if ($uploadOk == 1) {
-            if (move_uploaded_file($_FILES["userpicture"]["tmp_name"], $target_file)) {
-                return $userpicture;
+        if (empty($errorArray)) {
+            if (move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file)) {
+                return basename($_FILES["userPicture"]["name"]);
             } else {
-                $error = "Sorry, there was an error uploading your file.";
-                return $error;
+                $errorArray[] = "Sorry, there was an error uploading your file.";
             }
         }
+    
+        return $errorArray;
     }
 
     public function updatePictureUser(){
         $userId = $_SESSION['user']['userId'];
         $user = self::getOneUser($userId);
-        if($user['userPicture'] != $_POST['userPicture']){
+        // var_dump($user);
+        var_dump($_FILES['userPicture']['name']);
+        if($user['userPicture'] != $_FILES['userPicture']['name']){
+            $this->deletePicture();
             $picture = $this->addUserPicture();
-            return $picture;
+            if(!is_array($picture)){
+                $query = $this->pdo->prepare('UPDATE users SET userPicture = :userPicture WHERE userId = :userId');
+                $query->bindValue(':userId', $userId, \PDO::PARAM_INT);
+                $query->bindValue(':userPicture', $picture);
+                if($query->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            else {
+                return $picture;
+            }
+            
+        }else {
+            return false;
         }
     }
-
+    function deletePicture(){
+        $data = new User();
+        $userId = $_SESSION['user']['userId'];
+        $user =  $data->getOneUser($userId);
+        if(file_exists('src/public/img/user/'.$user['userPicture'])){
+            unlink('src/public/img/user/'.$user['userPicture']);
+            
+        }
+    }
     
     public function addUser()
     {
@@ -317,7 +330,16 @@ class User {
                     $query->bindValue(':userpicture', $userpicture); 
                     $query->bindValue(':userRole', 2); 
                     if($query->execute()){
-                        return true;
+                        $to = $_POST['userEmail'];
+                        $subject = "Crete Account";
+                        $message = "Hello, you have created an account on our site, you can now log in with your email and password";
+                        $headers = "From: admin@donkeyfive.com";
+                        mail($to, $subject, $message, $headers);
+                        if(mail($to, $subject, $message, $headers)){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }else{
                         return false;
                     }
@@ -446,23 +468,22 @@ class User {
     public function delete($id)
     {
         if(empty($id)){
-            $error = "not id user selected for delete";
+            $error = "not id  selected for delete";
             return $error;
         }else {
             $user = self::getOneUser($id);
-            $password = $_POST['userPassword'];
-            if(!isset($user) && password_verify($userPassword, $user['userPassword'])){
+            if(password_verify($_POST['userPassword'], $user['userPassword'])){
+                $this->deletePicture();
                 $query = $this->pdo->prepare('DELETE FROM users WHERE userId = :userId');
                 $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
                 if($query->execute()){
-                    $result  = "user Deleted";
-                    return $result;
+                    return true;
                 }else{
-                    $error = "user not Deleted";
+                    $error = "user not deleted";
                     return $error;
                 }
             }else {
-                $error = "user not found";
+                $error = "password incorrect";
                 return $error;
             }
             
@@ -507,7 +528,7 @@ class User {
         $newUserPassword = $_POST['newUserPassword'];
         $newUserPasswordConfirm = $_POST['newUserPasswordConfirm'];
         $user = self::getOneUser($userId);
-        if($password_verify($userPassword, $user['userPassword'])){
+        if(password_verify($userPassword, $user['userPassword'])){
             if($newUserPassword === $newUserPasswordConfirm){
                 $password = password_hash($newUserPassword,PASSWORD_ARGON2I);
                 $query = $this->pdo->prepare('UPDATE users SET userPassword = :userPassword WHERE userId = :id');
@@ -546,14 +567,14 @@ class User {
         }else {
             $error = "Email is incorrect";
             return $error;
-        }
+        }   
     }
 
     public function forgotPasswordCheck()
     {
-        $userEmail = $_POST['email'];
-        $newUserPassword = $_POST['newPassword'];
-        $newUserPasswordConfirm = $_POST['newPasswordConfirm'];
+        $userEmail = $_POST['userEmail'];
+        $newUserPassword = $_POST['newUserPassword'];
+        $newUserPasswordConfirm = $_POST['newUserPasswordConfirm'];
         $stmt = $this->pdo->prepare('SELECT * FROM users WHERE userEmail = :userEmail');    
         $stmt->bindValue(':userEmail', $userEmail);
         $stmt->execute();

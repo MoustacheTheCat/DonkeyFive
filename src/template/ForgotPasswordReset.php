@@ -23,11 +23,11 @@
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="newUserPassword">Password</label>
-                                        <input type="newUserPassword" id="adminPassword" name="newUserPassword" class="form-control form-control-lg" placeholder="Enter your password" required>
+                                        <input type="password" id="adminPassword" name="newUserPassword" class="form-control form-control-lg" placeholder="Enter your password" required>
                                     </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="newUserPasswordConfirm">Password Confirm</label>
-                                        <input type="newUserPassword" id="adminPasswordConfirm" name="newUserPasswordConfirm" class="form-control form-control-lg" placeholder="Enter your password again" required>
+                                        <input type="password" id="adminPasswordConfirm" name="newUserPasswordConfirm" class="form-control form-control-lg" placeholder="Enter your password again" required>
                                     </div>
                                     <button class="btn btn-outline-light btn-lg px-5" type="submit" name="send">Send</button>
                                 </form>

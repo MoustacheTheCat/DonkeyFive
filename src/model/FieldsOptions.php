@@ -1,11 +1,12 @@
 <?php
 
-namespace Application\Model\FieldsOptions;
+namespace Application\Model;
 
 require_once('src/lib/DatabaseConnection.php');
+require_once('src/model/Option.php');
 
 use Application\lib\DatabaseConnection;
-
+use Application\Model\Option;
 class FieldsOptions
 {
     public function __construct(
@@ -82,6 +83,23 @@ class FieldsOptions
         $stmt->bindValue(':optionId', $optionId);
         $stmt->bindValue(':fieldId', $fieldId);
         $stmt->execute();
+    }
+
+    public function addCheck(){
+        $errorArray = [];
+        $datas = new Option();
+        $options = $datas->getAllOptionId();
+        if (empty($data)) {
+            $errorArray['fieldId'] = "Le terrain est obligatoire";
+        }
+        if(empty($errorArray)){
+            foreach ($options as $option) {
+                $this->addFieldsOptions($option,$data);
+            }
+            return true;
+        }else{
+            return $errorArray;
+        }
     }
 
 }

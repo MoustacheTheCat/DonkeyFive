@@ -21,6 +21,42 @@ class UserController {
             $user = new User();
             $users = $user->getAllUsers();
         }
+
+        public static function showAllUser()
+        {
+            $user = new User();
+            $users = $user->getAllUsers();
+            $arrayUser = [];
+            foreach($users as $user){
+                if($user['userRole'] == 2){
+                    $arrayUser[] = $user;
+                }
+            }
+            $datas = $arrayUser;
+            $pageTitle = "Users";
+            if(empty($datas)){
+                $error = "Aucune donnée à afficher";
+            }
+            require_once('src/template/ViewAll.php');
+        }
+
+        public static function showAllAdmin()
+        {
+            $user = new User();
+            $users = $user->getAllUsers();
+            $arrayUser = [];
+            foreach($users as $user){
+                if($user['userRole'] == 1){
+                    $arrayUser[] = $user;
+                }
+            }
+            $datas = $arrayUser;
+            $pageTitle = "Admins";
+            if(empty($datas)){
+                $error = "Aucune donnée à afficher";
+            }
+            require_once('src/template/ViewAll.php');
+        }
     
         public static function viewOneUser($userId)
         {
@@ -48,7 +84,6 @@ class UserController {
         public function addCheck()
         {
             $user = new User();
-            $user->addUser();
             $res = $user->addUser();
             if($res){
                 $result = "user created";
@@ -75,11 +110,25 @@ class UserController {
             header('Location: /users');
         }
 
-        public static function delete($userId)
+        public static function delete()
         {
+            $pageTitle = "Delete User";
+            require_once('src/template/DeleteUser.php');
+        }
+
+        public static function deleteCheck()
+        {
+            $id = $_GET['id'];
             $user = new User();
-            $user->deleteUser($userId);
-            header('Location: /');
+            $res = $user->delete($id);
+            if($res){
+                $user->logout();
+                $result = "user deleted";
+                header('Location: /'); 
+            }else{
+                $error = $res;
+                header('Location: /');
+            }
         }
 
         public static function login()
@@ -144,6 +193,20 @@ class UserController {
             $user = new User();
             $user->forgotPasswordCheck();
             header('Location: /login');
+        }
+
+        public static function updatePicture()
+        {
+            $user = new User();
+            $id = intval($_SESSION['user']['userId']);
+            $user->updatePictureUser();
+            if($user){
+                $result = "Picture updated";
+                header('Location: /user/profil');
+            }else{
+                $error = "Picture not updated";
+                require_once('src/template/ProfileUser.php');
+            }
         }
 
         

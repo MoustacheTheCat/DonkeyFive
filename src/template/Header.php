@@ -24,30 +24,30 @@ $nbMessage = MessageController::countNbMessageNotRead();
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Center</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCar">
-                                <li><a class="dropdown-item" href="">Centers</a></li>
-                                <li><a class="dropdown-item" href="">Add Center</a></li>
+                                <li><a class="dropdown-item" href="/centers">Centers</a></li>
+                                <li><a class="dropdown-item" href="/center/add">Add Center</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Fields</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdowncenter">
-                                <li><a class="dropdown-item" href="">Fields</a></li>
-                                <li><a class="dropdown-item" href="">Add Fields</a></li>
+                                <li><a class="dropdown-item" href="/fields">Fields</a></li>
+                                <li><a class="dropdown-item" href="/field/add">Add Fields</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Rental</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCar">
-                                <li><a class="dropdown-item" href="">Rental</a></li>
+                                <li><a class="dropdown-item" href="/rentals">Rental</a></li>
                             </ul>
                         </li>
                         <?php if ($_SESSION['user']['userRole'] == 1) : ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">Admin and User</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdowncenter">
-                                    <li><a class="dropdown-item" href="">List admin</a></li>
+                                    <li><a class="dropdown-item" href="/admins">List admin</a></li>
                                     <li><a class="dropdown-item" href="/admin/add">Add Admin</a></li>
-                                    <li><a class="dropdown-item" href="">List User</a></li>
+                                    <li><a class="dropdown-item" href="/users">List User</a></li>
                                     <li><a class="dropdown-item" href="/user/add">Add User</a></li>
                                 </ul>
                             </li>

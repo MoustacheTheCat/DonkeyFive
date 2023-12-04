@@ -6,7 +6,7 @@ require_once('src/lib/DatabaseConnection.php');
 require_once('src/model/Field.php');
 
 use Application\lib\DatabaseConnection;
-use Application\Model\Field\Field;
+use Application\Model\Field;
 
 class Filter
 {

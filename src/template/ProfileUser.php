@@ -2,16 +2,25 @@
 
 <div class="container mt-4 d-flex justify-content-center align-item-center">
     <div class="card" style="width: 36rem;">
-    <?php if(empty($user['userpicture'])) : ?>
+    <?php if (!empty($error)) : ?>
+        <div class="alert alert-danger" role="alert">
+            <?= $error ?>
+        </div>
+    <?php elseif (!empty($result)) : ?>
+        <div class="alert alert-success" role="alert">
+            <?= $result ?>
+        </div>
+    <?php endif; ?>
+    <?php if(empty($user['userPicture'])) : ?>
         <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
     <?php else:?>
-        <img src="<?php echo $user['userpicture']; ?>" class="card-img-top" alt="User Image">
+        <img src="<?= '/src/public/img/user/'.$user['userPicture']; ?>" class="card-img-top" alt="User Image">
     <?php endif; ?>
         <div class="card-body">
             <h5 class="card-title"><?php echo $user['userFirstName'] . ' ' . $user['userLastName']; ?></h5>
             <p class="card-text">
                 Email: <?php echo $user['userEmail']; ?><br>
-                Phone: <?php echo $user['userNumber']; ?><br>
+                Phone: 0<?php echo $user['userNumber']; ?><br>
                 Address: <?php echo $user['userAddress']; ?><br>
                 Zip: <?php echo $user['userZip']; ?><br>
                 City: <?php echo $user['userCity']; ?><br>

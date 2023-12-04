@@ -3,8 +3,12 @@
 namespace Application\Controller;
 
 require_once('src/model/Field.php');
+require_once('src/model/Center.php');
+require_once('src/model/FieldsOptions.php');
 
-use Application\Model\Field\Field;
+use Application\Model\Field;
+use Application\Model\Center;
+use Application\Model\FieldsOptions;
 
 class FieldController
 {
@@ -16,6 +20,17 @@ class FieldController
     require_once('src/template/Field.php');
   }
 
+  public static function viewAll()
+  {
+      $center = new Field();
+      $pageTitle = "Fields";
+      $datas = $center->getAllFields();
+      if(empty($datas)){
+        $error = "Aucune donnée à afficher";
+      }
+      require_once('src/template/ViewAll.php');
+  }
+
   public function show($fieldId)
   {
     $field = new Field();
@@ -24,50 +39,96 @@ class FieldController
     require_once('src/template/Field.php');
   }
 
-  public function create()
+  public static function add()
   {
     $pageTitle = "Create field";
+    $center = new Center();
+    $centers = $center->getAllCenters();
     require_once('src/template/CreateField.php');
   }
 
-  public function store()
+  public static function addCheeck()
   {
-    $fieldName = $_POST['fieldName'];
-    $fieldTarifHourHT = $_POST['fieldTarifHourHT'];
-    $fieldTarifDayHT = $_POST['fieldTarifDayHT'];
-    $fieldPicture = $_POST['fieldPicture'];
-    $centerId = $_POST['centerId'];
-
-    $field = new Field();
-    $field->createField($fieldName, $fieldTarifHourHT, $fieldTarifDayHT, $fieldPicture, $centerId);
-    header('Location: /fields');
+    $data = new Field();
+    $res = $data->addCheck();
+    if($res){
+      $success = "Le terrain a bien été ajouté";
+      header('Location: /fields');
+    }
+    else{
+      $error = "Une erreur est survenue lors de l'ajout";
+      $pageTitle = "Create field";
+      $center = new Center();
+      $centers = $center->getAllCenters();
+      require_once('src/template/CreateField.php');
+    }
+    
   }
 
-  public static function edit($fieldId)
+ 
+
+  public static function edit()
   {
-    $fields = new Field();
-    $fields = $fields->getOneField($fieldId);
-    $pageTitle = "Edit field";
-    require_once('src/template/EditField.php');
+    $center = new Center();
+    $centers = $center->getAllCenters();
+    $fieldsOptions = new FieldsOptions();
+    $fieldsOptions = $fieldsOptions->getFieldsOptionsByFieldId();
+    if(!empty($fieldsOptions)){
+        $pageTitle = "Field";
+        require_once('src/template/EditField.php');
+    }else{
+        $pageTitle = "Field not found";
+        $error = "Field not found";
+        require_once('src/template/EditField.php');
+    }
   }
 
-  public function update($fieldId)
+  public static function editCheck()
   {
-    $fieldName = $_POST['fieldName'];
-    $fieldTarifHourHT = $_POST['fieldTarifHourHT'];
-    $fieldTarifDayHT = $_POST['fieldTarifDayHT'];
-    $fieldPicture = $_POST['fieldPicture'];
-    $centerId = $_POST['centerId'];
-
     $field = new Field();
-    $field->updateField($fieldId, $fieldName, $fieldTarifHourHT, $fieldTarifDayHT, $fieldPicture, $centerId);
-    header('Location: /fields');
+    $res = $field->editCheck();
+    if($res){
+      $success = "Le terrain a bien été modifié";
+      header('Location: /fields');
+    }
+    else{
+      $error = "Une erreur est survenue lors de la modification";
+      $pageTitle = "Edit field";
+      $center = new Center();
+      $centers = $center->getAllCenters();
+      require_once('src/template/EditField.php');
+    }
   }
 
-  public function delete($fieldId)
+  public static function editPicture()
   {
     $field = new Field();
-    $field->deleteField($fieldId);
-    header('Location: /fields');
+    $res = $field->updatePictureField();
+    if($res){
+      $success = "L'image a bien été modifié";
+      header('Location: /fields');
+    }
+    else{
+      $error = "Une erreur est survenue lors de la modification de l'image";
+      $pageTitle = "Edit field";
+      $center = new Center();
+      $centers = $center->getAllCenters();
+      require_once('src/template/EditField.php');
+    }
+  }
+
+  public static function delete()
+  {
+    $field = new Field();
+    $res = $field->delete();
+    if($res){
+        $success = "Le terrain a bien été supprimé";
+        header('Location: /fields');
+      }
+      else{
+        $error = "Une erreur est survenue lors de la suppression";
+        $pageTitle = "Field";
+        require_once('src/template/Field.php');
+      }
   }
 }
