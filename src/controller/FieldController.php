@@ -4,9 +4,11 @@ namespace Application\Controller;
 
 require_once('src/model/Field.php');
 require_once('src/model/Center.php');
+require_once('src/model/FieldsOptions.php');
 
 use Application\Model\Field;
 use Application\Model\Center;
+use Application\Model\FieldsOptions;
 
 class FieldController
 {
@@ -69,8 +71,16 @@ class FieldController
   {
     $center = new Center();
     $centers = $center->getAllCenters();
-    $pageTitle = "Edit field";
-    require_once('src/template/EditField.php');
+    $fieldsOptions = new FieldsOptions();
+    $fieldsOptions = $fieldsOptions->getFieldsOptionsByFieldId();
+    if(!empty($fieldsOptions)){
+        $pageTitle = "Field";
+        require_once('src/template/EditField.php');
+    }else{
+        $pageTitle = "Field not found";
+        $error = "Field not found";
+        require_once('src/template/EditField.php');
+    }
   }
 
   public static function editCheck()

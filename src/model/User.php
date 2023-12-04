@@ -237,6 +237,7 @@ class User {
         // var_dump($user);
         var_dump($_FILES['userPicture']['name']);
         if($user['userPicture'] != $_FILES['userPicture']['name']){
+            $this->deletePicture();
             $picture = $this->addUserPicture();
             if(!is_array($picture)){
                 $query = $this->pdo->prepare('UPDATE users SET userPicture = :userPicture WHERE userId = :userId');
@@ -256,7 +257,15 @@ class User {
             return false;
         }
     }
-
+    function deletePicture(){
+        $data = new User();
+        $userId = $_SESSION['user']['userId'];
+        $user =  $data->getOneUser($userId);
+        if(file_exists('src/public/img/user/'.$user['userPicture'])){
+            unlink('src/public/img/user/'.$user['userPicture']);
+            
+        }
+    }
     
     public function addUser()
     {
@@ -464,6 +473,7 @@ class User {
         }else {
             $user = self::getOneUser($id);
             if(password_verify($_POST['userPassword'], $user['userPassword'])){
+                $this->deletePicture();
                 $query = $this->pdo->prepare('DELETE FROM users WHERE userId = :userId');
                 $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
                 if($query->execute()){

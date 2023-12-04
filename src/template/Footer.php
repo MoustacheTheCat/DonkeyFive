@@ -1,5 +1,5 @@
 
-<footer class="row bg-dark text-white py-3 d-flex justify-content-center">
+<footer class="row bg-dark text-white py-3">
     <div class="lf-sponsor-logos">
     <a href="https://www.adidas.fr/football" target="_blank" class="lf-sponsor-logo">
         <svg id="katman_1" version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 3694.2 2666.7" xml:space="preserve" class="adidas" style="enable-background: new 0 0 3694.2 2666.7">
@@ -101,22 +101,24 @@ c-0.4-0.1-0.6-0.3-0.6-0.6c0-0.6,0.5-0.7,1.2-0.7c1,0,1.3,0.3,1.4,0.7l-1,0c0-0.1-0
 c-0.3,0-0.3,0.1-0.3,0.2c0,0.1,0,0.1,0.1,0.1l1,0.2c0.4,0.1,0.7,0.3,0.7,0.6c0,0.5-0.4,0.8-1.4,0.8c-0.7,0-1.4-0.1-1.4-0.7l1,0
 c0,0.1,0,0.1,0.1,0.2c0.1,0,0.2,0,0.3,0c0.3,0,0.3-0.1,0.3-0.2C54.2,39.4,54.1,39.3,54,39.3z M3.1,27.3h49.1v16.9H3.1V27.3z"></path></g></svg></a>
     </div>
-    <?php if (!empty($_SESSION['user']) && $_SESSION['user']['userRole'] === 2) : ?>
-        <div class="col-md-4">
-            <span> © 2023 donkeyfive.com</span>
-        </div>
-        <div class="col-md-4">
-            <span><a href="/contact">Contact</a> - À propos</span>
-        </div>
-        <div class="col-md-4">
-            <span>Paris</span>
-        </div>
-    <?php else :?>
-        <div class="col-md-2">
-            <span> © 2023 donkeyfive.com</span>
-        </div>
-        <div class="col-md-2">
-            <span>Paris</span>
-        </div>
-    <?php endif; ?>
+    <div class="row d-flew justify-content-center">
+        <?php if (!empty($_SESSION['user']) && $_SESSION['user']['userRole'] === 2) : ?>
+            <div class="col-md-4">
+                <span> © 2023 donkeyfive.com</span>
+            </div>
+            <div class="col-md-4">
+                <span><a href="/contact">Contact</a> - À propos</span>
+            </div>
+            <div class="col-md-4">
+                <span>Paris</span>
+            </div>
+        <?php else :?>
+            <div class="col-md-6">
+                <span> © 2023 donkeyfive.com</span>
+            </div>
+            <div class="col-md-6">
+                <span>Paris</span>
+            </div>
+        <?php endif; ?>
+    </div>
 </footer>

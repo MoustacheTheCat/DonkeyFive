@@ -84,7 +84,7 @@
                                 <?php if (!empty($center[0]['centerPicture']) || $center[0]['centerPicture'] != null) : ?>
                                     <img src="<?='/src/public/img/center/'.$center[0]['centerPicture']; ?>" alt="Center Picture" srcset="" class="card-img-top">
                                 <?php else : ?>
-                                    <img src="https://impulsecreative.com/hs-fs/hubfs/Cat%20typing.gif?width=513&name=Cat%20typing.gif" alt="User Image default" srcset="" class="card-img-top">
+                                    <img src="https://www.sportbuzzbusiness.fr/wp-content/uploads/2021/01/le-five-OL-complexe-indoor-foot-groupama-stadium-olympique-lyonnais-1024x487.jpg" alt="User Image default" srcset="" class="card-img-top">
                                 <?php endif; ?>
                                 <div class="row">
                                     <form action="/center/edit/picture?id=<?=$_GET['id']?>" method="POST" enctype="multipart/form-data">

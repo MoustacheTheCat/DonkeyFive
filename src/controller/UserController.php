@@ -84,7 +84,6 @@ class UserController {
         public function addCheck()
         {
             $user = new User();
-            $user->addUser();
             $res = $user->addUser();
             if($res){
                 $result = "user created";

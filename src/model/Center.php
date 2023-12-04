@@ -321,7 +321,9 @@ class Center {
     public function delete()
     {
         $id = $_GET['id'];
-        if($_SESSION['user']['userRole'] == 1){
+        if($_SESSION['center']['centerRole'] == 1){
+            $center = $this->getOneCenter($id);
+            $this->deletePicture();
             $stmt = $this->pdo->prepare("DELETE FROM `centers` WHERE `centerId` = :centerId");
             $stmt->bindValue(':centerId', $id);
             if($stmt->execute()){
@@ -375,6 +377,7 @@ class Center {
         $data = new Center();
         $center =  $data->getOneCenter($id);
         if($center[0]['centerPicture'] != $_FILES['centerPicture']['name']){
+            $this->deletePicture();
             $picture = $this->addcenterPicture();
             if(!is_array($picture)){
                 $query = $this->pdo->prepare('UPDATE centers SET centerPicture = :centerPicture WHERE centerId = :centerId');
@@ -392,6 +395,12 @@ class Center {
             
         }else {
             return false;
+        }
+    }
+
+    function deletePicture(){
+        if(file_exists('src/public/img/center/'.$center['centerPicture'])){
+            unlink('src/public/img/center/'.$center['centerPicture']);
         }
     }
 

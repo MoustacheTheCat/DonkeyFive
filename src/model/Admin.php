@@ -106,6 +106,12 @@ class Admin extends User {
         }
     }
 
+    function deletePicture(){
+        if(file_exists('src/public/img/admin/'.$admin['userPicture'])){
+            unlink('src/public/img/admin/'.$admin['userPicture']);
+        }
+    }
+
     public function updateAdmin()
     {
         $id = $_GET['id'];
@@ -216,14 +222,15 @@ class Admin extends User {
     }
 
     public function updatePictureAdmin(){
-        $userId = $_SESSION['user']['userId'];
+        $adminId = $_SESSION['user']['userId'];
         $data = new User();
-        $user =  $data->getOneUser($userId);
-        if($user['userPicture'] != $_FILES['adminPicture']['name']){
+        $admin =  $data->getOneUser($adminId);
+        if($admin['userPicture'] != $_FILES['adminPicture']['name']){
+            $this->deletePicture();
             $picture = $this->addAdminPicture();
             if(!is_array($picture)){
                 $query = $this->pdo->prepare('UPDATE users SET userPicture = :userPicture WHERE userId = :userId');
-                $query->bindValue(':userId', $userId, \PDO::PARAM_INT);
+                $query->bindValue(':userId', $adminId, \PDO::PARAM_INT);
                 $query->bindValue(':userPicture', $picture);
                 if($query->execute()){
                     return true;

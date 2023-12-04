@@ -3,8 +3,10 @@
 namespace Application\Controller;
 
 require_once('src/model/FieldsOptions.php');
+require_once('src/model/Center.php');
 
-use Application\Model\FieldsOptions\FieldsOptions;
+use Application\Model\FieldsOptions;
+use Application\Model\Center;
 
 class FieldsOptionsController {
 
@@ -56,6 +58,7 @@ class FieldsOptionsController {
         public function edit($optionId)
         {
             $fieldsOptions = new FieldsOptions();
+            
             $fieldsOptions = $fieldsOptions->getFieldsOptionsByFieldId($optionId);
             $pageTitle = "Edit fieldsOptions";
             require_once('src/template/EditFieldsOptions.php');
