@@ -287,6 +287,12 @@ class User {
             if(empty($_POST['userEmail'])){
                 $errorArray['userEmail'] = "Please enter your email";
             }
+            else{
+                $testEmail = $this->verifEmail($_POST['userEmail']);
+                if(!$testEmail){
+                    $errorArray['userEmail'] = "This email is already in use";
+                }
+            }
             if(empty($_POST['userPassword'])){
                 $errorArray['userPassword'] = "Please enter your password";
             }
@@ -295,6 +301,12 @@ class User {
             }
             if(empty($_POST['userNumber'])){
                 $errorArray['userNumber'] = "Please enter your phone number";
+            }
+            else {
+                $testNumber = $this->verifNumber($_POST['userNumber']);
+                if(!$testNumber){
+                    $errorArray['userNumber'] = "This phone number is already in use";
+                }
             }
             if(empty($_POST['userAddress'])){
                 $errorArray['userAddress'] = "Please enter your address";
@@ -311,7 +323,7 @@ class User {
             if(empty($_POST['userBirthDay'])){
                 $errorArray['userBirthDay'] = "Please enter your birthdate";
             }
-            if(empty($_POST['userpicture'])){
+            if(empty($_FILE['userpicture'])){
                 $userpicture = "default.png";
             }
             else {
@@ -604,6 +616,28 @@ class User {
             $error = "Email is incorrect";
             return $error;
         } 
+    }
+
+    public function verifEmail($email){
+        $allEmail = $this->pdo->query('SELECT * FROM users');
+        $allEmails = $allEmail->fetchAll();
+        foreach($allEmails as $allEmail){
+            if($allEmail['userEmail'] == $email){
+                return false;
+        }
+        return true;
+        }
+    }
+
+    public function verifNumber($number){
+        $allEmail = $this->pdo->query('SELECT * FROM users');
+        $allEmails = $allEmail->fetchAll();
+        foreach($allEmails as $allEmail){
+            if($allEmail['userNumber'] == $number){
+                return false;
+        }
+        return true;
+        }
     }
     
 }

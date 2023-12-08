@@ -53,6 +53,11 @@ class Admin extends User {
             }
             if(empty($_POST['adminEmail'])){
                 $errorArray['adminEmail'] = "Please enter your email";
+            }else{
+                $testEmail = $this->verifEmail($_POST['adminEmail']);
+                if(!$testEmail){
+                    $errorArray['adminEmail'] = "This email is already in use";
+                }
             }
             if(empty($_POST['adminPassword'])){
                 $errorArray['adminPassword'] = "Please enter your password";
@@ -62,11 +67,16 @@ class Admin extends User {
             }
             if(empty($_POST['adminNumber'])){
                 $errorArray['adminNumber'] = "Please enter your phone number";
+            }else {
+                $testNumber = $this->verifNumber($_POST['adminNumber']);    
+                if(!$testNumber){
+                    $errorArray['adminNumber'] = "This phone number is already in use";
+                }
             }
             if(empty($_POST['adminBirthDay'])){
                 $errorArray['adminBirthDay'] = "Please enter your birthday";
             }
-            if(empty($_POST['adminPicture'])){
+            if(empty($_FILE['adminPicture'])){
                 $adminPicture = null;
             }
             else {
@@ -258,6 +268,28 @@ class Admin extends User {
             
         }else {
             return false;
+        }
+    }
+
+    public function verifEmail($email){
+        $allEmail = $this->pdo->query('SELECT * FROM users');
+        $allEmails = $allEmail->fetchAll();
+        foreach($allEmails as $allEmail){
+            if($allEmail['userEmail'] == $email){
+                return false;
+        }
+        return true;
+        }
+    }
+
+    public function verifNumber($number){
+        $allEmail = $this->pdo->query('SELECT * FROM users');
+        $allEmails = $allEmail->fetchAll();
+        foreach($allEmails as $allEmail){
+            if($allEmail['userNumber'] == $number){
+                return false;
+        }
+        return true;
         }
     }
 }
