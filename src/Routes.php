@@ -17,6 +17,7 @@ require_once('src/controller/FieldsOptionsController.php');
 require_once('src/controller/CartController.php');
 require_once('src/controller/CardHomeController.php');
 require_once('src/controller/RentalController.php');
+require_once('src/controller/UserMessageController.php');
 
 
 
@@ -32,6 +33,7 @@ use Application\Controller\FieldsOptionsController;
 use Application\Controller\CartController;
 use Application\Controller\CardHomeController;
 use Application\Controller\RentalController;
+use Application\Controller\UserMessageController;
 
 
 
@@ -87,6 +89,7 @@ class Routes
         '/user/edit/picture' => ['controller' => 'UserController', 'method' => 'updatePicture', 'static' => true],
         '/user/profil' => ['controller' => 'UserController', 'method' => 'profil', 'static' => true],
         '/users' => ['controller' => 'UserController', 'method' => 'showAllUser', 'static' => true],
+        '/user' => ['controller' => 'UserController', 'method' => 'viewOneUser', 'static' => true],
         '/user/delete' => ['controller' => 'UserController', 'method' => 'delete', 'static' => true],
 
 
@@ -96,21 +99,32 @@ class Routes
         '/admin/edit/password' => ['controller' => 'AdminController', 'method' => 'resetPasswordCheck', 'static' => true],
         '/admin/edit/picture' => ['controller' => 'AdminController', 'method' => 'updatePicture', 'static' => true],
         '/admin/profil' => ['controller' => 'AdminController', 'method' => 'profil', 'static' => true],
+        '/admin' => ['controller' => 'AdminController', 'method' => 'viewOneAdmin', 'static' => true],
         '/admins' => ['controller' => 'UserController', 'method' => 'showAllAdmin', 'static' => true],
         '/admin/delete' => ['controller' => 'AdminController', 'method' => 'delete', 'static' => true],
-
-
+        
         '/delete/check' => ['controller' => 'UserController', 'method' => 'deleteCheck', 'static' => true],
 
         '/option' => ['controller' => 'OptionController', 'method' => 'index', 'static' => true],
 
         '/rentals' => ['controller' => 'RentalController', 'method' => 'viewAll', 'static' => true],
+        '/rental/detail' => ['controller' => 'RentalController', 'method' => 'viewRental', 'static' => true],
+        '/rental/valid' => ['controller' => 'RentalController', 'method' => 'updateStatusValid', 'static' => true],
+        '/rental/refused' => ['controller' => 'RentalController', 'method' => 'updateStatusRefused', 'static' => true],
 
         '/carts' => ['controller' => 'CartController', 'method' => 'displayCarts', 'static' => true],
         '/cart/details' => ['controller' => 'CartController', 'method' => 'displayCartDetails', 'static' => true],
+        '/cart/edit' => ['controller' => 'CartController', 'method' => 'edit', 'static' => true],
+        '/cart/edit/check' => ['controller' => 'CartController', 'method' => 'editCheck', 'static' => true],
+        '/cart/check' => ['controller' => 'CartController', 'method' => 'check', 'static' => true], 
         '/cart/delete' => ['controller' => 'CartController', 'method' => 'deleteCheck', 'static' => true], 
+        '/cart/delete/option' => ['controller' => 'CartController', 'method' => 'deleteOptions', 'static' => false],
+        '/cart/add/option' => ['controller' => 'CartController', 'method' => 'addOptions', 'static' => false],
+        '/cart/rent/check' => ['controller' => 'RentalController', 'method' => 'checkRent', 'static' => true],
         
-        '/messages' => ['controller' => 'MessageController', 'method' => 'viewMessages', 'static' => true],
+        '/messages' => ['controller' => 'UserMessageController', 'method' => 'viewUserMessageByUserId', 'static' => true],
+        '/message' => ['controller' => 'MessageController', 'method' => 'viewOneMessage', 'static' => true],
+        '/message/delete' => ['controller' => 'MessageController', 'method' => 'deleteCheck', 'static' => true],
 
         '/card/home' => ['controller' => 'CardHomeController', 'method' => 'viewCardHomeDetail', 'static' => true]
 
@@ -125,12 +139,7 @@ class Routes
             $controllerName = 'Application\Controller\\' . $route['controller'];
             $methodName = $route['method'];
             $isStatic = $route['static'] ?? false;
-            var_dump($route);
-            var_dump($controllerName);
-            var_dump($methodName);
-            var_dump($isStatic);
             if ($isStatic) {
-                var_dump(is_callable([$controllerName, $methodName]));
                 if (is_callable([$controllerName, $methodName])) {
                     if ($method == 'POST') {
 
@@ -161,10 +170,7 @@ class Routes
                         } else {
                             call_user_func([$controllerName, $methodName]);
                         }
-                    } else {
-                        $errorMessage = "404 Not Found - Static method not found";
-                        require_once('src/template/Error.php');
-                    }
+                    } 
                 } else {
                     $errorMessage = "404 Not Found - Static method not found";
                     require_once('src/template/Error.php');
@@ -180,6 +186,9 @@ class Routes
                         $data = new $controllerName();
                         $data->$methodName();
                     } elseif ($method == 'POST' && $uri == '/admin/add/check') {
+                        $data = new $controllerName();
+                        $data->$methodName();
+                    }elseif($method == 'POST' && ($uri == '/cart/delete/option' || $uri == '/cart/add/option')){
                         $data = new $controllerName();
                         $data->$methodName();
                     }elseif ($method == 'GET') {

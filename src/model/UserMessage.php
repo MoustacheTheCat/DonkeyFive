@@ -3,8 +3,10 @@
 namespace Application\Model;
 
 require_once('src/lib/DatabaseConnection.php');
+require_once('src/model/Message.php');
 
 use Application\lib\DatabaseConnection;
+use Application\Model\Message;
 
 class UserMessage {
     public function __construct(
@@ -38,9 +40,17 @@ class UserMessage {
         $this->messageId = $messageId;
     }
 
+    public function getAll(){
+        $sql = "SELECT * FROM userMessage";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $userMessages = $stmt->fetchAll();
+        return $userMessages;
+    }
+
     public function addUserMessage(int $userId, int $messageId)
     {
-        $sql = "INSERT INTO `user_message` (`userId`, `messageId`) VALUES (:userId, :messageId)";
+        $sql = "INSERT INTO `userMessage` (`userId`, `messageId`) VALUES (:userId, :messageId)";
         $stmt = $this->pdo->prepare($sql);
         $tmt->bindValue(':userId', $userId);
         $tmt->bindValue(':messageId', $messageId);
@@ -51,23 +61,30 @@ class UserMessage {
         return false;
     }
 
-    public function getUserMessages(): array
-    {
-        $sql = "SELECT * FROM user_message";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        $userMessages = $stmt->fetchAll();
-        return $userMessages;
-    }
+    
 
-    public function getUserMessageByUserId(int $userId): array
+    public function getUserMessageByUserId()
     {
-        $sql = "SELECT * FROM user_message WHERE userId = :userId";
+        $id = $_SESSION['user']['userId'];  
+        $sql = "SELECT * FROM userMessage WHERE userId = :userId";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindvalue(':userId', $userId);
+        $stmt->bindvalue(':userId', $id);
         $stmt->execute();
-        $userMessage = $stmt->fetch();
-        return $userMessage;
+        $res = $stmt->fetchAll();
+        $messages = [];
+        if ($res) {
+            $query = "SELECT * FROM messages WHERE messageId = :messageId";
+            foreach($res as $message){
+                $stmt = $this->pdo->prepare($query);
+                $stmt->bindValue(':messageId', $message['messageId']);
+                $stmt->execute();
+                $messages[] = $stmt->fetch();
+            }
+            if (!empty($messages)) {
+                return $messages;
+            }
+        }
+        return false;
     }
             
 }

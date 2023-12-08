@@ -57,19 +57,23 @@ $nbMessage = MessageController::countNbMessageNotRead();
                         <li class="nav-item dropdown mr-5 pr-5">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncenter" userRole="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Profil
-                                <?php if($nbMessage != 0):?>
-                                    <span class="badge bg-dark text-white rounded-pill cart-items"><?= $nbMessage?></span>
-                                <?php endif;?>
+                                <?php if (!empty($_SESSION['user']['userRole']) && ($_SESSION['user']['userRole'] == 1 )): ?>
+                                    <?php if($nbMessage != 0):?>
+                                        <span class="badge bg-dark text-white rounded-pill cart-items"><?= $nbMessage?></span>
+                                    <?php endif;?>
+                                <?php endif; ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdowncenter">
-                                <li>
-                                    <a class="dropdown-item" href="/messages">
-                                        Message
-                                        <?php if($nbMessage != 0):?>
-                                            <span class="badge bg-dark text-white rounded-pill cart-items"><?= $nbMessage?></span>
-                                        <?php endif;?>
-                                    </a>
-                                </li>
+                                <?php if (!empty($_SESSION['user']['userRole']) && ($_SESSION['user']['userRole'] == 1 )): ?>
+                                    <li>
+                                        <a class="dropdown-item" href="/messages">
+                                            Message
+                                            <?php if($nbMessage != 0):?>
+                                                <span class="badge bg-dark text-white rounded-pill cart-items"><?= $nbMessage?></span>
+                                            <?php endif;?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
                                 <?php if ($_SESSION['user']['userRole'] == 1) : ?>
                                     <li><a class="dropdown-item" href="/admin/profil">Profil</a></li>
                                 <?php elseif ($_SESSION['user']['userRole'] == 2) : ?>

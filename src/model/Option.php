@@ -184,7 +184,7 @@ class Option
         $pdoStatement = $this->pdo->prepare($sql);
         $pdoStatement->bindValue(':option_id', $optionId, \PDO::PARAM_INT);
         $pdoStatement->execute();
-        $this->option = $pdoStatement->fetchAll();
+        $this->option = $pdoStatement->fetch();
         return $this->option;
     }
 

@@ -13,40 +13,20 @@ class UserMessageController {
         $userMessages = $userMessage->getAllUsersMessages();
     }
 
-    public static function viewUserMessageByUserId($userId)
+    public static function viewUserMessageByUserId()
     {
+        $pageTitle = "Messages";
         $userMessage = new UserMessage();
-        $res = $userMessage->getOneUserMessage($userId);
-        if($res == false){
-            $error = "user not found";
-            return $error;
-        }
-        $pageTitle = "UserMessage";
-        require_once('src/template/UserMessage.php');
-    }
-
-    public static function viewUserMessageByMessageId($messageId)
-    {
-        $userMessage = new UserMessage();
-        $res = $userMessage->getUserMessageByMessageId($messageId);
-        if($res == false){
-            $error = "user not found";
-            return $error;
-        }
-        $pageTitle = "UserMessage";
-        require_once('src/template/UserMessage.php');
-    }
-
-    public static function addCheck()
-    {
-        $userMessage = new UserMessage();
-        $res = $userMessage->addUserMessage();
+        $res = $userMessage->getUserMessageByUserId();
         if($res){
-            $result = "userMessage created";
-            return $result;
+            $messages = $res;
+            
         }else{
-            $error = "userMessage not created";
-            return $error;
+            $error = "empty message";
+            
         }
+        
+        require_once('src/template/Messages.php');
     }
+
 }

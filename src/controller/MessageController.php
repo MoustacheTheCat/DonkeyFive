@@ -18,12 +18,18 @@ class MessageController {
         require_once('src/template/Messages.php');
     }
 
-    public static function viewOneMessage($messageId)
+    public static function viewOneMessage()
     {
         $message = new Message();
-        $message = $message->getOneMessage($messageId);
+        $res = $message->getMessageById();
+        if($res){
+            $message = $res;
+        }
+        else{
+            $error = "empty message";
+        }
         $pageTitle = "Message";
-        require_once('src/template/Message.php');
+        require_once('src/template/ViewMessage.php');
     }
 
     public static function contact(){
@@ -57,11 +63,12 @@ class MessageController {
         $res = $message->deleteMessage();
         if($res){
             $result = "message deleted";
-            return $result;
+            
         }else{
             $error = "message not deleted";
-            return $error;
+            
         }
+        header('Location: /messages');  
     }
 
     public static function updateCheck()
@@ -81,9 +88,8 @@ class MessageController {
     {
         $message = new Message();
         $res = $message->countNbMessageNoRead();
-        if($res > 0){
-            $result = $res[0];
-            return $result;
+        if($res >= 1 && $res != null){
+            return $res;
         }
     }
 

@@ -3,9 +3,10 @@
 namespace Application\Controller;
 
 require_once('src/model/User.php');
+require_once('src/model/Rental.php');
 
 use Application\Model\User;
-
+use Application\Model\Rental;
 
 class UserController {
 
@@ -58,18 +59,22 @@ class UserController {
             require_once('src/template/ViewAll.php');
         }
     
-        public static function viewOneUser($userId)
+        public static function viewOneUser()
         {
+            $id = intval($_GET['id']);
             $user = new User();
-            $user = $user->getOneUser($userId);
+            $user = $user->getOneUser($id);
             $pageTitle = "User";
-            require_once('src/template/User.php');
+            require_once('src/template/ViewAdminUser.php');
         }
 
         public static function profil()
         {
             $user = new User();
-            $user = $user->getOneUser(intval($_SESSION['user']['userId']));
+            $rent = new Rental();
+            
+            $dataRents = $rent->getAllRentalsByUser($_SESSION['user']['userId']);
+            $user = $user->getOneUser($_SESSION['user']['userId']);
             $pageTitle = "Admin";
             require_once('src/template/ProfileUser.php');
         }

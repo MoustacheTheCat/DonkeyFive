@@ -17,13 +17,15 @@ class AdminController{
             $admins = $admin->getAllUsers();
         }
     
-        public static function viewOneAdmin($adminId)
+        public static function viewOneAdmin()
         {
-            $admin = new Admin();
-            $admin = $admin->getOneUser($adminId);
+            $id = intval($_GET['id']);
+            $admin = new User();
+            $admin = $admin->getOneUser($id);
             $pageTitle = "Admin";
-            require_once('src/template/Admin.php');
+            require_once('src/template/ViewAdminUser.php');
         }
+
         public static function profil()
         {
             $admin = new User();

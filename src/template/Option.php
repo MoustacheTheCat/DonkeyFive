@@ -7,12 +7,12 @@
             <div class="col-md-3 mb-4">
                 <div class="card" style="width: 100%;">
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo $option['optionName']; ?></h5>
-                        <img src="<?php echo $option['imageURL']; ?>" class="card-img-top" alt="Image Placeholder">
-                        <p class="card-text"><?php echo $option['description']; ?></p>
+                        <h5 class="card-title"><?= $option['optionName']; ?></h5>
+                        <img src="<?= $option['imageURL']; ?>" class="card-img-top" alt="Image Placeholder">
+                        <p class="card-text"><?= $option['description']; ?></p>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck<?php echo $option['optionId']; ?>">
-                            <label class="form-check-label" for="exampleCheck<?php echo $option['optionId']; ?>">Selectionner l'option</label>
+                            <input type="checkbox" class="form-check-input" id="exampleCheck<?= $option['optionId']; ?>">
+                            <label class="form-check-label" for="exampleCheck<?= $option['optionId']; ?>">Selectionner l'option</label>
                         </div>
                     </div>
                 </div>

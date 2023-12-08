@@ -41,18 +41,18 @@ if(!empty($_SESSION['cart'])) {
                             <td><?= $datas[$key]['time']['hourStart'] ?> <br> <?= $datas[$key]['time']['hourEnd'] ?></td>
                             <td><?= $datas[$key]['time']['nbHour'] ?></td>
                             <td><?= $datas[$key]['nbOp'] ?></td>
-                            <td><?= $datas[$key]['options']['totalCostTTC'] ?></td>
+                            <td><?= $datas[$key]['options']['costs']['totalHT']*1.2 ?></td>
                             <td><?= $datas[$key]['field']['totalTTC'] ?></td>
-                            <td><a href="/cart/details?id=<?=$key?>" class="btn btn-secondary">Détails</a></td>
-                            <td><a href="/cart/edit?id=<?=$key?>" class="btn btn-secondary"></a>Edit</td>
-                            <td><a href="/cart/delete?id=<?=$key?>" class="btn btn-danger"></a>Delete</td>
+                            <td><a href="/cart/details?id=<?=$key?>" class="btn btn-secondary">DETAIL</a></td>
+                            <td><a href="/cart/edit?id=<?=$key?>" class="btn btn-warning">EDIT</a></td>
+                            <td><a href="/cart/delete?id=<?=$key?>" class="btn btn-danger">DELETE</a></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
             <div class="text-right">
                 <h4>Prix total TTC : <?= $datas[$key]['totalTTC'] ?> €</h4>
-                <a href="/cart/rent/check"class="btn btn-primary">Passer la commande</a>
+                <a href="/cart/rent/check?id=<?=$key?>"class="btn btn-primary">Passer la commande</a>
             </div>
         </div>
     <?php endif; ?>

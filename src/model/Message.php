@@ -140,8 +140,9 @@ class Message {
         }
     }
 
-    public function deleteMessage($messageId)
+    public function deleteMessage()
     {
+        $messageId = $_GET['id'];
         $sql = "DELETE FROM `messages` WHERE `messageId` = :message_id";
         $pdoStatement = $this->pdo->prepare($sql);
         $pdoStatement->bindValue(':message_id', $messageId, \PDO::PARAM_INT);
@@ -156,24 +157,31 @@ class Message {
         return $this->messages;
     }
 
-    public function getMessageById($messageId): array
+    public function getMessageById()
     {
+        $id = $_GET['id'];
         $sql = "SELECT * FROM `messages` WHERE `messageId` = :message_id";
         $pdoStatement = $this->pdo->prepare($sql);
-        $pdoStatement->bindValue(':message_id', $messageId, \PDO::PARAM_INT);
+        $pdoStatement->bindValue(':message_id', $id, \PDO::PARAM_INT);
         $pdoStatement->execute();
-        $this->message = $pdoStatement->fetch();
-        return $this->message;
+        $res = $pdoStatement->fetch();
+        if($res){
+            if($res['messageStatus'] == 1){
+                $this->updateStatus();
+            }
+            return $res;
+        }
+        return false;
     }
 
     public function updateStatus()
     {
-        if(!empty($_GET['messageId'])){
-            $messageId = $_GET['messageId'];
+        if(!empty($_GET['id'])){
+            $id = $_GET['id'];
             $sql = "UPDATE `messages` SET `messageStatus` = :messageStatus WHERE `messageId` = :message_id";
             $pdoStatement = $this->pdo->prepare($sql);
-            $pdoStatement->bindValue(':message_id', $messageId, \PDO::PARAM_INT);
-            $pdoStatement->bindValue(':messageStatus', 1, \PDO::PARAM_STR);
+            $pdoStatement->bindValue(':message_id', $id, \PDO::PARAM_INT);
+            $pdoStatement->bindValue(':messageStatus', 0, \PDO::PARAM_STR);
             if($pdoStatement->execute()){
                 return true;
             }
@@ -191,9 +199,31 @@ class Message {
 
     public function countNbMessageNoRead()
     {
-        $pdoStatement = $this->pdo->query("SELECT COUNT(`messageId`) FROM `messages` WHERE `messageStatus` = 0");
-        $nbMessageNoRead = $pdoStatement->fetch();
-        return $nbMessageNoRead;
+        if(!empty($_SESSION['user'])){
+            $arrayId = [];
+            $pdoStatement = $this->pdo->query("SELECT COUNT(`messageId`) FROM `messages` WHERE `messageStatus` = 1");
+            $nbMessageNoRead = $pdoStatement->fetch();
+            if($nbMessageNoRead >= 1){
+                $pdoStatement = $this->pdo->query("SELECT messageId FROM `messages` WHERE `messageStatus` = 1");
+                $messagesNoRead = $pdoStatement->fetchAll();
+                foreach($messagesNoRead as $messageNoRead){
+                    $arrayId[] = $messageNoRead['messageId'];
+                }
+                $userMessages = new UserMessage();
+                $alls = $userMessages->getAll();
+                $count = 0;
+                foreach($alls as $all){
+                    if((in_array($all['messageId'], $arrayId) && $all['userId'] == $_SESSION['user']['userId'])){
+                        $count++;
+                    }
+                }
+                if($count >= 1){
+                    return $count;
+                }
+            }
+        }
+        
+        return false;
     }   
 
 

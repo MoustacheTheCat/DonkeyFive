@@ -3,8 +3,12 @@
 namespace Application\Controller;
 
 require_once('src/model/Cart.php');
+require_once('src/model/FieldsOptions.php');
+require_once('src/model/Rental.php');
 
 use Application\Model\Cart;
+use Application\Model\FieldsOptions;
+use Application\Model\Rental;
 
 class CartController
 {
@@ -64,16 +68,16 @@ class CartController
 
     public static function displayCartDetails()
     {
-        // $cart = new Cart();
-        // $res = $cart->displayCartDetails();
-        // if ($res) {
-       
-        // } else {
-        //     $error = "cart not created";
-        //     return $error;
-        // }
         $pageTitle = "Carts";
         require_once('src/template/CartDetails.php');
+    }
+
+    public static function edit()
+    {
+        $pageTitle = "Carts";
+        $data = new FieldsOptions();
+        $datasFieldOptions = $data-> getFieldsOptionsByFieldId();
+        require_once('src/template/EditCart.php');
     }
 
     public static function deleteCheck()
@@ -85,11 +89,30 @@ class CartController
             $result = "cart deleted";
             header('Location: /carts');
             return $result;
-            
         } 
         $error = "cart not deleted";
         header('Location: /carts');
         return $error;
+    }
+
+    public function deleteOptions()
+    {
+        $ct = new Cart();
+        $res = $ct->deleteOptions();
+        if($res){
+            $result = "Option deleted";
+            self::edit();
+        }
+    }
+
+    public static function addOptions()
+    {
+        $ct = new Cart();
+        $res = $ct->addOptions();
+        if($res){
+            $result = "Option added";
+            self::edit();
+        }
     }
 
     public static function updateCheck()

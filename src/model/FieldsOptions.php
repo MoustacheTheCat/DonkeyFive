@@ -42,7 +42,7 @@ class FieldsOptions
 
     public function getAllFieldsOptions(): array
     {
-        $sql = "SELECT * FROM fields_options";
+        $sql = "SELECT * FROM fieldsOptions";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $fieldsOptions = $stmt->fetchAll();

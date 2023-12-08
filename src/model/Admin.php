@@ -4,9 +4,11 @@ namespace Application\Model;
 
 require_once('src/model/User.php');
 require_once('src/lib/DatabaseConnection.php');
+require_once('src/model/Center.php');
 
 use Application\lib\DatabaseConnection;
 use Application\Model\User;
+use Application\Model\Center;
 
 class Admin extends User {
 
@@ -86,6 +88,15 @@ class Admin extends User {
                     $query->bindValue(':adminBirthDay', $_POST['adminBirthDay']);
                     $query->bindValue(':adminRole', 1); 
                     if($query->execute()){
+                        $adminId = $this->pdo->lastInsertId();
+                        $center = new Center();
+                        $centerDatas = $center->getAllCenters();
+                        $query = $this->pdo->prepare('INSERT INTO donkeyFive.usersCenters (userId, centerId) VALUES (:userId, :centerId)');
+                        foreach($centerDatas as $centerData){
+                            $query->bindValue(':userId', $adminId, \PDO::PARAM_INT);
+                            $query->bindValue(':centerId', $centerData['centerId'], \PDO::PARAM_INT);
+                            $query->execute();
+                        }
                         $to = $_POST['adminEmail'];
                         $subject = "Crete Account";
                         $message = "Hello, you have created an account on our site, you can now log in with your email and password";
@@ -107,9 +118,12 @@ class Admin extends User {
     }
 
     function deletePicture(){
-        if(file_exists('src/public/img/admin/'.$admin['userPicture'])){
-            unlink('src/public/img/admin/'.$admin['userPicture']);
+        if(!empty($admin)){
+            if(file_exists('src/public/img/admin/'.$admin['userPicture'])){
+                unlink('src/public/img/admin/'.$admin['userPicture']);
+            }
         }
+        
     }
 
     public function updateAdmin()
@@ -189,13 +203,13 @@ class Admin extends User {
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0755, true);
         }
-        $target_file = $target_dir . basename($_FILES["adminPicture"]["name"]);
+        $target_file = $target_dir . basename($_FILES["userPicture"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
         $errorArray = [];
     
-        $check = getimagesize($_FILES["adminPicture"]["tmp_name"]);
+        $check = getimagesize($_FILES["userPicture"]["tmp_name"]);
         if ($check === false) {
             $errorArray[] = "File is not an image.";
             return $errorArray;
@@ -204,15 +218,15 @@ class Admin extends User {
             $errorArray[] = "Sorry, file already exists.";
         }
     
-        if ($_FILES["adminPicture"]["size"] > 500000) {
+        if ($_FILES["userPicture"]["size"] > 500000) {
             $errorArray[] = "Sorry, your file is too large.";
         }
         if ($imageFileType != "png" && $imageFileType != "jpg" && $imageFileType != "jpeg") {
             $errorArray[] = "Sorry, only PNG, JPG, and JPEG files are allowed.";
         }
         if (empty($errorArray)) {
-            if (move_uploaded_file($_FILES["adminPicture"]["tmp_name"], $target_file)) {
-                return basename($_FILES["adminPicture"]["name"]);
+            if (move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file)) {
+                return basename($_FILES["userPicture"]["name"]);
             } else {
                 $errorArray[] = "Sorry, there was an error uploading your file.";
             }
@@ -225,7 +239,7 @@ class Admin extends User {
         $adminId = $_SESSION['user']['userId'];
         $data = new User();
         $admin =  $data->getOneUser($adminId);
-        if($admin['userPicture'] != $_FILES['adminPicture']['name']){
+        if($admin['userPicture'] != $_FILES['userPicture']['name']){
             $this->deletePicture();
             $picture = $this->addAdminPicture();
             if(!is_array($picture)){

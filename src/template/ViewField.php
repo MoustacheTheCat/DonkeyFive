@@ -33,24 +33,26 @@
         </div>
     </section>
     <?php if (!empty($fieldsOptions)) : ?>
-        <section class="gradient-custom">
-            <div class="container py-5 ">
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-12 ">
-                        <div class="card bg-dark text-white" style="border-radius: 1rem;">
-                            <div class="row p-5 text-center">
-                                <div class="col-6">
-                                    <a href="field/edit?id=<?=$fieldsOptions[0]['fieldId']?>" class="btn btn-outline-light btn-lg px-5">EDIT</a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="field/delete?id=<?=$fieldsOptions[0]['fieldId']?>" class="btn btn-outline-light btn-lg px-5">DELETE</a>
+        <?php if(!empty($_SESSION['user']) && $_SESSION['user']['userRole'] == 1):?>
+            <section class="gradient-custom">
+                <div class="container py-5 ">
+                    <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-12 ">
+                            <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                                <div class="row p-5 text-center">
+                                    <div class="col-6">
+                                        <a href="field/edit?id=<?=$fieldsOptions[0]['fieldId']?>" class="btn btn-outline-light btn-lg px-5">EDIT</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="field/delete?id=<?=$fieldsOptions[0]['fieldId']?>" class="btn btn-outline-light btn-lg px-5">DELETE</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
+        <?php endif; ?>
         <section class="gradient-custom">
             <div class="container py-5 ">
                 <div class="row d-flex justify-content-center align-items-center">
@@ -64,9 +66,9 @@
                                             <div class="col-md-3 mb-4">
                                                 <div class="card" style="width: 100%; height:100%">
                                                     <div class="card-body">
-                                                        <h5 class="card-title"><?php echo $fieldsOption['optionName']; ?></h5>
-                                                        <img src="<?php echo $fieldsOption['imageURL']; ?>" class="card-img-top" alt="Image Placeholder"> 
-                                                        <p class="card-text"><?php echo $fieldsOption['description']; ?></p> 
+                                                        <h5 class="card-title"><?= $fieldsOption['optionName']; ?></h5>
+                                                        <img src="<?= $fieldsOption['imageURL']; ?>" class="card-img-top" alt="Image Placeholder"> 
+                                                        <p class="card-text"><?= $fieldsOption['description']; ?></p> 
                                                     </div>
                                                 </div>
                                             </div>

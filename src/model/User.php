@@ -191,9 +191,17 @@ class User {
         $query = $this->pdo->prepare('SELECT * FROM users WHERE userId = :userId');
         $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
         $query->execute();
-        $data = $query->fetch();
-        
-        return $data;
+        $this->user = $query->fetch();
+        return $this->user;
+    }
+
+    public function getEmailUserById($id)
+    {
+        $query = $this->pdo->prepare('SELECT userEmail FROM users WHERE userId = :userId');
+        $query->bindValue(':userId', $id, \PDO::PARAM_INT); 
+        $query->execute();
+        $email = $query->fetch();
+        return $email;
     }
 
 
@@ -234,8 +242,7 @@ class User {
     public function updatePictureUser(){
         $userId = $_SESSION['user']['userId'];
         $user = self::getOneUser($userId);
-        // var_dump($user);
-        var_dump($_FILES['userPicture']['name']);
+  
         if($user['userPicture'] != $_FILES['userPicture']['name']){
             $this->deletePicture();
             $picture = $this->addUserPicture();

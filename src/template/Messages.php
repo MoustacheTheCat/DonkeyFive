@@ -24,18 +24,18 @@
                             <?php foreach($messages as $message):?>
                                 <tr>
                                     <td>
-                                        <?php if($message['message_status'] == 0):?>
-                                            <span class="badge bg-danger text-white rounded-pill cart-items">Not Open</span>
+                                        <?php if($message['messageStatus'] == 1):?>
+                                            <span class="badge bg-danger text-white rounded-pill cart-items"><a href="/message?id=<?=$message['messageId']?>" class="btn">Not Open</a></span>
                                         <?php else:?>
-                                            <span class="badge bg-success text-white rounded-pill cart-items">Open</span>
+                                            <span class="badge bg-success text-white rounded-pill cart-items"><a href="/message?id=<?=$message['messageId']?>" class="btn">Open</a></span>
                                         <?php endif;?>
                                     </td>
-                                    <td><?= $message['message_from']?></td>
-                                    <td><?= $message['message_subject']?></td>
-                                    <td><?= $message['message_text']?></td>
+                                    <td><?= $message['messageFrom']?></td>
+                                    <td><?= $message['messageSubject']?></td>
+                                    <td><?= $message['messageText']?></td>
                                     <td><?= $message['createdAt']?></td>
-                                    <td><a href="/message?id=<?= $message['messageId']?>">Response</a></td>
-                                    <td><a href="/message/delete?id=<?= $message['messageId']?>">Delete</a></td>
+                                    <td><a href="/message?id=<?= $message['messageId']?>" class="btn btn-primary">Response</a></td>
+                                    <td><a href="/message/delete?id=<?= $message['messageId']?>" class="btn btn-warning">Delete</a></td>
                                 </tr>
                             <?php endforeach;?>
                         </tbody>

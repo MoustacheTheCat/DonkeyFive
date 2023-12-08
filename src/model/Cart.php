@@ -6,9 +6,9 @@ require_once('src/lib/DatabaseConnection.php');
 require_once('src/model/Option.php');
 require_once('src/model/Field.php');
 
-use Application\Model\Option\Option;
+use Application\Model\Option;
 use Application\lib\DatabaseConnection;
-use Application\Model\Field\Field;
+use Application\Model\Field;
 
 
 class Cart
@@ -94,12 +94,12 @@ class Cart
         }
         $nbOp = count($arrayOptions);
         $costs = new Option();
-        $totalCostHT = $costs->getDetailOption($arrayOptions);
-        $totalCostTTC = $totalCostHT['costs']['totalHT'] * 1.2;
-        $_SESSION['cart'][$idField]['options'] = $arrayOptions;
+        // $totalCostHT = $totalCostHT['costs']['totalHT'];
+        // $totalCostTTC = $totalCostHT['costs']['totalHT'] * 1.2;
+        $_SESSION['cart'][$idField]['options'] =  $costs->getDetailOption($arrayOptions);
         $_SESSION['cart'][$idField]['nbOp'] = $nbOp;
-        $_SESSION['cart'][$idField]['options']['totalCostHT'] = $totalCostHT;
-        $_SESSION['cart'][$idField]['options']['totalCostTTC'] = $totalCostTTC;
+        // $_SESSION['cart'][$idField]['options']['totalCostHT'] = $totalCostHT;
+        // $_SESSION['cart'][$idField]['options']['totalCostTTC'] = $totalCostTTC;
         return true;
     }
 
@@ -113,7 +113,6 @@ class Cart
         } else {
             foreach ($datas as $key => $data) {
                 if ($key == $idField) {
-                    var_dump($posts);
                     if ($posts['hourStart'] > $posts['hourEnd']) {
                         return false;
                     } elseif ($posts['hourStart'] == $posts['hourEnd']) {
@@ -149,7 +148,6 @@ class Cart
         $monthE = substr($dateE, 0, 2);
         $dayS = substr($dateS, 2, 2);
         $dayE = substr($dateE, 2, 2);
-
         if ($dayE == $dayS && $monthS == $monthE) {
             $nbDay = 1;
         } elseif ($monthS == $monthE && $dayE != $dayS) {
@@ -161,14 +159,12 @@ class Cart
         $_SESSION['cart'][$idField]['time']['nbDay'] = $nbDay;
     }
 
-
     public function editCart($itemId, $items)
     {
         if (isset($_SESSION['cart'][$itemId])) {
             $_SESSION['cart'][$itemId] = $items;
         }
     }
-
     public function deleteItemInCart($itemId)
     {
         if (isset($_SESSION['cart'][$itemId])) {
@@ -178,7 +174,6 @@ class Cart
             unset($_SESSION['cart']);
         }
     }
-
     public function displayCarts()
     {
         if (isset($_SESSION['cart'])) {
@@ -190,11 +185,8 @@ class Cart
             foreach ($arraiIdFields as $idField) {
                 $field = new Field();
                 $dataField = $field->getOneField($idField);
-                $optionId = $_SESSION['cart'][$idField]['options'][0]; // Assuming optionId is stored at index 0
+                $optionId = $_SESSION['cart'][$idField]['options']; 
                 $option = (new Option())->getOneOption($optionId);
-
-                $_SESSION['cart'][$idField]['options']['optionName'] = $option[0]['optionName'];
-
                 $_SESSION['cart'][$idField]['field'] = $dataField;
                 if ($_SESSION['cart'][$idField]['time']['nbDay'] === 1 && $_SESSION['cart'][$idField]['time']['nbHour'] < 24) {
                     $totalHT = $dataField['fieldTarifHourHT'] * $_SESSION['cart'][$idField]['time']['nbHour'];
@@ -202,25 +194,24 @@ class Cart
                     $totalHT = $dataField['fieldTarifDayHT'] * $_SESSION['cart'][$idField]['time']['nbDay'];
                 }
                 $totalTTC = $totalHT *  1.2;
+                $totalOptionHT = $_SESSION['cart'][$idField]['options']['costs']['totalHT'];
+                $totalOptionTTC = $_SESSION['cart'][$idField]['options']['costs']['totalHT'] * 1.2;
                 $_SESSION['cart'][$idField]['field']['totalHT'] = $totalHT;
                 $_SESSION['cart'][$idField]['field']['totalTTC'] = $totalTTC;
-                $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $_SESSION['cart'][$idField]['options']['totalCostTTC'];
+                $_SESSION['cart'][$idField]['totalTTC'] = $totalTTC +  $totalOptionTTC;
             }
             return true;
         }
         return false;
     }
-
     public function displayCartDetails()
     {
         if (isset($_SESSION['cart'])) {
             $datas = $_SESSION['cart'];
             $arraiIdFields = [];
-
             foreach ($datas as $key => $data) {
                 $arraiIdFields[] = $key;
             }
-
             foreach ($arraiIdFields as $idField) {
                 $field = new Field();
                 $dataField = $field->getOneField($idField);
@@ -240,7 +231,6 @@ class Cart
                 $_SESSION['cart'][$idField]['options']['optionPrices'] = $optionPrices;
                 $totalHTOptions = 0;
                 $totalTTCOptions = 0;
-
                 foreach ($optionIds as $optionId) {
                     $option = new Option();
                     $optionData = $option->getOneOption($optionId);
@@ -249,20 +239,59 @@ class Cart
                         $totalTTCOptions += $optionData[0]['optionCostHT'] * 1.2;
                     }
                 }
-
                 $totalHTField = $dataField['fieldTarifHourHT'] * $_SESSION['cart'][$idField]['time']['nbHour'];
                 $totalTTCField = $totalHTField * 1.2;
-
                 $_SESSION['cart'][$idField]['field']['totalHTField'] = $totalHTField;
                 $_SESSION['cart'][$idField]['field']['totalTTCField'] = $totalTTCField;
-
                 $_SESSION['cart'][$idField]['totalHT'] = $totalHTField + $totalHTOptions;
                 $_SESSION['cart'][$idField]['totalTTC'] = $totalTTCField + $totalTTCOptions;
             }
-
             return true;
         }
-
         return false;
+    }
+    public function deleteOptions()
+    {
+        $id = $_GET['id'];
+        $dataPosts = $_POST;
+        $dataSessions = $_SESSION['cart'][$id]['options'];
+        $idDeletes = [];
+        foreach($dataPosts as $key => $value){
+            $idDeletes[] = $value;
+        }
+        foreach($dataSessions as $nb => $value){
+            if(is_int($nb)){
+                foreach($idDeletes as $idDelete){
+                    if($idDelete == $nb){
+                        $_SESSION['cart'][$id]['options']['costs']['totalHT'] -= $_SESSION['cart'][$id]['options'][$nb]['prices'];
+                        $_SESSION['cart'][$id]['options']['totalCostTTC'] -= $_SESSION['cart'][$id]['options'][$nb]['prices']*1.2;
+                        unset($_SESSION['cart'][$id]['options'][$nb]);
+                    }
+                }
+            }
+        }
+    return true;
+    }
+
+    public function addOptions()
+    {
+        $id = $_GET['id'];
+        $dataPosts = $_POST;
+        $dataSessions = $_SESSION['cart'][$id]['options'];
+        $opArray = [];
+        $totalHT = 0;
+        foreach($dataPosts as $key => $value){
+            $op = new Option();
+            $dataOp = $op->getOneOption($value);
+            $opArray['names'] = $dataOp['optionName'];
+            $opArray['prices'] = $dataOp['optionCostHT'];
+            $totalHT += $dataOp['optionCostHT'];
+            $_SESSION['cart'][$id]['options'][]= $opArray;
+        }
+        $_SESSION['cart'][$id]['options']['costs']['totalHT'] += $totalHT;
+        $_SESSION['cart'][$id]['options']['totalCostTTC'] += $totalHT*1.2;
+        
+        
+        return true;
     }
 }

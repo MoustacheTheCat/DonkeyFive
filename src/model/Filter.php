@@ -4,9 +4,11 @@ namespace Application\Model;
 
 require_once('src/lib/DatabaseConnection.php');
 require_once('src/model/Field.php');
+require_once('src/model/CenterFields.php');
 
 use Application\lib\DatabaseConnection;
 use Application\Model\Field;
+use Application\Model\CenterFields;
 
 class Filter
 {
@@ -102,8 +104,8 @@ class Filter
             if($valid){
                 $datas =  $this->getAllFielsAndRentalsByCenterById($_POST['city']);
                 if(empty($datas)){
-                    $field = new Field();
-                    $fields = $field->getFieldsByCenterId($_POST['city']);
+                    $field = new CenterFields();
+                    $fields = $field->getAllFieldsByCenter($_POST['city']);
                     return $fields; 
                 }else{
                     $res = $this->verifDatas($datas);
@@ -127,21 +129,3 @@ class Filter
     }
 }
 
-// $res = $this->verifDatas($datas);
-//             if($res == false){
-//                 $errorArrays[] = "no fields";
-//            
-//             }
-//             elseif(is_string($res)){
-//                 $errorArray = $res;
-//            
-//             }
-//             else{
-//                 $fields = [];
-//                 foreach($res as $r){
-//                     $field = new Field();
-//                     $field = $field->getOneField($r);
-//                     $fields[] = $field;
-//                 }
-//                 return $fields;
-//             }
